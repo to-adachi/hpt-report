@@ -1,0 +1,199 @@
+\documentclass[a4j]{ujarticle}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{url}
+\usepackage{bbding}
+\usepackage{lscape}
+\usepackage[subrefformat=parens]{subcaption}
+
+
+\title{進捗報告資料}
+\author{安達智哉\\to-adachi@ist.osaka-u.ac.jp}
+\date{平成31年1月23日}
+
+\begin{document}
+\maketitle
+
+\section{ベアラのタイムアウト時間に着目したCPUとメモリ間の負荷のオフロード}
+
+\subsection{概要}
+\label{sec:abs}
+MMEおよびSGW、PGWなどのEPCノードは、主なリソースとしてCPUとメモリを持っている。CPUは、アタッチやデタッチなどのシグナリング処理を実行するために必要とされるリソースである。一方メモリは、ベアラなどのセッション情報を保持するために必要とされるリソースである。これらのリソースは、モバイルネットワークにおける通信を可能にするために必須であるため、ネットワーク事業者は、どちらのリソースも枯渇することがないように、CPUとメモリをバランスよく割り当てる必要がある。
+
+その一方で、近年はM2M/IoT端末の急激な増加が注目されている。M2M/IoT端末は通信特性において従来の端末(携帯電話やスマートフォン)とは大きく異なり、データの送信に周期性や間欠性を持つという特徴がある。また、M2M/IoT端末は消費電力を抑えることを目的に、データの送信ごとにデタッチ処理を実行し、セッションを解放することがある。また、NB-IoTでは、DRX (Discontinuous Reception)やeDRX(extended DRX)などに代表される、間欠的なデータ受信により、受信していない期間では無線信号を送受信する機能部を停止させることで消費電力を抑えることを目的とした技術が検討されている\cite{LTERelease13におけるIoTを実現する新技術}。この点においても、ネットワークから切り離されるまで、セッションを維持し続ける従来の端末とは異なる。
+
+上述のM2M/IoT端末の特性は、CPUやメモリなどのサーバリソースの効率的な割り当てを難しくすると考えられる。なぜなら、M2M/IoT端末はその通信特性から、多くのアタッチ処理およびデタッチ処理を引き起こし、CPU負荷を集中的に増加させるため、従来の端末と比較すると、CPUとメモリに与える負荷の割合が異なるからである。また、IoT端末の接続台数の予測が難しいこともリソースの割り当てを難しくする一因である。IoT端末は、スマートフォンのような従来の端末とは異なり、家電や自動車、電気メーター、センサなど様々な場所、様々な用途で使用される可能性があり、端末の台数およびその分布を予測することは困難であると考えられる。このように、通信特性が異なり、接続台数の予測が難しいIoT端末の普及により、今後のネットワーク事業者は、コアネットワークノードへのサーバリソースの割り当てがより難しいくなると予想される。
+
+上述のようなネットワーク(サーバリソース消費の予測が難しく、変動が激しいネットワーク)において、収容可能な端末の増加を目的とした既存研究には、スケールアウトの考え方を用いたものが多い。これらの研究では主に稼働するサーバやインスタンスの数をリソースの需要に応じて変動させることにより、ネットワークの変動に対応している。しかし、この方法では、本来必要とされているリソース量(需用量)よりも多くのリソースが供給される、オーバープロビジョニングが発生する問題がある。なぜなら、これらの研究では、サーバやインスタンス一台あたりのリソース量は一定であることを前提にした研究が多く、細かい粒度でリソースを制御できないためである。また、必要とされるCPUとメモリのリソース比があらかじめ分かっていることを前提とした研究が多く、必要とされるリソース比が未知の場合はリソースの効率的な利用ができないからである。例えば、CPUのリソース不足を解消するためにケールアウトを行った場合、CPUリソースと同時にメモリリソースも増加する。しかし、メモリは元々ボトルネックにはなっていないため、新たに追加されたメモリはオーバープロビジョニングされたことになる。
+
+
+このような背景から、CPUとメモリのリソース消費の予測が難しような状況や変動が大きいような状況においても、どちらかがボトルネックにならずに、効率的にリソースを活用するアーキテクチャを考えることは重要である。実際、CPUとメモリのリソースを効率よく活用する研究は、データセンターなどの分野では行われている\cite{TechnoEconomicFrameworkforCloudInfrastructureACostStudyofResourceDisaggregation}。しかし、モバイルネットワークに特化した研究は行われていない。そこで、私はモバイルネットワークに特化した、CPUとメモリのリソースのオフロードを可能にする仕組みを考案する。この方法により、CPUが過負荷である場合は、メモリの負荷を増加させる代わりにCPUの負荷を削減することが可能である。またその逆に、メモリが過負荷である場合は、CPUの負荷を増加させることによりメモリの負荷を削減できる。この仕組みにより、CPUとメモリのリソース消費の予測が難しい場合や、変動が激しいネットワークであっても、CPUおよびメモリ双方のリソース利用率の向上が期待でき、収容可能な端末の増加が期待できる。
+
+% 私の案は、本来ならデタッチ処理が行われるタイミングであってもあえてデタッチ処理を行わないようにすることである。つまり、M2M/IoT端末がデータの送信を終え、電源をOFFにした後も、一部のセッションはそのまま維持しつつける。そして、M2M/IoT端末が再びONになりデータを送信する際には、以前と同じベアラを用いてデータを送信する。この方法によって、最初に一度アタッチ処理を行えば、その後のデータ送信においては、アタッチ処理は発生しないで済むため、アタッチおよびデタッチ処理を行うために必要なCPU負荷を削減しすることが可能である。
+% 一方、本来は解放されるはずのセッション情報を維持し続けるため、その分メモリへの負荷が大きくなる。メモリのリソースが不足し、CPUリソースに余裕がある場合は、デタッチ処理が発生するまでの時間を短くすることにより、ベアラを維持するために必要なメモリリソースを積極的に解放してメモリ負荷を削減する。一方、その分デタッチ、アタッチ処理が頻繁に発生するため、CPUへの負荷は大きくなる。
+
+\subsection{負荷とそのオフロードの概要}
+\subsubsection{CPU負荷}
+CPU負荷は、主にアタッチやデタッチなどのシグナリング処理を各ノードで実行する際に発生する。時間当たりのシグナリング処理の実行回数の増加に伴い、負荷が増加する。CPU負荷の増加は、各ノードにおける処理時間の増大を引き起こす。また、CPUが過負荷状態になると、それ以上のシグナリング処理の実行が困難になる。
+\subsubsection{メモリ負荷}
+メモリ負荷は、主にベアラなどのセッションを維持するために必要な情報(ベアラ識別子、UE情報、ステート情報など)を保持する際に発生する。維持するベアラの増加に伴い、負荷が増加する。メモリが過負荷状態になると、新しくベアラを確立するために、古いベアラを解放する必要がある。
+\subsubsection{負荷のオフロード}
+負荷のオフロードに関するイメージ図を図\ref{cpu}に示す。各図は端末台数とCPUおよびメモリリソースの使用率の関係をそれぞれ赤および青の線で示している。端末台数とは、システムが収容しているUEの数である。リソースの使用率とは、システムが利用できるリソースの最大値(物理的な性能の限界値や、事前にオペレータが設定した閾値などが想定される)に対して、UEを収容するために割り当てる必要のあるリソース量の割合である。一台あたりのUEを収容するために必要なリソース量の平均値はグラフの傾きに表れており、この値はUEの通信特性に応じて変化する。
+
+図\ref{cpu}は、メモリリソースと比較してCPUリソースを大きく消費するような通信特性を持つUEを収容した場合のグラフである。図\ref{cpu}(a)を見ると、端末台数が$a$台の時点でCPU使用率が100\%に達していることがわかる。そのため、収容可能なUEの台数は$a$台である。一方、図\ref{cpu}(b)では、第\ref{sec:des}節で述べる方法により、一台あたりのUEを収容するために必要なリソース量を変化させた場合のモデルである。この図の例では、ボトルネックであったCPUの負荷をメモリにオフロードすることにより、収容可能な端末台数が$a$台から$a'$台に増加している。このように、CPUリソースが不足し、メモリリソースが余っているような場合においては、CPUの負荷をメモリにオフロードすることにより収容可能なUEの台数が増加する可能性がある。同様にCPUリソースが余っている状態で、メモリリソースが不足している場合においては、メモリからCPUへ負荷をオフロードすることが可能である。
+
+\begin{figure}[p]
+	\centering
+		\begin{subfigure}{1.0\textwidth}
+			\centering
+			\includegraphics[width=1.0\hsize]{plot1.pdf}
+			\caption{オフロードを行わない場合}
+			\label{overcpu}
+		\end{subfigure}
+		\begin{subfigure}{1.0\textwidth}
+			\centering
+			\includegraphics[width=1.0\hsize]{plot2.pdf}
+		  \caption{オフロードを行った場合}
+			\label{okcpu}
+		\end{subfigure}
+		\caption{CPU負荷をメモリへオフロード}
+		\label{cpu}
+\end{figure}
+\clearpage
+
+\subsection{負荷のオフロード方法}
+\label{sec:des}
+ベアラのタイムアウト時間(UEがネットワークから切り離されたあと、デタッチ処理が行われるまでの時間)を$t$とする。通常、この時間は一定である。私は、$t$を変化させることによって、CPUとメモリの間で負荷をオフロードできるのではないかと考えた。
+図\ref{detach-ON}は、M2M/IoT端末が最初にネットワークに接続した際の様子を示したものである。通常通り、アタッチの処理を行い、ベアラを確立する。図\ref{detach-OFF}は、M2M/IoT端末がネットワークから切断された際の様子である。通常は、数秒後にデタッチ処理が行われ、ベアラは全て解放されるが、$t$を長く設定した場合、デタッチ処理が行われないため、ベアラはそのまま維持される(UE-eNodeB間の無線帯域は解放する)。図\ref{detach-reON}はM2M/IoT端末が再びネットワークに接続した時の様子を示す。この場合、以前使用したベアラが残っているため、M2M/IoT端末は無線部分以外のアタッチ処理をスキップしてデータの送受信を開始できる。結果的に、EPCノードで行うアタッチ処理およびデタッチ処理の回数が削減されるため、CPUに与える負荷が削減される。一方、ネットワークに接続されていないM2M/IoT端末のセッション情報を保持する必要があるため、メモリが圧迫されることが予想される。
+
+ベアラのタイムアウト時間$t$を超えても端末が再接続しない場合は、デタッチ処理を行う(図\ref{detach-timeout})。また、タイムアウト後に再接続する場合は、全てのベアラを新たに確立する必要がある(図\ref{detach-timeout-ON})。そのため、$t$を短く設定した場合は、デタッチ処理およびアタッチ処理が頻発するため、CPUの負荷が大きくなることが予想される。一方で、各ノードでセッション情報を保持する時間を短くすることができ、メモリの負荷の削減が期待できる。
+
+
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\hsize]{detach-ON.pdf}
+  \caption{端末が最初にネットワークに接続した時と処理}
+	\label{detach-ON}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\hsize]{detach-OFF.pdf}
+  \caption{端末がネットワークから切り離された時の処理}
+	\label{detach-OFF}
+\end{figure}
+
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\hsize]{detach-reON.pdf}
+  \caption{ベアラのタイムアウト前に端末が再接続した時の処理}
+	\label{detach-reON}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\hsize]{detach-timeout.pdf}
+  \caption{ベアラのタイムアウトが発生した場合の処理}
+	\label{detach-timeout}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\hsize]{detach-timeout-ON.pdf}
+  \caption{ベアラのタイムアウト後に端末が再接続した場合の処理}
+	\label{detach-timeout-ON}
+\end{figure}
+
+前述のように、ベアラのタイムアウト時間を変更することにより、CPUとメモリの間で負荷をオフロードできると考えられる。これに関する処理のフローチャートを図\ref{chart}に示す。なお、この処理を実行することおよび各ノードの負荷を監視することによる追加の負荷は発生しないと仮定して評価を行う。
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\hsize]{chart.pdf}
+  \caption{ベアラのタイムアウト時間の更新手順}
+	\label{chart}
+\end{figure}
+
+
+\subsection{評価方法}
+\subsubsection{ネットワークモデル}
+単一のEPCで構成されるLTE/EPCネットワークを対象として評価を行う。図\ref{networkmodel}に評価対象のネットワークを示す。図\ref{networkmodel}は以下のノードから構成される。
+\begin{itemize}
+  \item UE
+  \item eNodeB
+  \item MME
+  \item S/PGW
+	\item HSS
+\end{itemize}
+UEおよびeNodeBは複数台、その他のノードは1台づつ存在する。
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\hsize]{networkmodel.pdf}
+  \caption{LTE/EPCネットワークモデル}
+	\label{networkmodel}
+\end{figure}
+\subsubsection{シグナリング手順}
+OpenAirInterface(OAI)\cite{OpenAirInterface}に基づき、アタッチ処理およびデタッチ処理のシグナリング手順を決定した。また、シグナリング処理の過程で各ノードにかかるCPU負荷は、OAIのソースコードの命令文数を指標として用いる。
+\subsubsection{サーバ資源の割り当て}
+\subsubsection{UEの通信特性}
+
+\subsubsection{CPU負荷の導出}
+CPUにかかる負荷はこれまで行ってきた研究と同様に、プログラム行数に基づく待ち行列理論で求める。アタッチ処理およびデタッチ処理、ベアラのサスペンド処理にかかる時間を待ち行列理論によって導出する。
+
+\subsection{メモリ負荷の導出}
+上野さんの実験データを基にメモリ負荷を導出する。実験データから、ベアラの確立がEPCの各ノード(MME、SPGW、HSS)のメモリに与える影響を測定した。まず、上野さんの実験の際に計測されたメモリに関するデータを図\ref{mmeMemory}、図\ref{spgwMemory}、図\ref{hssMemory}に示す。図\ref{mmeMemory}、図\ref{spgwMemory}、図\ref{hssMemory}はそれぞれ、MME、SPGW、HSSにおけるfree memoryの推移を表しており、横軸が時間(s)、縦軸がメモリの空き容量(KB)を示している。また、UEの接続が発生した時刻を0としてプロットしている。これらのグラフを見ると、MME、SPGW、HSSそれぞれ、ベアラの確立に伴いメモリ負荷が増加していることが分かる。
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\hsize]{mmeMemory.pdf}
+  \caption{MMEにおけるメモリ空き容量の推移}
+	\label{mmeMemory}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\hsize]{spgwMemory.pdf}
+  \caption{SPGWにおけるメモリ空き容量の推移}
+	\label{spgwMemory}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\hsize]{hssMemory.pdf}
+  \caption{HSSにおけるメモリ空き容量の推移}
+	\label{hssMemory}
+\end{figure}
+\clearpage
+以上の結果から、ベアラを確立する前のメモリ空き容量とベアラを確立した後のメモリ空き容量を比較することで、ベアラの確立が各ノードのメモリに与える負荷を調べることが可能である。上野さんの実験データ100回分それぞれにおいてベアラ確立の前後のメモリ使用量の増加量をプロットした結果を図\ref{all_boxplot}に示す。この結果より、全てのノードにおいてメモリの使用量が増加していることが分かる。特にメモリ使用量の増加が大きいノードはMMEであり、平均23,371KB増加している。また、SPGWはMMEの49\%、HSSはMMEの1.5\%ほどメモリの使用量が増加することが分かった。以下の表\ref{result}にベアラの確立に伴うメモリ使用量の変化の平均と標準偏差を示す。
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\hsize]{all_boxplot.pdf}
+  \caption{ベアラの確立によって増加したメモリ使用量}
+	\label{all_boxplot}
+\end{figure}
+
+\begin{table}[htb]
+	\centering
+	\caption{各ノードにおける、ベアラの確立に伴うメモリ使用量の増加}
+	\label{result}
+  \begin{tabular}{|c|cc|}	\hline
+    Node & 平均(KB) & 標準偏差(KB)\\ \hline
+    MME & 23,371.59 & 822.42 \\
+    SPGW & 11,458.94 & 1,698.56  \\
+		HSS & 350.72 & 251.53 \\ \hline
+  \end{tabular}
+\end{table}
+
+
+\section{先行研究調査(Server Disaggregation)}
+サーバのリソース分離に関する文献\cite{TechnoEconomicFrameworkforCloudInfrastructureACostStudyofResourceDisaggregation}を調査した。この文献では、データセンタのコストを削減することを目的し、サーバリソースの分離を提案している。そして、サーバごとにリソース構成が固定されている従来のデータセンタと、CPUとメモリのリソース構成をサーバから分離したデータセンタとの比較を行っている。
+評価の結果、リソースを分離することによって、CPUとメモリのオーバープロビジョニングを削減できることを示している。そして、コスト面では（アプリケーションにも依存するが）最大40\%の削減が期待でいると結論づけてる。
+
+
+
+\section{今後の課題}
+デタッチの処理負荷を求めるため、OAIに基づくデタッチ処理のプログラム行数を調査する。
+\section*{\addcontentsline{toc}{section}{参考文献}}
+\bibliographystyle{IEEEtran}
+\bibliography{/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio,/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/Study_Group_Bibtex/bib/hptCoreNetwork_Study}
+\end{document}
