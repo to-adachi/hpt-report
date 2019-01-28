@@ -1,17 +1,17 @@
 # Fdb version 3
-["bibtex detach"] 1548218516 "detach.aux" "detach.bbl" "detach" 1548218520
+["bibtex detach"] 1548311736 "detach.aux" "detach.bbl" "detach" 1548311740
   "/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/Study_Group_Bibtex/bib/hptCoreNetwork_Study.bib" 1545057311 35746 0b89cb9f37e4b32da6456d5476d1dd4a ""
   "/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio.bib" 1547127521 70663 cec1bc920d0d7119df1fd2b643b46a37 ""
   "/usr/local/texlive/2017/texmf-dist/bibtex/bst/IEEEtran/IEEEtran.bst" 1480098433 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "detach.aux" 1548218519 4734 47467d4885f3546db821c8a2a050deec ""
+  "detach.aux" 1548311739 4720 8eb3e8ecf438522e16cd6f5f07652e05 ""
   (generated)
   "detach.blg"
   "detach.bbl"
-["dvipdf"] 1548218519 "detach.dvi" "detach.pdf" "detach" 1548218520
-  "detach.dvi" 1548218519 27724 bb2860eeea1dbb2fc48001b4d1003095 "latex"
+["dvipdf"] 1548311739 "detach.dvi" "detach.pdf" "detach" 1548311740
+  "detach.dvi" 1548311739 29776 f8e5e8b20edcb8ba85266723871141dd "latex"
   (generated)
   "detach.pdf"
-["latex"] 1548218516 "detach.tex" "detach.dvi" "detach" 1548218520
+["latex"] 1548311736 "detach.tex" "detach.dvi" "detach" 1548311740
   "/usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1480098701 1328 c834bbb027764024c09d3d2bf908b5f0 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1480098701 1324 c910af8c371558dc20f2d7822f66fe64 ""
@@ -56,9 +56,9 @@
   "detach-reON.pdf" 1547092657 63621 c96178304cdd0c5433d258e4a9b9239e ""
   "detach-timeout-ON.pdf" 1547092657 53330 70082dd36bad1adbc021d09267c0cd73 ""
   "detach-timeout.pdf" 1547092657 64218 0317294dceaa71191771cb26ebe1bee3 ""
-  "detach.aux" 1548218519 4734 47467d4885f3546db821c8a2a050deec ""
-  "detach.bbl" 1548218516 1705 0ad3d399aa8b0693f91a8c31a9f8aae2 "bibtex detach"
-  "detach.tex" 1548218512 20265 6619126d654cd6976b57867d5e76ecb2 ""
+  "detach.aux" 1548311739 4720 8eb3e8ecf438522e16cd6f5f07652e05 ""
+  "detach.bbl" 1548311736 1705 0ad3d399aa8b0693f91a8c31a9f8aae2 "bibtex detach"
+  "detach.tex" 1548311733 21924 4fcba9a8dfb5c7f6c4ae2bdcd9d97d6b ""
   "extractbb -B cropbox -O all_boxplot.pdf" 0 -1 0 ""
   "extractbb -B cropbox -O chart.pdf" 0 -1 0 ""
   "extractbb -B cropbox -O detach-OFF.pdf" 0 -1 0 ""
@@ -79,6 +79,6 @@
   "plot2.pdf" 1546527531 103202 ea609c5fc094c2c259e300b58d22acbd ""
   "spgwMemory.pdf" 1547640926 11547 8e1f7d21c6f1a09690c7f32cb5c76ccf ""
   (generated)
-  "detach.log"
-  "detach.aux"
   "detach.dvi"
+  "detach.aux"
+  "detach.log"
