@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.14159265-p3.7.1-u1.22-161114-2.6 (utf8.uptex) (TeX Live 2017) (preloaded format=uplatex 2017.9.15)  24 JAN 2019 15:35
+This is e-upTeX, Version 3.14159265-p3.7.1-u1.22-161114-2.6 (utf8.uptex) (TeX Live 2017) (preloaded format=uplatex 2017.9.15)  14 FEB 2019 23:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -138,65 +138,44 @@ LaTeX Font Info:    Font shape `JY2/mc/bx/n' in size <14.4> not available
 LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
 (Font)              scaled to size 13.85594pt on input line 16.
 LaTeX Font Info:    Font shape `JT2/mc/bx/n' in size <12> not available
-(Font)              Font shape `JT2/gt/m/n' tried instead on input line 18.
+(Font)              Font shape `JT2/gt/m/n' tried instead on input line 19.
 LaTeX Font Info:    Font shape `JT2/gt/m/n' will be
-(Font)              scaled to size 11.54663pt on input line 18.
+(Font)              scaled to size 11.54663pt on input line 19.
 LaTeX Font Info:    Font shape `JY2/mc/bx/n' in size <12> not available
-(Font)              Font shape `JY2/gt/m/n' tried instead on input line 18.
+(Font)              Font shape `JY2/gt/m/n' tried instead on input line 19.
 LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 11.54663pt on input line 18.
+(Font)              scaled to size 11.54663pt on input line 19.
  [1
 
 ]
 LaTeX Font Info:    Font shape `JT2/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT2/gt/m/n' tried instead on input line 35.
+(Font)              Font shape `JT2/gt/m/n' tried instead on input line 36.
 LaTeX Font Info:    Font shape `JT2/gt/m/n' will be
-(Font)              scaled to size 9.6222pt on input line 35.
+(Font)              scaled to size 9.6222pt on input line 36.
 LaTeX Font Info:    Font shape `JY2/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY2/gt/m/n' tried instead on input line 35.
+(Font)              Font shape `JY2/gt/m/n' tried instead on input line 36.
 LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 9.6222pt on input line 35.
+(Font)              scaled to size 9.6222pt on input line 36.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 42.
+(Font)              <7> on input line 43.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 42.
+(Font)              <5> on input line 43.
 LaTeX Font Info:    Font shape `JY2/mc/m/n' will be
-(Font)              scaled to size 6.73553pt on input line 42.
+(Font)              scaled to size 6.73553pt on input line 43.
 LaTeX Font Info:    Font shape `JY2/mc/m/n' will be
-(Font)              scaled to size 4.8111pt on input line 42.
+(Font)              scaled to size 4.8111pt on input line 43.
  [2]
 File: plot1.pdf Graphic file (type pdf)
 <plot1.pdf>
 LaTeX Font Info:    Font shape `JT2/mc/m/n' will be
-(Font)              scaled to size 8.65997pt on input line 49.
+(Font)              scaled to size 8.65997pt on input line 50.
 LaTeX Font Info:    Font shape `JY2/mc/m/n' will be
-(Font)              scaled to size 8.65997pt on input line 49.
+(Font)              scaled to size 8.65997pt on input line 50.
 File: plot2.pdf Graphic file (type pdf)
 <plot2.pdf>
  [3] [4]
 File: detach-ON.pdf Graphic file (type pdf)
 <detach-ON.pdf>
-
-./detach.tex:75: Undefined control sequence.
-l.75 ...ットワークに接続した時と処理
-                                                  }
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./detach.tex:77: Extra }, or forgotten \endgroup.
-\@endfloatbox ...pagefalse \outer@nobreak \egroup 
-                                                  \color@endbox 
-l.77 \end{figure}
-                 
-I've deleted a group-closing symbol because it seems to be
-spurious, as in `$x}$'. But perhaps the } is legitimate and
-you forgot something else, as in `\hbox{$x}'. In such cases
-the way to recover is to insert both the forgotten and the
-deleted material, e.g., by typing `I$}'.
-
 File: detach-OFF.pdf Graphic file (type pdf)
 <detach-OFF.pdf>
 File: detach-reON.pdf Graphic file (type pdf)
@@ -207,30 +186,35 @@ File: detach-timeout-ON.pdf Graphic file (type pdf)
 <detach-timeout-ON.pdf>
 File: chart.pdf Graphic file (type pdf)
 <chart.pdf>
-[5
+ [5
 
 ] [6]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 123.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 124.
  (/usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 123.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 124.
 File: networkmodel.pdf Graphic file (type pdf)
 <networkmodel.pdf>
  [7]
-File: mmeMemory.pdf Graphic file (type pdf)
-<mmeMemory.pdf>
-File: spgwMemory.pdf Graphic file (type pdf)
-<spgwMemory.pdf>
-File: hssMemory.pdf Graphic file (type pdf)
-<hssMemory.pdf>
- [8] [9]
-File: all_boxplot.pdf Graphic file (type pdf)
-<all_boxplot.pdf>
- [10
+File: mme_memory.pdf Graphic file (type pdf)
+<mme_memory.pdf>
+File: spgw_memory.pdf Graphic file (type pdf)
+<spgw_memory.pdf>
+File: hss_memory.pdf Graphic file (type pdf)
+<hss_memory.pdf>
+ [8] [9] [10] [11]
+File: epc_load_estimator.pdf Graphic file (type pdf)
+<epc_load_estimator.pdf>
+ [12
 
-] (./detach.bbl
+]
+File: static.pdf Graphic file (type pdf)
+<static.pdf>
+File: bearer-timeout_controller.pdf Graphic file (type pdf)
+<bearer-timeout_controller.pdf>
+ [13] [14] (./detach.bbl
 
 LaTeX Font Warning: Font shape `JT2/gt/m/it' undefined
 (Font)              using `JT2/gt/m/n' instead on input line 27.
@@ -243,18 +227,20 @@ LaTeX Font Info:    Font shape `JT2/gt/m/it' will be
 (Font)              scaled to size 9.6222pt on input line 33.
 LaTeX Font Info:    Font shape `JY2/gt/m/it' will be
 (Font)              scaled to size 9.6222pt on input line 33.
-) [11] (./detach.aux)
+) [15
+
+] (./detach.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 2138 strings out of 493644
- 33833 string characters out of 6149000
+ 2151 strings out of 493644
+ 34312 string characters out of 6149000
  104509 words of memory out of 5000000
- 5734 multiletter control sequences out of 15000+600000
+ 5743 multiletter control sequences out of 15000+600000
  12299 words of font info for 57 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
  42i,7n,40p,1529b,522s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on detach.dvi (11 pages, 29776 bytes).
+Output written on detach.dvi (15 pages, 35252 bytes).

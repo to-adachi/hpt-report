@@ -83,14 +83,18 @@ INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
 INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
 INPUT networkmodel.pdf
 INPUT extractbb -B cropbox -O networkmodel.pdf
-INPUT mmeMemory.pdf
-INPUT extractbb -B cropbox -O mmeMemory.pdf
-INPUT spgwMemory.pdf
-INPUT extractbb -B cropbox -O spgwMemory.pdf
-INPUT hssMemory.pdf
-INPUT extractbb -B cropbox -O hssMemory.pdf
-INPUT all_boxplot.pdf
-INPUT extractbb -B cropbox -O all_boxplot.pdf
+INPUT mme_memory.pdf
+INPUT extractbb -B cropbox -O mme_memory.pdf
+INPUT spgw_memory.pdf
+INPUT extractbb -B cropbox -O spgw_memory.pdf
+INPUT hss_memory.pdf
+INPUT extractbb -B cropbox -O hss_memory.pdf
+INPUT epc_load_estimator.pdf
+INPUT extractbb -B cropbox -O epc_load_estimator.pdf
+INPUT static.pdf
+INPUT extractbb -B cropbox -O static.pdf
+INPUT bearer-timeout_controller.pdf
+INPUT extractbb -B cropbox -O bearer-timeout_controller.pdf
 INPUT detach.bbl
 INPUT detach.bbl
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmti10.tfm

@@ -6,14 +6,15 @@
 \usepackage[subrefformat=parens]{subcaption}
 
 
-\title{ミーティング資料}
+\title{進捗報告資料}
 \author{安達智哉\\to-adachi@ist.osaka-u.ac.jp}
-\date{平成31年1月24日}
+\date{2019年2月15日}
 
 \begin{document}
 \maketitle
 
-\section{ベアラのタイムアウト時間に着目したCPUとメモリ間の負荷のオフロード}
+\section{CPU負荷とメモリ使用量を考慮したセルラ端末の適応的なタイムアウト制御による、モバイルネットワークの性能向上}
+
 
 \subsection{概要}
 \label{sec:abs}
@@ -72,7 +73,7 @@ CPU負荷は、主にアタッチやデタッチなどのシグナリング処�
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.7\hsize]{detach-ON.pdf}
-  \captionUEが最初にネットワークに接続した時と処理}
+  \caption{UEが最初にネットワークに接続した時の処理}
 	\label{detach-ON}
 \end{figure}
 
@@ -116,7 +117,7 @@ CPU負荷は、主にアタッチやデタッチなどのシグナリング処�
 
 \subsection{評価方法}
 \label{sec:method}
-数学的な解析を行い、収容可能なUE台数を導出することで評価を行う。また、UEの通信特性やベアラのタイムアウト時間が与える影響も評価する。
+シミュレーションを行い、収容可能なUE台数を導出することで評価を行う。また、UEの通信特性やベアラのタイムアウト時間が与える影響も評価する。
 \subsubsection{ネットワークモデル}
 単一のEPCで構成されるLTE/EPCネットワークを対象として評価を行う。図\ref{networkmodel}に評価対象のネットワークを示す。図\ref{networkmodel}は以下のノードから構成される。
 \begin{itemize}
@@ -134,12 +135,12 @@ UEおよびeNodeBは複数台、その他のノードは1台づつ存在する�
 	\label{networkmodel}
 \end{figure}
 \subsubsection{UEの通信特性}
-UEの通信特性は、UEの種類によって異なる。今回の評価ではユーザ端末とM2M/IoT端末の2種類のUEが存在すると想定する。それぞれの通信特性を以下のように想定した。
+UEの通信特性はUEの種類によって異なる。例えばユーザ端末やM2M/IoT端末には以下のような特徴がある。
 \begin{description}
   \item[ユーザ端末] 連続的なデータ通信を行う。通信データ量は多いが、常時ネットワークに接続した状態であるため、シグナリング処理の発生頻度が小さい。
   \item[M2M/IoT端末] 間欠的な通信を行う。データ送信の頻度は少ないが、データ送信の度にネットワークへの接続および切断を繰り返すため、シグナリング処理の発生頻度が大きい。
 \end{description}
-今回の評価ではユーザ端末とM2M/IoT端末の存在割合をパラメータとして変化させる。
+上述のようにUEの用途に応じて通信特性は変化する。そのため今回の評価ではデータの送信間隔が異なる複数種類のUEが存在することを想定して評価を行う。また、それぞれのUEの存在割合をパラメータとして変化させる。
 
 \subsubsection{ベアラのタイムアウト時間}
 UEがデタッチ要求を発生させた後、実際にコアノード側でデタッチ処理を実行するまでの待機時間である。第\ref{sec:des}節で述べたように、この値によってコアノードのリソースの需要が変化する。今回の評価では、ユーザ端末とM2M/IoT端末の存在割合に応じて、収容可能なUE台数を最大化するようなベアラのタイムアウト時間を計算によって導出する。
@@ -151,58 +152,87 @@ OpenAirInterface(OAI)\cite{OpenAirInterface}に基づき、アタッチ処理お
 現在検討中である。
 
 \subsubsection{CPU負荷の導出}
+\label{sec:cpu}
 CPUにかかる負荷はこれまで行ってきた研究と同様に、プログラム行数に基づく待ち行列理論で求める。アタッチ処理およびデタッチ処理、ベアラのサスペンド処理にかかる時間を待ち行列理論によって導出する。
 
 \subsubsection{メモリ負荷の導出}
-上野さんの実験データを基にメモリ負荷を導出する。実験データから、ベアラの確立がEPCの各ノード(MME、SPGW、HSS)のメモリに与える影響を測定した。まず、上野さんの実験の際に計測されたメモリに関するデータを図\ref{mmeMemory}、図\ref{spgwMemory}、図\ref{hssMemory}に示す。図\ref{mmeMemory}、図\ref{spgwMemory}、図\ref{hssMemory}はそれぞれ、MME、SPGW、HSSにおけるfree memoryの推移を表しており、横軸が時間(s)、縦軸がメモリの空き容量(KB)を示している。また、UEの接続が発生した時刻を0としてプロットしている。これらのグラフを見ると、MME、SPGW、HSSそれぞれ、ベアラの確立に伴いメモリ負荷が増加していることが分かる。
+\label{sec:memory}
+上野さんの実験データを基にメモリ負荷を導出する。実験データから、ベアラの確立がEPCの各ノード(MME、SPGW、HSS)のメモリに与える影響を測定した。
+UE台数が1台、2台、4台、8台、16台、32台、64台、128台の時の実験データそれぞれ10回分を用いて、ベアラ確立の前後のメモリ使用量の増加量をプロットした結果を図\ref{mme_memory}、図\ref{spgw_memory}、図\ref{hss_memory}に示す。
+この結果より、全てのノードにおいてUE台数が増加するのに伴い、メモリの使用量が増加していることがわかる。またこの結果を見る限りでは、MMEおよびSPGWにおけるメモリ使用量は二次関数的に増加していることがわかる。
+
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.7\hsize]{mmeMemory.pdf}
-  \caption{MMEにおけるメモリ空き容量の推移}
-	\label{mmeMemory}
+	\includegraphics[width=0.7\hsize]{mme_memory.pdf}
+  \caption{ベアラの確立によって増加したメモリ使用量(MME)}
+	\label{mme_memory}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.7\hsize]{spgwMemory.pdf}
-  \caption{SPGWにおけるメモリ空き容量の推移}
-	\label{spgwMemory}
+	\includegraphics[width=0.7\hsize]{spgw_memory.pdf}
+  \caption{ベアラの確立によって増加したメモリ使用量(SPGW)}
+	\label{spgw_memory}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.7\hsize]{hssMemory.pdf}
-  \caption{HSSにおけるメモリ空き容量の推移}
-	\label{hssMemory}
+	\includegraphics[width=0.7\hsize]{hss_memory.pdf}
+  \caption{ベアラの確立によって増加したメモリ使用量(HSS)}
+	\label{hss_memory}
 \end{figure}
+
 \clearpage
-以上の結果から、ベアラを確立する前のメモリ空き容量とベアラを確立した後のメモリ空き容量を比較することで、ベアラの確立が各ノードのメモリに与える負荷を調べることが可能である。上野さんの実験データ100回分それぞれにおいてベアラ確立の前後のメモリ使用量の増加量をプロットした結果を図\ref{all_boxplot}に示す。この結果より、全てのノードにおいてメモリの使用量が増加していることが分かる。特にメモリ使用量の増加が大きいノードはMMEであり、平均23,371KB増加している。また、SPGWはMMEの49\%、HSSはMMEの1.5\%ほどメモリの使用量が増加することが分かった。以下の表\ref{result}にベアラの確立に伴うメモリ使用量の変化の平均と標準偏差を示す。
+\subsection{シミュレーション方法}
+今回の研究はシミュレーションを用いてネットワークの性能評価を行う。シミュレーションのタイムステップは1分から5分程度を想定している。各タイムステップでは、UEの通信特性とベアラのタイムアウト時間に基づきEPCの負荷を算出する。そしてその負荷に基づき、次のタイムステップにおけるベアラのタイムアウト時間を設定する。
+シミュレートを実行するために必要な処理を以下に示す。
+\begin{enumerate}
+	\item EPCの負荷の算出
+  \item ベアラのタイムアウト時間の設定
+\end{enumerate}
 
+EPCの負荷の算出のイメージ図を図\ref{epc_load_estimator}に示す。UEの通信特性とベアラのタイムアウト時間を入力とし、EPCの負荷を出力とする。EPCの負荷の導出のために、待ち行列理論、上野さんの実験結果および統計処理を用いる。
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.7\hsize]{all_boxplot.pdf}
-  \caption{ベアラの確立によって増加したメモリ使用量}
-	\label{all_boxplot}
+	\includegraphics[width=0.7\hsize]{epc_load_estimator.pdf}
+  \caption{EPC負荷の算出イメージ図}
+	\label{epc_load_estimator}
+\end{figure}
+\subsubsection{統計処理}
+この項では、UEの通信特性とベアラのタイムアウト時間から、モバイルネットワークにおけるシグナリングの発生回数およびベアラの接続数を統計的に導出する方法について述べる。
+
+まず、図\ref{static}に示すイメージ図ように、UEを常にベアラを確立しているUE($U$)とアタッチおよびデタッチを繰り返すUE($\overline{U}$)に分類し、それぞれの台数を$U_n$、$\overline{U}_n$とする。それぞれのUEのデータの平均送信間隔を$U_t$(s)、$\overline{U}_t$(s)とすると、シグナリングの発生レート$S$(回数/s)およびベアラの接続数$B$は以下の式(\ref{eq:s})、(\ref{eq:b})で表される。
+
+\begin{eqnarray}
+  S & = & (n_{attach} + n_{detach}) \cdot  \frac{\overline{U}_n}{\overline{U}_t} \label{eq:s}  \\
+	B & = & U_n + \overline{U}_n \cdot \frac{bearer-timeout}{\overline{U}_t}
+	\label{eq:b}
+\end{eqnarray}
+ここで、$n_{attach} および n_{detach}$はそれぞれアタッチ処理およびデタッチ処理に伴い発生するシグナリングの個数を示す。また、$bearer-timeout$はベアラのタイムアウト時間を示す。上記の式を用いて導出された$S$および$B$を
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\hsize]{static.pdf}
+  \caption{イメージ図}
+	\label{static}
 \end{figure}
 
-\begin{table}[htb]
+ベアラのタイムアウト時間の設定は、図\ref{bearer-timeout_controller}に示すように、CPUおよびメモリリソースの負荷状況に応じて動的に決定される。この処理では、常にCPUとメモリのリソース負荷を監視し、CPUが過負荷であればベアラのタイムアウト時間を増加させ、反対にメモリが過負荷であればベアラのタイムアウト時間を減少させる。なお、各リソースの負荷状況は図\ref{epc_load_estimator}によって計算された値を用いる。
+\begin{figure}[htbp]
 	\centering
-	\caption{各ノードにおける、ベアラの確立に伴うメモリ使用量の増加}
-	\label{result}
-  \begin{tabular}{|c|cc|}	\hline
-    Node & 平均(KB) & 標準偏差(KB)\\ \hline
-    MME & 23,371.59 & 822.42 \\
-    SPGW & 11,458.94 & 1,698.56  \\
-		HSS & 350.72 & 251.53 \\ \hline
-  \end{tabular}
-\end{table}
+	\includegraphics[width=0.7\hsize]{bearer-timeout_controller.pdf}
+  \caption{bearer-timeout制御フロー}
+	\label{bearer-timeout_controller}
+\end{figure}
 
-
-\section{先行研究調査(Server Disaggregation)}
+\clearpage
+\section{先行研究調査}
 サーバのリソース分離に関する文献\cite{TechnoEconomicFrameworkforCloudInfrastructureACostStudyofResourceDisaggregation}を調査した。この文献では、データセンタのコストを削減することを目的し、サーバリソースの分離を提案している。そして、サーバごとにリソース構成が固定されている従来のデータセンタと、CPUとメモリのリソース構成をサーバから分離したデータセンタとの比較を行っている。
 評価の結果、リソースを分離することによって、CPUとメモリのオーバープロビジョニングを削減できることを示している。そして、コスト面では（アプリケーションにも依存するが）最大40\%の削減が期待でいると結論づけてる。
 
+文献\cite{ModelingDelayTimerAlgorithmforHandoverReductioninHeterogeneousRadioAccessNetworks}では、モバイルネットワークにおいてハンドオーバに関わるシグナリングの発生回数を減らすことを目的とし、Delay Time Algorithem を提案している。このアルゴリズムでは、従来の仕組みであればハンドオーバ処理を行うような状況であっても、あえてハンドオーバ処理を行うタイミングを遅らせることによって、シグナリングの発生を削減することを可能としている。
+
+文献\cite{ModelingofMobilityAwareRRCStateTransitionforEnergyConstrainedSignalingReduction}では、UEがCennected 状態から idel状態へ遷移するまでの時間(inactive timer)を制御することによって、シグナリング発生回数とUEの消費電力を最適化する研究を行っている。inactive timerを大きくすることによって、UEの状態遷移に伴うシグナリングの発生回数を抑えることが可能である一方、UEが長い時間Connected状態に止まるために消費電力が増加することを明らかにしている。
 
 
 \section{今後の課題}

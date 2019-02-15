@@ -1,6 +1,6 @@
 \relax 
 \citation{LTERelease13におけるIoTを実現する新技術}
-\@writefile{toc}{\contentsline {section}{\numberline {1}ベアラのタイムアウト時間に着目したCPUとメモリ間の負荷のオフロード}{1}}
+\@writefile{toc}{\contentsline {section}{\numberline {1}CPU負荷とメモリ使用量を考慮したセルラ端末の適応的なタイムアウト制御による、モバイルネットワークの性能向上}{1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.1}概要}{1}}
 \newlabel{sec:abs}{{1.1}{1}}
 \citation{TechnoEconomicFrameworkforCloudInfrastructureACostStudyofResourceDisaggregation}
@@ -17,45 +17,58 @@
 \newlabel{cpu}{{1}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.3}負荷のオフロード方法}{5}}
 \newlabel{sec:des}{{1.3}{5}}
-\newlabel{detach-ON}{{1.3}{5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces UEがネットワークから切り離された時の処理\relax }}{5}}
-\newlabel{detach-OFF}{{2}{5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces ベアラのタイムアウト前にUEが再接続した時の処理\relax }}{5}}
-\newlabel{detach-reON}{{3}{5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces ベアラのタイムアウトが発生した場合の処理\relax }}{6}}
-\newlabel{detach-timeout}{{4}{6}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces ベアラのタイムアウト後にUEが再接続した場合の処理\relax }}{6}}
-\newlabel{detach-timeout-ON}{{5}{6}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces ベアラのタイムアウト時間の更新手順\relax }}{6}}
-\newlabel{chart}{{6}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces UEが最初にネットワークに接続した時の処理\relax }}{5}}
+\newlabel{detach-ON}{{2}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces UEがネットワークから切り離された時の処理\relax }}{5}}
+\newlabel{detach-OFF}{{3}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces ベアラのタイムアウト前にUEが再接続した時の処理\relax }}{5}}
+\newlabel{detach-reON}{{4}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces ベアラのタイムアウトが発生した場合の処理\relax }}{6}}
+\newlabel{detach-timeout}{{5}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces ベアラのタイムアウト後にUEが再接続した場合の処理\relax }}{6}}
+\newlabel{detach-timeout-ON}{{6}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces ベアラのタイムアウト時間の更新手順\relax }}{6}}
+\newlabel{chart}{{7}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.4}評価方法}{6}}
 \newlabel{sec:method}{{1.4}{6}}
 \citation{OpenAirInterface}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.1}ネットワークモデル}{7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces LTE/EPCネットワークモデル\relax }}{7}}
-\newlabel{networkmodel}{{7}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces LTE/EPCネットワークモデル\relax }}{7}}
+\newlabel{networkmodel}{{8}{7}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.2}UEの通信特性}{7}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.3}ベアラのタイムアウト時間}{7}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.4}シグナリング手順}{7}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.4}シグナリング手順}{8}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.5}サーバ資源の割り当て}{8}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.6}CPU負荷の導出}{8}}
+\newlabel{sec:cpu}{{1.4.6}{8}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.7}メモリ負荷の導出}{8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces MMEにおけるメモリ空き容量の推移\relax }}{8}}
-\newlabel{mmeMemory}{{8}{8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces SPGWにおけるメモリ空き容量の推移\relax }}{9}}
-\newlabel{spgwMemory}{{9}{9}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces HSSにおけるメモリ空き容量の推移\relax }}{9}}
-\newlabel{hssMemory}{{10}{9}}
+\newlabel{sec:memory}{{1.4.7}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces ベアラの確立によって増加したメモリ使用量(MME)\relax }}{9}}
+\newlabel{mme_memory}{{9}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces ベアラの確立によって増加したメモリ使用量(SPGW)\relax }}{10}}
+\newlabel{spgw_memory}{{10}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces ベアラの確立によって増加したメモリ使用量(HSS)\relax }}{11}}
+\newlabel{hss_memory}{{11}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5}シミュレーション方法}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces EPC負荷の算出イメージ図\relax }}{12}}
+\newlabel{epc_load_estimator}{{12}{12}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.1}統計処理}{12}}
+\newlabel{eq:s}{{1}{13}}
+\newlabel{eq:b}{{2}{13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces イメージ図\relax }}{13}}
+\newlabel{static}{{13}{13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces bearer-timeout制御フロー\relax }}{14}}
+\newlabel{bearer-timeout_controller}{{14}{14}}
 \citation{TechnoEconomicFrameworkforCloudInfrastructureACostStudyofResourceDisaggregation}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces ベアラの確立によって増加したメモリ使用量\relax }}{10}}
-\newlabel{all_boxplot}{{11}{10}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces 各ノードにおける、ベアラの確立に伴うメモリ使用量の増加\relax }}{10}}
-\newlabel{result}{{1}{10}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}先行研究調査(Server Disaggregation)}{10}}
+\citation{ModelingDelayTimerAlgorithmforHandoverReductioninHeterogeneousRadioAccessNetworks}
+\citation{ModelingofMobilityAwareRRCStateTransitionforEnergyConstrainedSignalingReduction}
 \bibstyle{IEEEtran}
 \bibdata{/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio,/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/Study_Group_Bibtex/bib/hptCoreNetwork_Study}
 \bibcite{LTERelease13におけるIoTを実現する新技術}{1}
 \bibcite{TechnoEconomicFrameworkforCloudInfrastructureACostStudyofResourceDisaggregation}{2}
 \bibcite{OpenAirInterface}{3}
-\@writefile{toc}{\contentsline {section}{\numberline {3}今後の課題}{11}}
-\@writefile{toc}{\contentsline {section}{参考文献}{11}}
+\bibcite{ModelingDelayTimerAlgorithmforHandoverReductioninHeterogeneousRadioAccessNetworks}{4}
+\bibcite{ModelingofMobilityAwareRRCStateTransitionforEnergyConstrainedSignalingReduction}{5}
+\@writefile{toc}{\contentsline {section}{\numberline {2}先行研究調査}{15}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}今後の課題}{15}}
+\@writefile{toc}{\contentsline {section}{参考文献}{15}}

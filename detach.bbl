@@ -38,4 +38,14 @@ M.~Mahloo, J.~M. Soares, and A.~Roozbeh, ``{Techno-Economic Framework for Cloud
   \url{http://www.openairinterface.org/}
 \BIBentrySTDinterwordspacing
 
+\bibitem{ModelingDelayTimerAlgorithmforHandoverReductioninHeterogeneousRadioAccessNetworks}
+C.~Lee and P.~Lin, ``{Modeling Delay Timer Algorithm for Handover Reduction in
+  Heterogeneous Radio Access Networks},'' \emph{IEEE Transactions on Wireless
+  Communications}, vol.~16, no.~2, pp. 1144--1156, Feb. 2017.
+
+\bibitem{ModelingofMobilityAwareRRCStateTransitionforEnergyConstrainedSignalingReduction}
+Q.~Liao and D.~Aziz, ``{Proceedings of Modeling of Mobility-Aware RRC State
+  Transition for Energy-Constrained Signaling Reduction},'' in \emph{2016 IEEE
+  Global Communications Conference (GLOBECOM)}, Dec. 2016, pp. 1--7.
+
 \end{thebibliography}
