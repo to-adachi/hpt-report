@@ -21,11 +21,15 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
-\bibitem{OpenAirInterface}
-\BIBentryALTinterwordspacing
-``{OpenAirInterface}.'' [Online]. Available:
-  \url{http://www.openairinterface.org/}
-\BIBentrySTDinterwordspacing
+\bibitem{RRCStateHandlingfor5G}
+S.~{Hailu}, M.~{Saily}, and O.~{Tirkkonen}, ``{RRC State Handling for 5G},''
+  \emph{IEEE Communications Magazine}, vol.~57, no.~1, pp. 106--113, Jan. 2019.
+
+\bibitem{ANovelStateModelfor5GRadioAccessNetworks}
+I.~L. {Da Silva}, G.~{Mildh}, M.~{Säily}, and S.~{Hailu}, ``{A Novel State
+  Model for 5G Radio Access Networks},'' in \emph{Proceedings of 2016 IEEE
+  International Conference on Communications Workshops (ICC)}, May 2016, pp.
+  632--637.
 
 \bibitem{TechnoEconomicFrameworkforCloudInfrastructureACostStudyofResourceDisaggregation}
 M.~Mahloo, J.~M. Soares, and A.~Roozbeh, ``{Techno-Economic Framework for Cloud
@@ -42,9 +46,5 @@ C.~Lee and P.~Lin, ``{Modeling Delay Timer Algorithm for Handover Reduction in
 Q.~Liao and D.~Aziz, ``{Proceedings of Modeling of Mobility-Aware RRC State
   Transition for Energy-Constrained Signaling Reduction},'' in \emph{2016 IEEE
   Global Communications Conference (GLOBECOM)}, Dec. 2016, pp. 1--7.
-
-\bibitem{RRCStateHandlingfor5G}
-S.~{Hailu}, M.~{Saily}, and O.~{Tirkkonen}, ``{RRC State Handling for 5G},''
-  \emph{IEEE Communications Magazine}, vol.~57, no.~1, pp. 106--113, Jan. 2019.
 
 \end{thebibliography}

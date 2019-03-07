@@ -1,17 +1,17 @@
 # Fdb version 3
-["bibtex detach"] 1551366531 "detach.aux" "detach.bbl" "detach" 1551366547
-  "/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/Study_Group_Bibtex/bib/hptCoreNetwork_Study.bib" 1550592599 45038 59b8b43fd675c555e9e55cd5683f4dee ""
+["bibtex detach"] 1551880538 "detach.aux" "detach.bbl" "detach" 1551916588
+  "/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/Study_Group_Bibtex/bib/hptCoreNetwork_Study.bib" 1551857688 46079 126e801900eb126c1324b423bb6e1b74 ""
   "/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio.bib" 1548651211 71562 6369fcf1dc189d4d732ad94c6f4b9bd1 ""
   "/usr/local/texlive/2017/texmf-dist/bibtex/bst/IEEEtran/IEEEtran.bst" 1480098433 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "detach.aux" 1551366546 3552 e0b7e24ef289a1064cba1c060035e92e ""
+  "detach.aux" 1551916586 4430 99cd244a498ece34376326236d6d66f8 ""
   (generated)
-  "detach.bbl"
   "detach.blg"
-["dvipdf"] 1551366546 "detach.dvi" "detach.pdf" "detach" 1551366547
-  "detach.dvi" 1551366546 18764 d39ff8abf4c9448792eb40636669e4c0 "latex"
+  "detach.bbl"
+["dvipdf"] 1551916587 "detach.dvi" "detach.pdf" "detach" 1551916588
+  "detach.dvi" 1551916586 31756 a3b0a698f753f317c9c31649c5eff43d "latex"
   (generated)
   "detach.pdf"
-["latex"] 1551366543 "detach.tex" "detach.dvi" "detach" 1551366547
+["latex"] 1551916583 "detach.tex" "detach.dvi" "detach" 1551916588
   "/usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1480098698 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1480098698 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
@@ -71,24 +71,30 @@
   "/usr/local/texlive/2017/texmf-dist/web2c/texmf.cnf" 1494087824 32646 eadc4ca26cdbe7105ac7c593aa8c4f72 ""
   "/usr/local/texlive/2017/texmf-var/web2c/euptex/uplatex.fmt" 1505440380 4338250 41983557c21b6da30b6d682855b508ba ""
   "/usr/local/texlive/2017/texmf.cnf" 1495593465 577 2b71d4d888f9e5560b2e99985915a9fa ""
-  "analysis_environment.pdf" 1551356612 193951 42870a9ad1500907a68c4353f358e808 ""
-  "detach.aux" 1551366546 3552 e0b7e24ef289a1064cba1c060035e92e ""
-  "detach.bbl" 1551366531 2235 c08bedf682b4730258ac510be2c1986c "bibtex detach"
-  "detach.tex" 1551366543 27000 14602ccf7df0aa2fec64e2be65334f9b ""
+  "Connected.pdf" 1551867739 47702 7219487066638792004e0592d2a9e641 ""
+  "Connected_Inactive.pdf" 1551867739 47259 db55a015b4fda21ed6228aad93f411d1 ""
+  "Idle.pdf" 1551867739 35101 98f12a1c8b5a5af23300062957bf5072 ""
+  "analysis_environment.pdf" 1551869843 186587 e32c5e4c2d45ea08583f666bf5f3854b ""
+  "detach.aux" 1551916586 4430 99cd244a498ece34376326236d6d66f8 ""
+  "detach.bbl" 1551880538 2355 5ee3a739e0fef15a7f66a128ecc960e5 "bibtex detach"
+  "detach.tex" 1551916583 30706 14a1a2de9158ee77a277d833a298bb07 ""
+  "extractbb -B cropbox -O Connected.pdf" 0 -1 0 ""
+  "extractbb -B cropbox -O Connected_Inactive.pdf" 0 -1 0 ""
+  "extractbb -B cropbox -O Idle.pdf" 0 -1 0 ""
   "extractbb -B cropbox -O analysis_environment.pdf" 0 -1 0 ""
   "extractbb -B cropbox -O hss_memory.pdf" 0 -1 0 ""
   "extractbb -B cropbox -O mme_memory.pdf" 0 -1 0 ""
   "extractbb -B cropbox -O networkmodel.pdf" 0 -1 0 ""
   "extractbb -B cropbox -O proposed_method.pdf" 0 -1 0 ""
   "extractbb -B cropbox -O spgw_memory.pdf" 0 -1 0 ""
-  "extractbb -B cropbox -O spike.pdf" 0 -1 0 ""
+  "extractbb -B cropbox -O state_tran.pdf" 0 -1 0 ""
   "hss_memory.pdf" 1550701379 13301 5007154f20a9570fb7ffafc098e3d628 ""
   "mme_memory.pdf" 1550227795 13683 2c5dba1c69ef1a16c13d9a6dcc64c0b3 ""
   "networkmodel.pdf" 1548180229 65715 16416b1e29bbce91fca6d0b544e5da5f ""
-  "proposed_method.pdf" 1551355524 107534 499e2421c614026265712cd03d253c8d ""
+  "proposed_method.pdf" 1551869843 104154 4ae93ceb32432286585fb0879c7a69dc ""
   "spgw_memory.pdf" 1550701378 13829 4b4c71061045712a6369f36b06cda1ad ""
-  "spike.pdf" 1551366397 159053 5a3b6352ce3f93daa89044f1eb83680a ""
+  "state_tran.pdf" 1551880714 52235 9d4812f305d02f61f6c1cf6f1fe1976a ""
   (generated)
-  "detach.log"
   "detach.aux"
   "detach.dvi"
+  "detach.log"
