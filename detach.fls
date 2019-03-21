@@ -83,40 +83,26 @@ INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/uptex-fonts/jis/upjisg-v.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/uptex-fonts/jis/upjisg-h.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-INPUT Connected.pdf
-INPUT extractbb -B cropbox -O Connected.pdf
-INPUT Connected_Inactive.pdf
-INPUT extractbb -B cropbox -O Connected_Inactive.pdf
-INPUT Idle.pdf
-INPUT extractbb -B cropbox -O Idle.pdf
 OUTPUT detach.dvi
-INPUT proposed_method.pdf
-INPUT extractbb -B cropbox -O proposed_method.pdf
 INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
 INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
 INPUT networkmodel.pdf
 INPUT extractbb -B cropbox -O networkmodel.pdf
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmbx7.tfm
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmbx5.tfm
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmmib10.tfm
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmmib7.tfm
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmmib5.tfm
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmbsy10.tfm
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy7.tfm
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm
-INPUT state_tran.pdf
-INPUT extractbb -B cropbox -O state_tran.pdf
-INPUT analysis_environment.pdf
-INPUT extractbb -B cropbox -O analysis_environment.pdf
-INPUT mme_memory.pdf
-INPUT extractbb -B cropbox -O mme_memory.pdf
-INPUT spgw_memory.pdf
-INPUT extractbb -B cropbox -O spgw_memory.pdf
-INPUT hss_memory.pdf
-INPUT extractbb -B cropbox -O hss_memory.pdf
+INPUT state_change_old.pdf
+INPUT extractbb -B cropbox -O state_change_old.pdf
+INPUT state_change_inactive.pdf
+INPUT extractbb -B cropbox -O state_change_inactive.pdf
+INPUT state_change_propose.pdf
+INPUT extractbb -B cropbox -O state_change_propose.pdf
+INPUT proposed_method.pdf
+INPUT extractbb -B cropbox -O proposed_method.pdf
+INPUT Connected.pdf
+INPUT extractbb -B cropbox -O Connected.pdf
+INPUT Idle.pdf
+INPUT extractbb -B cropbox -O Idle.pdf
+INPUT Connected_Inactive.pdf
+INPUT extractbb -B cropbox -O Connected_Inactive.pdf
 INPUT detach.bbl
 INPUT detach.bbl
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmti10.tfm

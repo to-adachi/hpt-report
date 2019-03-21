@@ -1,65 +1,50 @@
 \relax 
 \citation{RRCStateHandlingfor5G}
 \citation{ANovelStateModelfor5GRadioAccessNetworks}
-\@writefile{toc}{\contentsline {section}{\numberline {1}概要}{1}}
+\@writefile{toc}{\contentsline {section}{\numberline {1}はじめに}{1}}
 \newlabel{sec:abs}{{1}{1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Connected\relax }}{1}}
-\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{Connected}{{1}{1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Connected Inactive\relax }}{2}}
-\newlabel{Connected Inactive}{{2}{2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Idle\relax }}{2}}
-\newlabel{Idle}{{3}{2}}
 \citation{TechnoEconomicFrameworkforCloudInfrastructureACostStudyofResourceDisaggregation}
-\@writefile{toc}{\contentsline {section}{\numberline {2}提案手法}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Idle timerの設定}{4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The proposed method\relax }}{4}}
-\newlabel{proposed_method}{{4}{4}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}解析モデル}{5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}モバイルネットワーク}{5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces LTE/EPCネットワークモデル\relax }}{5}}
-\newlabel{networkmodel}{{5}{5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}状態遷移モデル}{5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces 状態遷移モデル\relax }}{5}}
-\newlabel{state_tran}{{6}{5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}UEの通信特性}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}サーバ資源の割り当て}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}解析環境}{6}}
-\newlabel{sec:method}{{3.5}{6}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces 解析環境\relax }}{6}}
-\newlabel{analysis_environment}{{7}{6}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.1}統計処理}{7}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces state signaling\relax }}{7}}
-\newlabel{table:state}{{1}{7}}
-\newlabel{eq:attach_detach}{{1}{7}}
-\newlabel{eq:all_signal}{{2}{7}}
-\newlabel{eq:connected}{{3}{7}}
-\newlabel{eq:inactive}{{4}{7}}
-\newlabel{eq:idle}{{5}{7}}
-\newlabel{eq:connected_average}{{6}{8}}
-\newlabel{eq:inactive_average}{{7}{8}}
-\newlabel{eq:idle_average}{{8}{8}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.2}シグナリング負荷に基づく評価}{8}}
-\newlabel{sec:cpu}{{3.5.2}{8}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.3}上野さんの実験に基づく評価}{8}}
-\newlabel{sec:memory}{{3.5.3}{8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces ベアラの確立によって増加したメモリ使用量(MME)\relax }}{9}}
-\newlabel{mme_memory}{{8}{9}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces ベアラの確立によって増加したメモリ使用量(SPGW)\relax }}{10}}
-\newlabel{spgw_memory}{{9}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces ベアラの確立によって増加したメモリ使用量(HSS)\relax }}{11}}
-\newlabel{hss_memory}{{10}{11}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}モバイルネットワークアーキテクチャ}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}ネットワーク構成}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces LTE/EPCネットワークモデル\relax }}{3}}
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{networkmodel}{{1}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}UEのステート遷移}{3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}従来のモバイルネットワークにおけるUEのステート遷移}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces 従来のモバイルネットワークにおけるUEのステート遷移\relax }}{3}}
+\newlabel{state_change_old}{{2}{3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Connected Inactiveを導入した場合におけるUEのステート遷移}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Connected Inactiveを導入した場合におけるUEのステート遷移\relax }}{4}}
+\newlabel{state_change_inactive}{{3}{4}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}Connected Inactiveにタイムアウト制御を適用した場合におけるUEのステート遷移(提案手法)}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Connected Inactiveにタイムアウト制御を適用した場合におけるUEのステート遷移\relax }}{4}}
+\newlabel{state_change_propose}{{4}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}シグナリング}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}提案手法}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Idle timerの設定}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces The proposed method\relax }}{5}}
+\newlabel{proposed_method}{{5}{5}}
 \citation{TechnoEconomicFrameworkforCloudInfrastructureACostStudyofResourceDisaggregation}
 \citation{ModelingDelayTimerAlgorithmforHandoverReductioninHeterogeneousRadioAccessNetworks}
 \citation{ModelingofMobilityAwareRRCStateTransitionforEnergyConstrainedSignalingReduction}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}ネットワークの状態}{6}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Connected状態}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Connected\relax }}{6}}
+\newlabel{Connected}{{6}{6}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Idle状態}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Idle\relax }}{6}}
+\newlabel{Idle}{{7}{6}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Connected Inactive状態}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Connected Inactive\relax }}{6}}
+\newlabel{Connected Inactive}{{8}{6}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}先行研究調査}{6}}
 \citation{RRCStateHandlingfor5G}
 \bibstyle{IEEEtran}
 \bibdata{/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio,/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/Study_Group_Bibtex/bib/hptCoreNetwork_Study}
 \bibcite{RRCStateHandlingfor5G}{1}
 \bibcite{ANovelStateModelfor5GRadioAccessNetworks}{2}
 \bibcite{TechnoEconomicFrameworkforCloudInfrastructureACostStudyofResourceDisaggregation}{3}
-\@writefile{toc}{\contentsline {section}{\numberline {4}先行研究調査}{12}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}今後の課題}{12}}
-\@writefile{toc}{\contentsline {section}{参考文献}{12}}
 \bibcite{ModelingDelayTimerAlgorithmforHandoverReductioninHeterogeneousRadioAccessNetworks}{4}
 \bibcite{ModelingofMobilityAwareRRCStateTransitionforEnergyConstrainedSignalingReduction}{5}
+\@writefile{toc}{\contentsline {section}{\numberline {5}今後の課題}{7}}
+\@writefile{toc}{\contentsline {section}{参考文献}{7}}

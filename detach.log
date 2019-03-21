@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.14159265-p3.7.1-u1.22-161114-2.6 (utf8.uptex) (TeX Live 2017) (preloaded format=uplatex 2017.9.15)  7 MAR 2019 08:56
+This is e-upTeX, Version 3.14159265-p3.7.1-u1.22-161114-2.6 (utf8.uptex) (TeX Live 2017) (preloaded format=uplatex 2017.9.15)  18 MAR 2019 15:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -189,89 +189,68 @@ LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
 LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
 (Font)              scaled to size 5.77332pt on input line 15.
 LaTeX Font Info:    Font shape `JT2/mc/m/n' will be
-(Font)              scaled to size 13.85594pt on input line 21.
+(Font)              scaled to size 13.85594pt on input line 23.
 LaTeX Font Info:    Font shape `JY2/mc/m/n' will be
-(Font)              scaled to size 13.85594pt on input line 21.
+(Font)              scaled to size 13.85594pt on input line 23.
 LaTeX Font Info:    Font shape `JT2/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JT2/gt/m/n' tried instead on input line 21.
+(Font)              Font shape `JT2/gt/m/n' tried instead on input line 23.
 LaTeX Font Info:    Font shape `JT2/gt/m/n' will be
-(Font)              scaled to size 13.85594pt on input line 21.
+(Font)              scaled to size 13.85594pt on input line 23.
 LaTeX Font Info:    Font shape `JY2/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JY2/gt/m/n' tried instead on input line 21.
+(Font)              Font shape `JY2/gt/m/n' tried instead on input line 23.
 LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 13.85594pt on input line 21.
-File: Connected.pdf Graphic file (type pdf)
-<Connected.pdf>
-File: Connected_Inactive.pdf Graphic file (type pdf)
-<Connected_Inactive.pdf>
-File: Idle.pdf Graphic file (type pdf)
-<Idle.pdf>
+(Font)              scaled to size 13.85594pt on input line 23.
  [1
 
-] [2] [3
-
-]
+] [2]
 LaTeX Font Info:    Font shape `JT2/mc/bx/n' in size <12> not available
-(Font)              Font shape `JT2/gt/m/n' tried instead on input line 187.
+(Font)              Font shape `JT2/gt/m/n' tried instead on input line 166.
 LaTeX Font Info:    Font shape `JT2/gt/m/n' will be
-(Font)              scaled to size 11.54663pt on input line 187.
+(Font)              scaled to size 11.54663pt on input line 166.
 LaTeX Font Info:    Font shape `JY2/mc/bx/n' in size <12> not available
-(Font)              Font shape `JY2/gt/m/n' tried instead on input line 187.
+(Font)              Font shape `JY2/gt/m/n' tried instead on input line 166.
 LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 11.54663pt on input line 187.
-File: proposed_method.pdf Graphic file (type pdf)
-<proposed_method.pdf>
- [4
-
-]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 216.
+(Font)              scaled to size 11.54663pt on input line 166.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 169.
  (/usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 216.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 169.
 File: networkmodel.pdf Graphic file (type pdf)
 <networkmodel.pdf>
-LaTeX Font Info:    Font shape `JY2/mc/m/n' will be
-(Font)              scaled to size 6.73553pt on input line 230.
-LaTeX Font Info:    Font shape `JY2/mc/m/n' will be
-(Font)              scaled to size 4.8111pt on input line 230.
+LaTeX Font Info:    Font shape `JT2/mc/bx/n' in size <10> not available
+(Font)              Font shape `JT2/gt/m/n' tried instead on input line 184.
+LaTeX Font Info:    Font shape `JT2/gt/m/n' will be
+(Font)              scaled to size 9.6222pt on input line 184.
+LaTeX Font Info:    Font shape `JY2/mc/bx/n' in size <10> not available
+(Font)              Font shape `JY2/gt/m/n' tried instead on input line 184.
 LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 9.6222pt on input line 230.
-LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 6.73553pt on input line 230.
-LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 4.8111pt on input line 230.
-File: state_tran.pdf Graphic file (type pdf)
-<state_tran.pdf>
+(Font)              scaled to size 9.6222pt on input line 184.
+File: state_change_old.pdf Graphic file (type pdf)
+<state_change_old.pdf>
+File: state_change_inactive.pdf Graphic file (type pdf)
+<state_change_inactive.pdf>
+ [3
+
+]
+File: state_change_propose.pdf Graphic file (type pdf)
+<state_change_propose.pdf>
+ [4]
+File: proposed_method.pdf Graphic file (type pdf)
+<proposed_method.pdf>
  [5
 
 ]
-LaTeX Font Info:    Font shape `JT2/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT2/gt/m/n' tried instead on input line 245.
-LaTeX Font Info:    Font shape `JT2/gt/m/n' will be
-(Font)              scaled to size 9.6222pt on input line 245.
-LaTeX Font Info:    Font shape `JY2/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY2/gt/m/n' tried instead on input line 245.
-LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 9.6222pt on input line 245.
-File: analysis_environment.pdf Graphic file (type pdf)
-<analysis_environment.pdf>
- [6]
-LaTeX Font Info:    Font shape `JT2/mc/m/n' will be
-(Font)              scaled to size 6.73553pt on input line 300.
-LaTeX Font Info:    Font shape `JT2/mc/m/n' will be
-(Font)              scaled to size 4.8111pt on input line 300.
- [7
+File: Connected.pdf Graphic file (type pdf)
+<Connected.pdf>
+File: Idle.pdf Graphic file (type pdf)
+<Idle.pdf>
+File: Connected_Inactive.pdf Graphic file (type pdf)
+<Connected_Inactive.pdf>
+ [6
 
-]
-File: mme_memory.pdf Graphic file (type pdf)
-<mme_memory.pdf>
-File: spgw_memory.pdf Graphic file (type pdf)
-<spgw_memory.pdf>
-File: hss_memory.pdf Graphic file (type pdf)
-<hss_memory.pdf>
- [8] [9] [10] [11] (./detach.bbl
+] (./detach.bbl
 
 LaTeX Font Warning: Font shape `JT2/gt/m/it' undefined
 (Font)              using `JT2/gt/m/n' instead on input line 26.
@@ -284,20 +263,18 @@ LaTeX Font Info:    Font shape `JT2/gt/m/it' will be
 (Font)              scaled to size 9.6222pt on input line 31.
 LaTeX Font Info:    Font shape `JY2/gt/m/it' will be
 (Font)              scaled to size 9.6222pt on input line 31.
-[12
-
-]) [13] (./detach.aux)
+) [7] (./detach.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 2827 strings out of 493644
- 41806 string characters out of 6149000
- 109630 words of memory out of 5000000
- 6394 multiletter control sequences out of 15000+600000
- 18108 words of font info for 77 fonts, out of 8000000 for 9000
+ 2787 strings out of 493644
+ 41304 string characters out of 6149000
+ 105630 words of memory out of 5000000
+ 6364 multiletter control sequences out of 15000+600000
+ 15205 words of font info for 67 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 42i,19n,40p,1210b,329s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,6n,40p,1210b,329s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on detach.dvi (13 pages, 31756 bytes).
+Output written on detach.dvi (7 pages, 24672 bytes).
