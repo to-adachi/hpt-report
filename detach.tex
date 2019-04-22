@@ -64,7 +64,7 @@ M2M/IoT端末は、スマートフォンのようなユーザ端末とは異な�
 実際、文献\cite{DisaggregatedServersDriveDataCenterEfficiencyandInnovation}では、Disaggregated Serverに基づくインテルのラックスケールアーキテクチャを示しているが、このモデルでもCPUとメモリの分離はできていない。
 課題の2つ目として、短いタイムスケールでの制御が難しいという問題が挙げられる。
 例えば、ストレージをモジュール化してサーバと分離する手法について述べられている文献\cite{UnderstandingRackScaleDisaggregatedStorage}では、時間スケールの細かいストレージ制御を行った場合、ストレージの再割り当て処理に伴うオーバーヘッドが大きくなると述べている。
-また、頻繁にリソース構成を変化させることは、コスト面や消費電力の面でも不利である(注:まだ根拠はない)。
+また、頻繁にリソース構成を変化させることは、コスト面や消費電力の面でも不利である。
 
 このように、server disaggregation を用いたリソース制御では、リソース制御に伴うオーバーヘッドの発生が避けては通れない課題となると予想される。
 特に、モバイルネットワークのように、突発的なトラヒックの増加が発生し、数分以下のオーダでリソース量の制御を行う必要があるネットワークにおいては細かいタイムスケールでの効率的なリソース制御が求められる。
@@ -226,7 +226,33 @@ UEの状態の制御は、UEが最後にデータを送信したあと、Connect
     \end{figure}
 
     \subsection{シグナリング}
-    現在調査中である。
+    文献\cite{3gpp.23.720}および\cite{ANovelStateModelfor5GRadioAccessNetworks}を調査することにより、状態遷移に伴うシグナリングの発生数が一部であるが、明らかになった。
+    図\ref{state_id}に示す状態遷移図と共に、状態遷移に伴って発生するシグナリングに関する情報を、表\ref{table:signalings_all}に示す。
+
+    \begin{figure}[htbp]
+      \centering
+      \includegraphics[width=0.9\hsize]{state_id.pdf}
+      \caption{state transition}
+      \label{state_id}
+    \end{figure}
+
+    \begin{table}[htbp]
+      \centering
+      \caption{Signaling Load}
+      \label{table:signalings_all}
+      \begin{tabular}{c|cccc|l}
+        \hline
+        遷移ID  & \multicolumn{4}{|c|}{シグナリング処理数} & 遷移条件                          \\
+                & UE      & RAN     & MME     & SGW      &                                   \\ \hline \hline
+        1       & 9       & 12      & 5       & 2        & Packets transmission              \\
+        2       & 5       & 5       & 0       & 0        & 2 or more packets transmission    \\
+        3       & 1       & 1       & 0       & 0        & Connected timer expiration        \\
+        4       & 4       & 4       & 0       & 0        & One packet transmission           \\
+        5       & 0       & 3       & 5       & 2        & Connected Inactive timer expiration             \\
+        6       & 0       & 0       & 0       & 0        & Packets transmission              \\
+        7       & 1       & 4       & 5       & 2        & Connected timer expiration            \\ \hline
+      \end{tabular}
+    \end{table}
 
 % \subsection{UEの通信特性}
 % UEの通信特性はUEの種類によって異なる。一般的に、ユーザ端末やM2M/IoT端末には以下のような特徴がある。

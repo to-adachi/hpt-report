@@ -24,45 +24,45 @@ Warning--empty author in IntelsDisaggregatedServerRack
 Warning--empty author in DisaggregatedServersDriveDataCenterEfficiencyandInnovation
 
 Done.
-You've used 10 entries,
+You've used 11 entries,
             4087 wiz_defined-function locations,
-            891 strings with 10824 characters,
-and the built_in function-call counts, 7104 in all, are:
-= -- 541
-> -- 179
-< -- 43
-+ -- 98
-- -- 34
-* -- 365
-:= -- 1087
-add.period$ -- 21
-call.type$ -- 10
-change.case$ -- 10
+            898 strings with 11077 characters,
+and the built_in function-call counts, 7585 in all, are:
+= -- 589
+> -- 183
+< -- 44
++ -- 100
+- -- 35
+* -- 388
+:= -- 1188
+add.period$ -- 23
+call.type$ -- 11
+change.case$ -- 12
 chr.to.int$ -- 99
-cite$ -- 12
-duplicate$ -- 523
-empty$ -- 591
-format.name$ -- 42
-if$ -- 1632
+cite$ -- 13
+duplicate$ -- 563
+empty$ -- 625
+format.name$ -- 43
+if$ -- 1733
 int.to.chr$ -- 0
-int.to.str$ -- 10
-missing$ -- 106
-newline$ -- 63
-num.names$ -- 8
-pop$ -- 257
+int.to.str$ -- 11
+missing$ -- 116
+newline$ -- 68
+num.names$ -- 9
+pop$ -- 271
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 529
+skip$ -- 566
 stack$ -- 0
-substring$ -- 241
-swap$ -- 412
-text.length$ -- 10
+substring$ -- 244
+swap$ -- 443
+text.length$ -- 11
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 10
+type$ -- 11
 warning$ -- 2
-while$ -- 23
-width$ -- 12
-write$ -- 126
+while$ -- 24
+width$ -- 13
+write$ -- 139
 (There were 2 error messages)

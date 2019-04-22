@@ -77,6 +77,14 @@ S.~Legtchenko, H.~Williams, K.~Razavi, A.~Donnelly, R.~Black, A.~Douglas,
   \url{https://www.usenix.org/conference/hotstorage17/program/presentation/legtchenko}
 \BIBentrySTDinterwordspacing
 
+\bibitem{3gpp.23.720}
+\BIBentryALTinterwordspacing
+3GPP, ``{Study on architecture enhancements for Cellular Internet of Things
+  (CIoT)},'' {3rd Generation Partnership Project (3GPP)}, Technical Report (TR)
+  23.720, Mar. 2016, version 13.0.0. [Online]. Available:
+  \url{https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=2894}
+\BIBentrySTDinterwordspacing
+
 \bibitem{ModelingDelayTimerAlgorithmforHandoverReductioninHeterogeneousRadioAccessNetworks}
 C.~Lee and P.~Lin, ``{Modeling Delay Timer Algorithm for Handover Reduction in
   Heterogeneous Radio Access Networks},'' \emph{IEEE Transactions on Wireless

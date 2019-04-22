@@ -1,17 +1,17 @@
 # Fdb version 3
-["bibtex disaggregate"] 1554700865 "disaggregate.aux" "disaggregate.bbl" "disaggregate" 1554700870
+["bibtex disaggregate"] 1555848741 "disaggregate.aux" "disaggregate.bbl" "disaggregate" 1555848748
   "/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/Study_Group_Bibtex/bib/hptCoreNetwork_Study.bib" 1552384861 46935 aeab98bd2219085bf2c7e2f4c66da4a9 ""
-  "/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio.bib" 1554199317 77374 072a425ef3d75d6b827cf72982372300 ""
+  "/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio.bib" 1555342846 77804 7bdfa6f8f3b8b24a7607107cba8ddea2 ""
   "/usr/local/texlive/2017/texmf-dist/bibtex/bst/IEEEtran/IEEEtran.bst" 1480098433 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "disaggregate.aux" 1554700868 5656 1a920a1a6ef1b0ead101556979bb7d08 ""
+  "disaggregate.aux" 1555848746 5949 b69b7e222b9bca899c1da161c38e18e0 ""
   (generated)
-  "disaggregate.blg"
   "disaggregate.bbl"
-["dvipdf"] 1554700869 "disaggregate.dvi" "disaggregate.pdf" "disaggregate" 1554700870
-  "disaggregate.dvi" 1554700868 32764 c30eb8510efff060472dd062130e8927 "latex"
+  "disaggregate.blg"
+["dvipdf"] 1555848747 "disaggregate.dvi" "disaggregate.pdf" "disaggregate" 1555848748
+  "disaggregate.dvi" 1555848746 37524 914ddde41dd82a08c9547b0dd43df24a "latex"
   (generated)
   "disaggregate.pdf"
-["latex"] 1554700866 "disaggregate.tex" "disaggregate.dvi" "disaggregate" 1554700870
+["latex"] 1555848742 "disaggregate.tex" "disaggregate.dvi" "disaggregate" 1555848748
   "/usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1480098698 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1480098698 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
@@ -73,16 +73,14 @@
   "/usr/local/texlive/2017/texmf.cnf" 1495593465 577 2b71d4d888f9e5560b2e99985915a9fa ""
   "Legacy_connection_setup.pdf" 1554196660 56410 cb65d49547a070ec6148b29f7ae42710 ""
   "PoD_Data.pdf" 1553609834 664793 9acb86580e7d68dbc42308a1533300f0 ""
-  "Resumption_of_a_previously_suspended_RRC_connection.pdf" 1554196683 41646 14d9d64fd7000bcaa6bfb18f9476624a ""
   "Signaling_for_the_RRC_CONNECTED_INACTIVE_to_RRC_CONNECTED_transition_for_the_novel_state_model.pdf" 1554195318 589694 e9111be3496ee7648152575e25fe329d ""
-  "disaggregate.aux" 1554700868 5656 1a920a1a6ef1b0ead101556979bb7d08 ""
-  "disaggregate.bbl" 1554700866 6521 b38c0b1e2274f1985ec634bf93110a0d "bibtex disaggregate"
-  "disaggregate.tex" 1554700858 21359 7415f4267e25ad10c33f050c3fb31f6c ""
+  "disaggregate.aux" 1555848746 5949 b69b7e222b9bca899c1da161c38e18e0 ""
+  "disaggregate.bbl" 1555848742 6521 329d2f3719386a3105115b2be04acdfb "bibtex disaggregate"
+  "disaggregate.tex" 1555848741 28575 c2067371d4e1ebae1076d96639e4e61c ""
   "disaggregated_overhead.pdf" 1553150948 368134 d140871e0e3d90fef930ac709e16780d ""
   "disaggregated_time.pdf" 1553150888 252716 efe2c0feb7795acabe0e037123833931 ""
   "extractbb -B cropbox -O Legacy_connection_setup.pdf" 0 -1 0 ""
   "extractbb -B cropbox -O PoD_Data.pdf" 0 -1 0 ""
-  "extractbb -B cropbox -O Resumption_of_a_previously_suspended_RRC_connection.pdf" 0 -1 0 ""
   "extractbb -B cropbox -O Signaling_for_the_RRC_CONNECTED_INACTIVE_to_RRC_CONNECTED_transition_for_the_novel_state_model.pdf" 0 -1 0 ""
   "extractbb -B cropbox -O disaggregated_overhead.pdf" 0 -1 0 ""
   "extractbb -B cropbox -O disaggregated_time.pdf" 0 -1 0 ""
@@ -95,8 +93,8 @@
   "intel-server.pdf" 1553131842 49547 5803c5e764bf48d770023895e29f8387 ""
   "network_data.pdf" 1553612257 109863 ab8d0800376fc12f940bf63a77e1450a ""
   "rack.pdf" 1553609782 664794 1c240437d79ef397eaddfb9388d49730 ""
-  "state_id.pdf" 1554203528 23892 60041d0cfc429f9df23df5261fd7f8b1 ""
+  "state_id.pdf" 1554734565 23833 2a91571637fcdf940d06dee1ce91be30 ""
   (generated)
+  "disaggregate.log"
   "disaggregate.dvi"
   "disaggregate.aux"
-  "disaggregate.log"

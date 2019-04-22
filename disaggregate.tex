@@ -7,9 +7,9 @@
 \usepackage{bm}
 \usepackage{amsmath}
 
-\title{進捗報告資料}
+\title{ミーティング資料}
 \author{安達智哉\\to-adachi@ist.osaka-u.ac.jp}
-\date{2019年3月27日}
+\date{2019年4月10日}
 
 \begin{document}
 \maketitle
@@ -156,61 +156,152 @@ UEの状態の制御は、UEが最後にデータを送信したあと、Connect
 
 
 \section{UEの状態遷移に伴う、シグナリングの発生数の調査}
-\subsection{先行研究~1}
-RRC Connected Inactive及びRRC Suspendedに関して述べられている、文献\cite{RRCStateHandlingfor5G}では、UEがConnected状態へ遷移する際に発生するシグナリング数は表\ref{table:signalings}ようになると述べられている。
-RRC Suspended 状態ではUEのコンテキストの一部がUE及びネットワークに保持されているため、シグナリング数が減少している。
-また、RRC Connected Inactive 状態では、RAN-コアネットワーク間の接続がkeep aliveとなっているため、RAN-コアネットワーク間のシグナリングは発生せず、UE-RAN間のシグナリングのみが発生する。
-\begin{table}[htbp]
-  \centering
-  \caption{Signaling Overhead}
-  \label{table:signalings}
-  \begin{tabular}{ccccc}
-    \hline
-    遷移元                  & 遷移先              & \multicolumn{3}{c}{シグナリング数} \\
-                            &                     & 無線      & S1     & S11     \\ \hline \hline
-    Idle                    & Connected           & 9         & 3      & 2       \\
-    RRC Suspended           & Connected           & 5         & 2      & 2       \\
-    RRC Connected Inactive  & Connected           & 4         & 0      & 0       \\ \hline
-  \end{tabular}
-\end{table}
-
-この文献\cite{RRCStateHandlingfor5G}では、IdleとRRC Suspended に関するシグナリング数に対しては、3GPPの仕様書\cite{3gpp.23.720}を根拠として示している。
-文献\cite{3gpp.23.720}に示されている図を図\ref{Legacy_connection_setup}及び図\ref{Resumption_of_a_previously_suspended_RRC_connection}に示す。
-これらの図を見ることによって、表\ref{table:signalings}に示されているシグナリング数を確認することが可能である。
-また、MMEが処理するべきシグナリング数(MMEが送受信するシグナリング数)は、Idle及びRRC Suspendedそれぞれにおいて5個、4個であることがわかる。
-しかし一方で、RRC Connected Inactive に関するシグナリング数に対しては参考文献を示していなかった。
+\subsection{Idle状態からConnected状態への遷移}
+文献\cite{3gpp.23.720}に示されている、コネクション確立に伴うシグナリング図を図\ref{Legacy_connection_setup}に示す。
+この図を見ることによって、UEがIdle状態からConnected状態に遷移する際に各ノードで処理する(送受信する)シグナリングの数は以下の様に求めることができる。
+\begin{itemize}
+  \item UE      :9
+  \item eNodeB  :12
+  \item MME     :5
+  \item SGW     :2
+\end{itemize}
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.9\hsize]{Legacy_connection_setup.pdf}
   \caption{Legacy connection setup}
   \label{Legacy_connection_setup}
 \end{figure}
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.9\hsize]{Resumption_of_a_previously_suspended_RRC_connection.pdf}
-  \caption{Resumption of a previously suspended RRC connection}
-  \label{Resumption_of_a_previously_suspended_RRC_connection}
-\end{figure}
-
 \clearpage
-\subsection{先行研究~2}
-文献\cite{ANovelStateModelfor5GRadioAccessNetworks}では、RRC Connected Inactive 状態からConnected状態へ遷移する際のシグナリング図を示していた。
-そのシグナリング図を図\ref{Signaling_for_the_RRC_CONNECTED_INACTIVE_to_RRC_CONNECTED_transition_for_the_novel_state_model}に示す。
+\subsection{Connected Inactive状態からConnected状態への遷移}
+\label{sec:cennectedinactive-connected}
+文献\cite{ANovelStateModelfor5GRadioAccessNetworks}では、RRC Connected Inactive 状態からConnected状態へ遷移する際のシグナリング図を示していた。そのシグナリング図を図\ref{Signaling_for_the_RRC_CONNECTED_INACTIVE_to_RRC_CONNECTED_transition_for_the_novel_state_model}に示す。
 図\ref{Signaling_for_the_RRC_CONNECTED_INACTIVE_to_RRC_CONNECTED_transition_for_the_novel_state_model}を見ると、UE-RAN間のシグナリングが5回発生していることがわかる。
 また、コアネットワーク側にはシグナリングは発生していないこともわかる。
-
-\begin{figure}[htbp]
+UEがConnected Inactive状態からConnected状態に遷移する際に各ノードで処理するシグナリングの数は以下の様になる。
+\begin{itemize}
+  \item UE      :5
+  \item eNodeB  :5
+  \item MME     :0
+  \item SGW     :0
+\end{itemize}\begin{figure}[htbp]
   \centering
   \includegraphics[width=0.9\hsize]{Signaling_for_the_RRC_CONNECTED_INACTIVE_to_RRC_CONNECTED_transition_for_the_novel_state_model.pdf}
   \caption{Signaling for the RRC CONNECTED INACTIVE to RRC CONNECTED transition for the novel state model}
   \label{Signaling_for_the_RRC_CONNECTED_INACTIVE_to_RRC_CONNECTED_transition_for_the_novel_state_model}
 \end{figure}
+\clearpage
+\subsection{Connected状態からIdle状態への遷移}
+\label{sec:connected-idle}
+Connected状態からIdle状態へ遷移する際に発生するシグナリングに関しては、図\ref{Legacy_connection_setup}を見ることで確認できる。
+具体的には、図\ref{Legacy_connection_setup}のS1-AP UE Ctxt Relese Req 以降のシグナリングが、Connected状態からIdle状態へ遷移する際に発生するシグナリングに該当する。
+このシグナリングでは、eNodeBおよびMMEの持っているUEのコンテキストおよび、MMEとSGWのベアラ、RRCコネクションの解放を行っている。
+UEがConnected状態からIdle状態に遷移する際に各ノードで処理するシグナリングの数は以下の様になる。
+\begin{itemize}
+  \item UE      :1
+  \item eNodeB  :4
+  \item MME     :5
+  \item SGW     :2
+\end{itemize}
+\subsection{Connected状態からConnected Inactive状態への遷移}
+\label{sec:connected-connectedinactive}
+Connected状態からConnected Inactive状態へ遷移する際に発生するシグナリングに関しては、図\ref{Legacy_connection_setup}、図\ref{Signaling_for_the_RRC_CONNECTED_INACTIVE_to_RRC_CONNECTED_transition_for_the_novel_state_model}および第\ref{sec:cennectedinactive-connected}節、第\ref{sec:connected-idle}節を参考にすることにより推定可能である。
+
+まず、図\ref{Signaling_for_the_RRC_CONNECTED_INACTIVE_to_RRC_CONNECTED_transition_for_the_novel_state_model}および第\ref{sec:cennectedinactive-connected}節より、Connected Inactive 状態からConnected状態へ遷移する際には、UE-eNodeB間においてRRCコネクションを確立するためのシグナリングのみが発生し、コアノード側にはシグナリングが発生しないことがわかる。
+このことから、Connected状態からConnected Inactive状態への遷移する場合は、RRCコネクションを解放するためのシグナリングが発生する一方でコアノード側にはシグナリングは発生しない可能性が高いと予想できる。
+
+RRCコネクションを解放する際に発生するシグナリングの数は、図\ref{Legacy_connection_setup}および第\ref{sec:connected-idle}節を見ることにより確認できる。
+
+このことから、Connected状態からConnected Inactive状態への遷移するに各ノードで処理するシグナリングの数は以下の様になる。
+\begin{itemize}
+  \item UE      :1
+  \item eNodeB  :1
+  \item MME     :0
+  \item SGW     :0
+\end{itemize}
+\subsection{Connected Inactive状態からIdle状態への遷移}
+Connected Inactive状態からIdle状態へ遷移する際に発生するシグナリングに関しては、第\ref{sec:connected-idle}節および第\ref{sec:connected-connectedinactive}節で求めたシグナリング数を比較することにより推定可能である。
+第\ref{sec:connected-idle}節では、Connected状態からIdle状態に遷移する際にはUEのコンテキストおよびMMEとSGWのベアラ、RRCコネクションの解放を行うと述べた。
+また、第\ref{sec:connected-connectedinactive}節では、Connected状態からConnected Inactive状態への遷移する際には、RRCコネクションを解放すると述べた。
+以上の知見から、Connected状態からIdle状態に遷移する際のシグナリングから、RRCコネクションの解放に関するシグナリングを除いたものが、Connected Inactive状態からIdle状態への遷移する際のシグナリングと推定できる。
+その際に各ノードで処理するシグナリングの数は以下の様になる。
+\begin{itemize}
+  \item UE      :0
+  \item eNodeB  :3
+  \item MME     :5
+  \item SGW     :2
+\end{itemize}
+\subsection{Connected Inactive状態における、状態遷移を伴わないデータ送信}
+文献\cite{RRCStateHandlingfor5G}では、小さなデータ量であれば、Connected Inactive状態からConnected状態へ遷移することなく、データ送信が可能であると述べている。
+まず、UE-eNodeB間においてRA preambleおよびRA responseシグナリングを実行する。
+その後、UEからeNodeBに対してRRC Active Messageを送信するが、それに対してデータをピギーバックする。
+最後に、eNodeBからUEに対して、RRC Inactivate Messageを送信してシグナリングは処理は終了である。
+その際に各ノードで処理するシグナリングの数は以下の様になる。
+\begin{itemize}
+  \item UE      :4
+  \item eNodeB  :4
+  \item MME     :0
+  \item SGW     :0
+\end{itemize}
+
+
+%
+%
+% \subsection{先行研究~1}
+% RRC Connected Inactive及びRRC Suspendedに関して述べられている、文献\cite{RRCStateHandlingfor5G}では、UEがConnected状態へ遷移する際に発生するシグナリング数は表\ref{table:signalings}ようになると述べられている。
+% RRC Suspended 状態ではUEのコンテキストの一部がUE及びネットワークに保持されているため、シグナリング数が減少している。
+% また、RRC Connected Inactive 状態では、RAN-コアネットワーク間の接続がkeep aliveとなっているため、RAN-コアネットワーク間のシグナリングは発生せず、UE-RAN間のシグナリングのみが発生する。
+% \begin{table}[htbp]
+%   \centering
+%   \caption{Signaling Overhead}
+%   \label{table:signalings}
+%   \begin{tabular}{ccccc}
+%     \hline
+%     遷移元                  & 遷移先              & \multicolumn{3}{c}{シグナリング数} \\
+%                             &                     & 無線      & S1     & S11     \\ \hline \hline
+%     Idle                    & Connected           & 9         & 3      & 2       \\
+%     RRC Suspended           & Connected           & 5         & 2      & 2       \\
+%     RRC Connected Inactive  & Connected           & 4         & 0      & 0       \\ \hline
+%   \end{tabular}
+% \end{table}
+%
+% この文献\cite{RRCStateHandlingfor5G}では、IdleとRRC Suspended に関するシグナリング数に対しては、3GPPの仕様書\cite{3gpp.23.720}を根拠として示している。
+% 文献\cite{3gpp.23.720}に示されている図を図\ref{Legacy_connection_setup}及び図\ref{Resumption_of_a_previously_suspended_RRC_connection}に示す。
+% これらの図を見ることによって、表\ref{table:signalings}に示されているシグナリング数を確認することが可能である。
+% また、MMEが処理するべきシグナリング数(MMEが送受信するシグナリング数)は、Idle及びRRC Suspendedそれぞれにおいて5個、4個であることがわかる。
+% しかし一方で、RRC Connected Inactive に関するシグナリング数に対しては参考文献を示していなかった。
+%
+% \begin{figure}[htbp]
+%   \centering
+%   \includegraphics[width=0.9\hsize]{Legacy_connection_setup.pdf}
+%   \caption{Legacy connection setup}
+%   \label{Legacy_connection_setup}
+% \end{figure}
+%
+% \begin{figure}[htbp]
+%   \centering
+%   \includegraphics[width=0.9\hsize]{Resumption_of_a_previously_suspended_RRC_connection.pdf}
+%   \caption{Resumption of a previously suspended RRC connection}
+%   \label{Resumption_of_a_previously_suspended_RRC_connection}
+% \end{figure}
+%
+% \clearpage
+% \subsection{先行研究~2}
+% 文献\cite{ANovelStateModelfor5GRadioAccessNetworks}では、RRC Connected Inactive 状態からConnected状態へ遷移する際のシグナリング図を示していた。
+% そのシグナリング図を図\ref{Signaling_for_the_RRC_CONNECTED_INACTIVE_to_RRC_CONNECTED_transition_for_the_novel_state_model}に示す。
+% 図\ref{Signaling_for_the_RRC_CONNECTED_INACTIVE_to_RRC_CONNECTED_transition_for_the_novel_state_model}を見ると、UE-RAN間のシグナリングが5回発生していることがわかる。
+% また、コアネットワーク側にはシグナリングは発生していないこともわかる。
+%
+% \begin{figure}[htbp]
+%   \centering
+%   \includegraphics[width=0.9\hsize]{Signaling_for_the_RRC_CONNECTED_INACTIVE_to_RRC_CONNECTED_transition_for_the_novel_state_model.pdf}
+%   \caption{Signaling for the RRC CONNECTED INACTIVE to RRC CONNECTED transition for the novel state model}
+%   \label{Signaling_for_the_RRC_CONNECTED_INACTIVE_to_RRC_CONNECTED_transition_for_the_novel_state_model}
+% \end{figure}
 
 \clearpage
 \subsection{シグナリング数のまとめ}
 先行研究を調査することにより、状態遷移に伴うシグナリングの発生数が一部であるが、明らかになった。
-図\ref{state_id}に示す状態遷移図と共に、状態遷移に伴って発生するシグナリングに関する情報を、表\ref{table:signalings_all}に示す。
+図\ref{state_id}に示す状態遷移図と共に、状態遷移に伴って発生するシグナリングに関する情報を表\ref{table:signalings_all}に示す。
 
 \begin{figure}[htbp]
   \centering
@@ -229,9 +320,11 @@ RRC Suspended 状態ではUEのコンテキストの一部がUE及びネット�
             & UE      & RAN     & MME     & SGW      &                                   \\ \hline \hline
     1       & 9       & 12      & 5       & 2        & Packets transmission              \\
     2       & 5       & 5       & 0       & 0        & 2 or more packets transmission    \\
-    3       & ?       & ?       & ?       & ?        & Connected timer expiration        \\
-    4       & ?       & ?       & ?       & ?        & One packet transmission           \\
-    5       & ?       & ?       & ?       & ?        & Idle timer expiration             \\ \hline
+    3       & 1       & 1       & 0       & 0        & Connected timer expiration        \\
+    4       & 4       & 4       & 0       & 0        & One packet transmission           \\
+    5       & 0       & 3       & 5       & 2        & Connected Inactive timer expiration             \\
+    6       & 0       & 0       & 0       & 0        & Packets transmission              \\
+    7       & 1       & 4       & 5       & 2        & Connected timer expiration            \\ \hline
   \end{tabular}
 \end{table}
 
@@ -239,7 +332,7 @@ RRC Suspended 状態ではUEのコンテキストの一部がUE及びネット�
 \section{今後の課題}
   \begin{itemize}
     \item 状態遷移に伴って発生するシグナリングの調査
-    \item
+    \item Connected Inactive状態において``状態遷移を伴わないデータ送信"が可能なデータ量の調査。
   \end{itemize}
 
 \section*{\addcontentsline{toc}{section}{参考文献}}

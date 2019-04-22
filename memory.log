@@ -1,10 +1,10 @@
-This is e-upTeX, Version 3.14159265-p3.7.1-u1.22-161114-2.6 (utf8.uptex) (TeX Live 2017) (preloaded format=uplatex 2017.9.15)  21 APR 2019 21:11
+This is e-upTeX, Version 3.14159265-p3.7.1-u1.22-161114-2.6 (utf8.uptex) (TeX Live 2017) (preloaded format=uplatex 2017.9.15)  22 APR 2019 21:51
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**detach.tex
-(./detach.tex
+**memory.tex
+(./memory.tex
 pLaTeX2e <2017/07/29u01>+1 (based on LaTeX2e <2017-04-15>)
 Babel <3.12> and hyphenation patterns for 84 language(s) loaded.
 (/usr/local/texlive/2017/texmf-dist/tex/uplatex/base/ujarticle.cls
@@ -149,8 +149,8 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
 \mathdisplay@stack=\toks20
 LaTeX Info: Redefining \[ on input line 2817.
 LaTeX Info: Redefining \] on input line 2818.
-) (./detach.aux)
-\openout1 = `detach.aux'.
+) (./memory.aux)
+\openout1 = `memory.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
 LaTeX Font Info:    ... okay on input line 14.
@@ -189,112 +189,58 @@ LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
 LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
 (Font)              scaled to size 5.77332pt on input line 15.
 LaTeX Font Info:    Font shape `JT2/mc/m/n' will be
-(Font)              scaled to size 13.85594pt on input line 23.
+(Font)              scaled to size 13.85594pt on input line 18.
 LaTeX Font Info:    Font shape `JY2/mc/m/n' will be
-(Font)              scaled to size 13.85594pt on input line 23.
+(Font)              scaled to size 13.85594pt on input line 18.
 LaTeX Font Info:    Font shape `JT2/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JT2/gt/m/n' tried instead on input line 23.
+(Font)              Font shape `JT2/gt/m/n' tried instead on input line 18.
 LaTeX Font Info:    Font shape `JT2/gt/m/n' will be
-(Font)              scaled to size 13.85594pt on input line 23.
+(Font)              scaled to size 13.85594pt on input line 18.
 LaTeX Font Info:    Font shape `JY2/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JY2/gt/m/n' tried instead on input line 23.
+(Font)              Font shape `JY2/gt/m/n' tried instead on input line 18.
 LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 13.85594pt on input line 23.
+(Font)              scaled to size 13.85594pt on input line 18.
+File: state_id.pdf Graphic file (type pdf)
+<state_id.pdf>
+LaTeX Font Info:    Font shape `JY2/mc/m/n' will be
+(Font)              scaled to size 6.73553pt on input line 34.
+LaTeX Font Info:    Font shape `JY2/mc/m/n' will be
+(Font)              scaled to size 4.8111pt on input line 34.
+LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
+(Font)              scaled to size 9.6222pt on input line 34.
+LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
+(Font)              scaled to size 6.73553pt on input line 34.
+LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
+(Font)              scaled to size 4.8111pt on input line 34.
  [1
 
-] [2] [3]
+] [2]
+File: Legacy_connection_setup.pdf Graphic file (type pdf)
+<Legacy_connection_setup.pdf>
 LaTeX Font Info:    Font shape `JT2/mc/bx/n' in size <12> not available
-(Font)              Font shape `JT2/gt/m/n' tried instead on input line 182.
+(Font)              Font shape `JT2/gt/m/n' tried instead on input line 67.
 LaTeX Font Info:    Font shape `JT2/gt/m/n' will be
-(Font)              scaled to size 11.54663pt on input line 182.
+(Font)              scaled to size 11.54663pt on input line 67.
 LaTeX Font Info:    Font shape `JY2/mc/bx/n' in size <12> not available
-(Font)              Font shape `JY2/gt/m/n' tried instead on input line 182.
+(Font)              Font shape `JY2/gt/m/n' tried instead on input line 67.
 LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 11.54663pt on input line 182.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 185.
+(Font)              scaled to size 11.54663pt on input line 67.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 70.
  (/usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 185.
-File: networkmodel.pdf Graphic file (type pdf)
-<networkmodel.pdf>
-LaTeX Font Info:    Font shape `JT2/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT2/gt/m/n' tried instead on input line 200.
-LaTeX Font Info:    Font shape `JT2/gt/m/n' will be
-(Font)              scaled to size 9.6222pt on input line 200.
-LaTeX Font Info:    Font shape `JY2/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY2/gt/m/n' tried instead on input line 200.
-LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 9.6222pt on input line 200.
-File: state_change_old.pdf Graphic file (type pdf)
-<state_change_old.pdf>
-File: state_change_inactive.pdf Graphic file (type pdf)
-<state_change_inactive.pdf>
- [4
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 70.
+ [3
 
-]
-File: state_change_propose.pdf Graphic file (type pdf)
-<state_change_propose.pdf>
-File: state_id.pdf Graphic file (type pdf)
-<state_id.pdf>
-LaTeX Font Info:    Font shape `JY2/mc/m/n' will be
-(Font)              scaled to size 6.73553pt on input line 243.
-LaTeX Font Info:    Font shape `JY2/mc/m/n' will be
-(Font)              scaled to size 4.8111pt on input line 243.
-LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 6.73553pt on input line 243.
-LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 4.8111pt on input line 243.
- [5] [6]
-File: proposed_method.pdf Graphic file (type pdf)
-<proposed_method.pdf>
- [7
-
-]
-File: Connected.pdf Graphic file (type pdf)
-<Connected.pdf>
-File: Idle.pdf Graphic file (type pdf)
-<Idle.pdf>
-File: Connected_Inactive.pdf Graphic file (type pdf)
-<Connected_Inactive.pdf>
- [8
-
-] (./detach.bbl
-
-LaTeX Font Warning: Font shape `JT2/gt/m/it' undefined
-(Font)              using `JT2/gt/m/n' instead on input line 26.
-
-
-LaTeX Font Warning: Font shape `JY2/gt/m/it' undefined
-(Font)              using `JY2/gt/m/n' instead on input line 26.
-
-LaTeX Font Info:    Font shape `JT2/gt/m/it' will be
-(Font)              scaled to size 9.6222pt on input line 31.
-LaTeX Font Info:    Font shape `JY2/gt/m/it' will be
-(Font)              scaled to size 9.6222pt on input line 31.
-./detach.bbl:42: Misplaced alignment tab character &.
-l.42 ...ggregated Server Rack},'' {Moor Insights &
-                                                   Strategy},
-I can't figure out why you would want to use a tab mark
-here. If you just want an ampersand, the remedy is
-simple: Just type `I\&' now. But if some right brace
-up above has ended a previous alignment prematurely,
-you're probably due for more error messages, and you
-might try typing `S' now just to see what is salvageable.
-
-[9]) [10] (./detach.aux)
-
-LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
- ) 
+] [4] [5] (./memory.bbl) [6] (./memory.aux) ) 
 Here is how much of TeX's memory you used:
- 2817 strings out of 493644
- 41891 string characters out of 6149000
- 108630 words of memory out of 5000000
- 6386 multiletter control sequences out of 15000+600000
- 18108 words of font info for 77 fonts, out of 8000000 for 9000
+ 2766 strings out of 493644
+ 40418 string characters out of 6149000
+ 106630 words of memory out of 5000000
+ 6350 multiletter control sequences out of 15000+600000
+ 17762 words of font info for 76 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 42i,8n,40p,1210b,329s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,8n,40p,387b,327s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on detach.dvi (10 pages, 34192 bytes).
+Output written on memory.dvi (6 pages, 12288 bytes).
