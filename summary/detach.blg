@@ -1,0 +1,68 @@
+This is BibTeX, Version 0.99d (TeX Live 2017)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: detach.aux
+The style file: IEEEtran.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: /Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio.bib
+Repeated entry---line 1349 of file /Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio.bib
+ : @misc{EnhancedBackoffTimerSolutionforGTPCOverloadControl
+ :                                                         ,
+I'm skipping whatever remains of this entry
+Database file #2: /Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/Study_Group_Bibtex/bib/hptCoreNetwork_Study.bib
+Repeated entry---line 529 of file /Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/Study_Group_Bibtex/bib/hptCoreNetwork_Study.bib
+ : @inproceedings{TechnoEconomicFrameworkforCloudInfrastructureACostStudyofResourceDisaggregation
+ :                                                                                               ,
+I'm skipping whatever remains of this entry
+-- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+Warning--empty author in IntelsDisaggregatedServerRack
+Warning--empty author in DisaggregatedServersDriveDataCenterEfficiencyandInnovation
+
+Done.
+You've used 11 entries,
+            4087 wiz_defined-function locations,
+            898 strings with 11077 characters,
+and the built_in function-call counts, 7585 in all, are:
+= -- 589
+> -- 183
+< -- 44
++ -- 100
+- -- 35
+* -- 388
+:= -- 1188
+add.period$ -- 23
+call.type$ -- 11
+change.case$ -- 12
+chr.to.int$ -- 99
+cite$ -- 13
+duplicate$ -- 563
+empty$ -- 625
+format.name$ -- 43
+if$ -- 1733
+int.to.chr$ -- 0
+int.to.str$ -- 11
+missing$ -- 116
+newline$ -- 68
+num.names$ -- 9
+pop$ -- 271
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 2
+skip$ -- 566
+stack$ -- 0
+substring$ -- 244
+swap$ -- 443
+text.length$ -- 11
+text.prefix$ -- 0
+top$ -- 5
+type$ -- 11
+warning$ -- 2
+while$ -- 24
+width$ -- 13
+write$ -- 139
+(There were 2 error messages)
