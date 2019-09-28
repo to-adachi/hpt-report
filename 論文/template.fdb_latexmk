@@ -1,0 +1,15 @@
+# Fdb version 3
+["dvipdf"] 0 "template.dvi" "template.pdf" "template" 0
+  "template.dvi" 0 -1 0 "latex"
+  (generated)
+  "template.pdf"
+["latex"] 1566877281 "template.tex" "template.dvi" "template" 1566877282
+  "/usr/local/texlive/2017/texmf-dist/web2c/texmf.cnf" 1494087824 32646 eadc4ca26cdbe7105ac7c593aa8c4f72 ""
+  "/usr/local/texlive/2017/texmf-var/web2c/euptex/uplatex.fmt" 1505440380 4338250 41983557c21b6da30b6d682855b508ba ""
+  "/usr/local/texlive/2017/texmf.cnf" 1495593465 577 2b71d4d888f9e5560b2e99985915a9fa ""
+  "ieice.cls" 0 -1 0 ""
+  "template.aux" 1566877281 8 a94a2480d3289e625eea47cd1b285758 ""
+  "template.tex" 1566877281 1729 28b8518f4b35af5634aeac193835b230 ""
+  (generated)
+  "template.log"
+  "template.dvi"

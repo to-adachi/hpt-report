@@ -1,0 +1,92 @@
+\documentclass[a4j]{ujarticle}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{url}
+\usepackage{bbding}
+\usepackage{lscape}
+\usepackage[subrefformat=parens]{subcaption}
+\usepackage{bm}
+\usepackage{amsmath}
+
+\title{進捗報告資料}
+\author{安達智哉\\to-adachi@ist.osaka-u.ac.jp}
+\date{2019年8月20日}
+
+\begin{document}
+\maketitle
+
+\begin{equation}
+  f  = \max \{U_{\rm cpu}, U_{\rm memory} \}
+  \label{eq:objective_function}
+\end{equation}
+
+\begin{table}[h]
+ \caption{}
+ \label{}
+ \centering
+  \begin{tabular}{ccc}
+   \hline
+   Idle Timer & CPU使用率 & メモリ使用率 \\
+   \hline \hline
+   $\alpha$ & 60\% & 30\% \\
+   $\beta$ & 50\% & 50\% \\
+   $\gamma$ & 10\% & 70\% \\
+   \hline
+  \end{tabular}
+\end{table}
+
+
+% ここで、今回の評価では、CPU負荷はIdle Timerの値に対して広義単調減少(単調非増加)でありかつ、メモリ負荷はIdle Timerの値に対して広義単調増加(単調非減少)であるため、目的関数$f$を以下の式(\ref{eq:objective_function_simple})のように書き換えることも可能である。
+% \begin{equation}
+%   f  = U_{\rm cpu} - U_{\rm memory}
+%   \label{eq:objective_function_simple}
+% \end{equation}
+
+    % \begin{figure}[htbp]
+    %   \centering
+    %   \includegraphics[width=0.7\hsize]{.pdf}
+    %   \caption{}
+    %   \label{}
+    % \end{}
+
+%
+% \begin{table}[h]
+%  \caption{}
+%  \label{}
+%  \centering
+%   \begin{tabular}{ccc}
+%    \hline
+%    Source & Destination & The number of signaling occurrences \\
+%    \hline \hline
+%    Connected & Connected & $s_{\rm MME}^{\rm c \to \rm c}$ \\
+%    Connected Inactive & Connected Inactive & $s_{\rm MME}^{\rm ci \to \rm ci}$ \\
+%    Connected & Connected Inactive & $s_{\rm MME}^{\rm c \to \rm ci}$ \\
+%    Connected Inactive & Connected & $s_{\rm MME}^{\rm ci \to \rm c}$ \\
+%    Connected Inactive & Idle & $s_{\rm MME}^{\rm ci \to \rm i}$ \\
+%    Idle & Connected  & $s_{\rm MME}^{\rm i \to \rm c}$ \\
+%    \hline
+%   \end{tabular}
+% \end{table}
+%
+%
+% \begin{equation}
+%   c_h  =
+%   \begin{cases}
+% 		\frac{1}{T_h} \cdot s_{\rm MME}^{\rm c \to \rm c} & \text{if $T_h \le T^{\rm ci}$} \\
+%     \frac{1}{T_h} \cdot (s_{\rm MME}^{\rm ci \to \rm c} + s_{\rm MME}^{\rm c \to \rm ci}) \cdot d_h  + \frac{1}{T_h} \cdot s_{\rm MME}^{\rm ci \to \rm ci} \cdot (1 - d_h) & \text{if $T^{\rm ci} < T_h \le T^{\rm i}$} \\
+%     \frac{1}{T_h} \cdot (s_{\rm MME}^{\rm i \to \rm c} + s_{\rm MME}^{\rm c \to \rm ci} + s_{\rm MME}^{\rm ci \to \rm i}) & \text{otherwise}
+%   \end{cases}
+%   \label{eq:attach_detach}
+% \end{equation}
+
+
+
+
+%   \section{今後の予定}
+%   \begin{itemize}
+%     \item IdleTimerの設定方法を決める良いアルゴリズムがないか調査する。
+%   \end{itemize}
+%
+% \section*{\addcontentsline{toc}{section}{参考文献}}
+% \bibliographystyle{IEEEtran}
+% \bibliography{/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio,/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/Study_Group_Bibtex/bib/hptCoreNetwork_Study}
+\end{document}

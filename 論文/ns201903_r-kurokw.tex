@@ -1,0 +1,865 @@
+\documentclass[technicalreport]{ieicej}
+\usepackage[dvipdfmx]{graphicx,xcolor}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\usepackage{latexsym}
+\usepackage[fleqn]{amsmath}
+\usepackage{amssymb}
+\usepackage{subfigure}
+\usepackage{cite}
+\usepackage{url}
+\usepackage{multirow}
+\usepackage{scalefnt}
+\usepackage{setspace}
+\usepackage{ascmac}
+\usepackage[version=3]{mhchem}
+
+\setstretch{0.77}
+
+% タイトル
+\jtitle{生化学反応に着想を得た動的かつ自律分散的なVNF配置手法}
+% 著者
+\authorlist{
+	\authorentry[r-kurokw@ist.osaka-u.ac.jp]{黒川 稜太}{Ryota Kurokawa}{Osaka-I}\MembershipNumber{}
+	\authorentry[hasegawa@cmc.osaka-u.ac.jp]{長谷川 剛}{Go Hasegawa}{Osaka-CMC}\MembershipNumber{}
+	\authorentry[murata@ist.osaka-u.ac.jp]{村田 正幸}{Masayuki Murata}{Osaka-I}\MembershipNumber{}
+	% \authorentry[メールアドレス]{和文著者名}{英文著者名}{所属ラベル}
+}
+
+\affiliate[Osaka-I]{大阪大学大学院情報科学研究科 〒560-0871 大阪府吹田市山田丘1--5}{Graduate School of Information Science and Technology, Osaka University, 1--5 Yamadaoka, Suita, Osaka, 560--0871, Japan}
+\affiliate[Osaka-CMC]{大阪大学サイバーメディアセンター 〒560--0043 大阪府豊中市待兼山町1--32}{Cybermedia Center, Osaka University, 1--32 Machikaneyama, Toyonaka, Osaka, 560--0043, Japan}
+% \affiliate[所属ラベル]{和文勤務先\\ 連絡先住所}{英文勤務先\\ 英文連絡先住所}
+
+\begin{document}
+	% 和文あらまし
+	\begin{jabstract}
+	ネットワーク機能仮想化技術(Network Function Virtualization: NFV)では, 様々な仮想ネットワーク機能(Virtual Network Function: VNF)が汎用サーバ上に配置される.
+	NFVに基づくネットワークシステムを運用するためには, サーバへのVNFの配置, 各VNFへのサーバ資源の割り当て, 及びネットワークフローの経路を動的に決定することが求められる.
+	さらに, NFVシステムは, 需要変動, 及びシステム障害などの環境変動に素早く対応するために, 自律分散的に動作することが望ましい.
+	我々の研究グループでは, 生化学反応に着想を得たタプル空間モデルに基づくサービス空間構築手法を提案しており, そのモデルをNFVシステムへ適用した場合の基本的な性能が評価されている.
+	本報告では, NFVシステムにおける様々な状況を想定したシミュレーションを実行し, 提案手法がNFVシステムの動的な状況に対応できることを示す.
+	\end{jabstract}
+
+	% 和文キーワード
+	\begin{jkeyword}
+		ネットワーク機能仮想化技術,
+		サービスチェイニング,
+		生化学機構,
+		タプル空間モデル,
+		Network Service Header
+	\end{jkeyword}
+
+	\maketitle
+
+	% 第1章
+	\section{Introduction}
+	%このような問題に対処するための1つの技術として, ネットワーク機能仮想化技術(Network Function Virtualization: NFV)がある.
+	%Network Function Virtualization (NFV) is considered as one possible technique for resolving such problems~\cite{nfv_whitepaper1}.
+	%NFVでは, 専用のハードウェア機器で達成されてきたネットワーク機能が, ソフトウェアとして実行される.
+	In Network Function Virtualization (NFV), network functions on dedicated hardware are achieved by software, and deployed and executed on general-purpose servers~\cite{nfv_whitepaper1}.
+	%そのようなソフトウェア化されたネットワーク機能を, 仮想ネットワーク機能(Virtual Network Functions: VNFs)と呼ぶ.
+	The network functions achieved by software are called Virtual Network Functions (VNFs).
+	%VNFの例は, FirewallやDeep Packet Inspection (DPI), Evolved Packet Core (EPC)などが挙げられる.
+	%Typical VNFs include Firewall~\cite{neupane2018southeastcon}, Network Address Translation (NAT) \cite{dwing2010internetcomputing}, Intrusion Detection System (IDS) \cite{aborkar2017iidps} and Evolved Packet Core (EPC)~\cite{nguyen2017surveystutorials,carlos2017cnsm}.
+	%図1にNFVに基づいたネットワークシステムを示す.
+	Figure~\ref{fig:nfv_network} shows an NFV system.
+	%NFVでは, 様々な仮想ネットワーク機能(Virtual Network Functions: VNFs)が, 汎用サーバ上に配置されるので, さまざまなVNFが汎用サーバ上に配置され, 複数のVNFが1台のサーバを共有することや, 1つのVNFが複数サーバ上で分散実行することが考えられる.
+	In NFV, multiple VNFs may share the resource on a single server or one VNF may be distributed to multiple servers to provide services throughout the network~\cite{julivergil2016tnsm,annaengelmann2018icc}.
+	%その結果, 運用コストや設備投資コストを抑えることや, 環境変動に柔軟に対応することが可能となる.
+	As a result, it is possible to suppress operational and capital expenditures by aggregating physical servers. It is also possible to flexibly respond to environmental fluctuations by reallocating server resources to VNFs, migrating VNFs, and rerouting flow packets.
+
+	%NFVのサービスを受けるフローは, 所望のVNFの適用順で示されるサービスチェイニング要求を持つ.
+	A flow receiving NFV service may have a Service Function Chaining (SFC) request that describes the order of VNFs to be applied to the flow.
+	%図1に示すように, NFVシステムに到着したフローは, サービスチェイニング要求に従う順でVNFを適用され, システムから退出する.
+	In Figure~\ref{fig:nfv_network}, a flow arriving at the NFV system receives NFV services in accordance with the SFC request and exits the system.
+	%従って, NFVシステムの効率的な運用のためには, サーバへのVNFの配置, サーバにおける各VNFへの資源配分, 及びフローの経路を, サービスチェイニング要求やフローのトラヒック量等に応じて決定することが求められる.
+	Therefore, to efficiently operate the NFV system, placement of VNFs to servers, resource allocation to each VNF, and flow routes are determined adaptively in accordance with the SFC requests, traffic amount of the flows, and amount of server resource.
+	%一方，NFVシステムのようなネットワークサービスは，サーバ障害や需要の変化等の環境変動に素早く対応し，かつ，サービスの拡張性を保持するために，集中処理ではなく，運用者の介入なしで自律分散的に動作することが望ましい.
+	In addition, to quickly respond to environmental fluctuations such as system failures and changing demands, and to maintain the scalability of the NFV services, a distributed control is more feasible than a centralized one~\cite{allybokus2018jsac}.
+	%そのような挙動を実現する一つの方法として，自律分散性や自己組織性が高い，生化学機構を用いる方法がある.
+	One way to achieve such behaviors is to exploit a biochemical mechanism with autonomous dispersibility and self organization~\cite{mirkoviroli2011taas	}.
+
+	%ネットワーク全体の図とサービスチェイニングの図
+	\begin{figure}[!t]
+		\begin{center}
+			\includegraphics[width=80mm]{../figure/nfv_network.pdf}
+		\end{center}
+		\caption{NFV system}
+		\label{fig:nfv_network}
+	\end{figure}
+
+	%我々の研究グループではこれまでに，生化学機構に着想を得た，生化学反応式を用いたタプル空間モデルに基づくサービス空間構築手法を提案している.
+	Our research group has proposed a construction method of service space in virtualized network system based on biochemically-inspired tuple space model~\cite{kokisakata2018masterthesis}.
+	%この手法では, 仮想ネットワークシステムにおいて, サーバをタプル空間として, サービス要求, サービス需要, 及びサーバ資源等をタプル空間内の化学物質としてモデル化し, サーバの挙動をタプル空間における生化学反応式として記述する.
+	In this method, a server is considered as a tuple space, and service requests, service demands and server resources are expressed as chemical substances in tuple spaces.
+	%サーバにおける挙動を生化学反応式を用いて表現する.
+	The behaviors in the virtualized network system are then described by biochemical reaction equations in  tuple spaces.
+	%さらに，複数のタプル空間を接続してネットワークを構成することで，複数のサーバから構成されるネットワークサービス環境における，サービスや要求の移動や拡散を表すことができる．
+	Furthermore, by configuring a network by connecting multiple tuple spaces, the movement and spread of services and requests in a network system composed of multiple servers are represented.
+	%また，生化学反応式はそれぞれのタプル空間で独立に定義され，反応物の濃度によって決定される速度で実行されるため，自律分散的な挙動をモデル化するのに適している．
+	Since biochemical reaction equations are defined and executed independently in each tuple space, it is suitable for achieving autonomous and decentralized behaviors.
+	%この手法の適用方法の1つをNFVシステムであると考える.
+	We consider that one of possible application of the above method is an NFV system.
+	%上述の手法を用いてNFVシステムを運用するために, SFC要求に従ってフロー経路の決定やサーバ資源の制約を扱うように拡張する.
+	To operate an NFV system, the above method has been extended to handle flow routes in accordance with SFC requests, and server resource limitation.
+	%提案手法にこれらの挙動を含めることによって、実際のNFVサービスに近づけることができる。
+	By including these behaviors in the method, it is possible to get closer to the actual NFV service.
+	%過去の研究においては、手法の基本的な性能評価がコンピュータシミュレーションを用いて行われてきた.
+	The basic behaviors of the extended method have been confirmed with computer simulation.
+	%しかし, NFVシステムにおける様々なシナリオを想定した評価は行われていない.
+	However, the evaluation assuming various situations in the NFV system has not been performed.
+
+	%そこで本報告では, 上述のモデルをNFVに適用し, NFVシステムに求められる様々な挙動が達成できることを確認する.
+	In this report, we assess the performance of the NFV system based on the service space construction method.
+	%まず初めに，上述のモデルをNFVシステムに適用する際に，モデルにおける化学物質や生化学反応式と，NFVシステムにおける各要素やVNFとの適合について検討する．
+	First, we briefly summarize how to apply the service space construction method to the NFV system, explained in~\cite{kokisakata2018masterthesis}.
+	%具体的には，NFVシステムにおけるフローのパケットへのVNFの適用，フローによるサーバ資源の利用，サービスチェイニングの実現，同一サーバ上での複数のVNFの共存等を，生化学反応式を用いたタプル空間モデルを用いて記述する．
+	In particular, we describe various behaviors in the NFV system, such as the execution of VNFs to flow packets, server resource allocation to each VNF, diffusion of VNFs, packet forwarding, and coexistence of multiple VNFs on a single server, by biochemical reaction equations in tuple spaces.
+	%次に，提案方式の有効性の検証のために，$\tau$-leaping法~\cite{Stochastic}に基づくコンピュータシミュレーションを行い，その結果から，NFVシステムに求められる機能を実現できることを明らかにする．
+	Then, we perform computer simulation experiments assuming various situations in the NFV system, such as time variation of traffic amount and a sudden network failure.
+	Through the simulation experiments, we confirm that the proposed method can cope with dynamical changes in the NFV system.
+
+%	%本論文の構成は以下の通りである.
+%	The rest of this report is organized as follows.
+%	%3章では, 本報告で用いる, 生化学反応式を用いたタプル空間モデルに基づくサービス空間構築手法について説明し, NFVシステムへ適用する方法を述べる.
+%	Section~2 explains the tuple space model using biochemical reactions and how to apply the model to NFV system.
+%	%4章では, コンピュータシミュレーションを用いて, 手法の有効性を検証する.
+%	Section~3 shows the simulation results to confirm that the proposed method can cope with dynamical network situations in the NFV system.
+%	%Section~5 describes the implementation design of the proposed method with the NFV framework and SFC using NSH.
+%	%最後に6章で, 本論文のまとめと今後の課題について述べる.
+%	Finally, Section~4 concludes this report and presents some directions for future research.
+
+
+	\section{VNF Control based on Tuple Space Model with Biochemical Reactions}
+	\label{sec:model}
+	%本章では, 文献\cite{kokisakata2018masterthesis}で説明されている, 生化学反応式を用いたタプル空間モデルに基づくサービス空間構築手法をNFVへ適用する方法について述べる.
+	In this section, we summarize the tuple space model using biochemical reactions and how to apply the model to NFV system, described in \cite{kokisakata2018masterthesis}.
+
+	\subsection{Tuple Space Model}
+	\label{subsec:tuple_space_model}
+	%タプル空間モデルは, 分散システムを表現するモデルである.
+	A tuple space model in~\cite{kokisakata2018masterthesis} is one of the models that describes a distributed system.
+	%図\ref{fig:tuple_space}に, タプル空間を示す.
+	%Figure~\ref{fig:tuple_space} depicts the tuple space model in this report.
+	%タプル空間モデル
+%	\begin{figure}[!t]
+%		\centering
+%		\includegraphics[width=80mm]{../figure/tuplespace_model.pdf}
+%		\caption{Tuple space model using biochemical reaction}
+%		\label{fig:tuple_space}
+%	\end{figure}
+	%分散システムの各コンポーネントは, 各タプル空間としてモデル化される.
+	A component of the distributed system is modeled as a tuple space.
+	%タプル空間は, 生化学反応がおこる場と定義される.
+	In a tuple space, biochemical reactions occur.
+	%A tuple space is defined as a cell where biochemical reactions occur.
+	%タプル空間内のタプルは, 化学物質に相当し, タプルの量は, 化学物質の濃度に相当する.
+	Then, tuples in the tuple space correspond to chemical substances, and the amount of tuples corresponds to the concentrations of chemical substances.
+	%タプルの濃度は, タプル空間内に生化学反応を定義することによって, 増加・減少する.
+	The concentrations of tuples can be increased and decreased by defining and executing biochemical reactions in tuple spaces.
+
+	%生化学反応式の実行速度は, 各反応物と反応速度係数の積によって決定される.
+	A reaction rate of a biochemical reaction is determined by the product of the concentration of each reactant and the rate coefficient defined in the biochemical reaction equation.
+	%例えば, 以下の式について, 反応物XとYの濃度がそれぞれxとy, 反応速度係数がaである時, 反応速度はaxyである.
+	For example, we consider that the following reaction equation is defined, which defines $X$ and $Y$ as  reactants, $Z$ as a product, and $a$ as a reaction rate coefficient.
+	\[
+	X\,|\,Y \xrightarrow[]{a}Z\\
+	\]
+	%反応物$X$と$Y$の濃度がそれぞれ$x$と$y$である時, 反応速度は$axy$となる.
+	If the concentrations of reactants $X$ and $Y$ are respectively $x$ and $y$, the reaction rate is $axy$.
+	%この性質によって, 生化学反応の反応速度は, 生化学反応式における反応物の濃度と反応速度係数によって制御される.
+	Due to this property, the reaction rates in biochemical reactions are controlled by the concentrations of reactants and the rate coefficients defined in biochemical reaction equations.
+
+	%
+	In addition, a network can be configured by connecting multiple tuple spaces.
+	%さらに, タプル空間におけるタプルの拡散や移動を表現する生化学反応を定義することによって, 複数のタプル空間における相互作用を表現できる.
+	It is possible to achieve the interaction among multiple tuple spaces by defining biochemical reactions that describe the diffusion and movement of tuples among tuple spaces.
+	%各タプル空間における生化学反応は独立に発生するので, 自律分散的な挙動が表現できる.
+	Since biochemical reactions in each tuple space occur independently, autonomous and decentralized behaviors in networked system can be described.
+
+	\subsection{Application to NFV System}
+	%図\ref{fig:tuplespace_model_to_NFV}に, タプル空間モデルのNFVへの適用を表した図を示す.
+	%Figure~\ref{fig:tuplespace_model_to_NFV} depicts the application of the model described in SubSection~\ref{subsec:tuple_space_model} to NFV system.
+	%タプル空間モデル
+%	\begin{figure}[!t]
+%		\centering
+%		\includegraphics[width=80mm]{../figure/tuplespace_model_to_NFV.pdf}
+%		\caption{Application of tuple space model to NFV system}
+%		\label{fig:tuplespace_model_to_NFV}
+%	\end{figure}
+	%上述の手法をNFVシステムに適用するためには, タプル空間は, VNFを実行するサーバに関連づけられる.
+	To apply the tuple space model to NFV system, a tuple space is associated with a server that deploys and executes VNFs.
+	%VNF, フローのパケット, 及びサーバ資源は, タプル空間内におけるタプルに関連付けられる.
+	Tuples in the tuple spaces correspond to demands of VNFs, flow packets, server resources, and so on.
+	%サーバにおける挙動を, タプル空間内の生化学反応式で表現する.
+	The behaviors in the NFV system are described by biochemical reaction equations in tuple spaces.
+	%
+	Biochemical reaction equations are defined to adaptively and autonomously determine placement of VNFs on the servers, the resource allocation to each VNF, and flow routes in accordance with SFC requests, traffic amount of the flows, and the amount of server resources.
+	%表\ref{tab:correspondence}に, タプル空間モデルとNFVシステムの対応付けを示す.
+	%Table~\ref{tab:correspondence} shows the correspondence between the tuple space model and the NFV system.
+%	\begin{table}[!t]
+%		\caption{Correspondence between tuple space model and NFV system}
+%		\label{tab:correspondence}
+%		\scalebox{0.9}{
+%			\centering
+%			\begin{tabular}{|l|l|}\hline
+%				Tuple Space Model & NFV System \\ \hline \hline
+%				Tuple Spaces & General-purpose Servers \\ \hline
+%				Chemical & Demand of VNFs, Flow Packets, \\
+%				Substances & Server Resources, Gradient Fields for VNFs \\ \hline
+%				& Apply VNFs to Packets, \\
+%				Biochemical & Demand Increase of VNFs, Decay of VNFs, \\
+%				Reactions & Server Resource Allocation to VNFs, \\
+%				& Diffusion of VNFs, Packet Forwarding \\ \hline
+%			\end{tabular}
+%		}
+%	\end{table}
+
+	%\subsubsection{Handling of Service Function Chaining (SFC)}
+	%あるフローに対して, そのサービスチェイニング要求により実行されるVNFを順に$f_1, f_2, f_3,...$とすると, サービスチェイニング要求$c$を以下のように表す.
+	An SFC request for a flow, represented by a series of VNFs, $f_1, f_2, f_3, ..., \mathit{f_{end}}$ is described as follows.
+	\begin{eqnarray*}
+		c = \{f_1, f_2, f_3, ..., \mathit{f_{end}}\}
+	\end{eqnarray*}
+	%サービスチェイニング要求$c$を持つフローに対して, VNF $f_1$が実行された場合には, サービスチェイニング要求$c$は以下のように変化する.
+	When VNF $f_1$ is executed to the flow with an SFC request $c$, $c$ changes as follows.
+	\begin{eqnarray*}
+		c\xleftarrow[]{}c\backslash\{f_1\} = \{f_2, f_3, ..., \mathit{f_{end}}\}
+	\end{eqnarray*}
+	%サービスチェイニング要求$c$が次に実行を要求しているVNFを$f^1(c)$と表す.
+	A VNF that is executed at first in $c$ is represented by $f^1(c)$.
+	%以下では, 化学物質の添え字$f$はVNFの種類を, $c$はサービスチェイニング要求の種類を表す.
+	In this report, the subscript $f$, $c$ and $t$ of chemical substances represent a VNF, an SFC request, and a server, respectively.
+	%以降では, NFVシステムにおける様々な挙動を達成するための生化学反応式について説明する.
+	In what follows, we present biochemical reaction equations that achieve various behaviors for the NFV system.
+
+	\subsubsection{Resource Allocation and Execution of VNFs}
+	%NFVシステムにおけるサーバへのVNFの配置及び, 資源配分はそのVNFの需要従って決定されることが望まれる.
+	It is desirable that placement of VNFs on servers and resource allocation to each VNF are determined in accordance with demands of VNFs.
+	%需要の少ないVNFは衰退し, 需要の多いVNFは成長させることが求められる.
+	It is required that VNFs in low demand have low priority in the server and those in high demand have high priority to be executed.
+	%サービスチェイニング要求$c$を持ったフローがサーバへ到着すると, パケットに対してVNFが適用される.
+	When a packet of a flow with an SFC request $c$ arrives at a server, VNF $\mathit{f^1(c)}$ is applied to the packet.
+	%このとき, サービスチェイニング要求が複数のVNFから構成されている場合には, パケットが持つサービスチェイニング要求から適用したVNFを削除する.
+	Then, when $c$ is composed of multiple VNFs, the SFC request $c$ changes so that the executed VNF is deleted from $c$.
+	%一方, サービスチェイニング要求が1つのVNFから構成されている場合には, VNFが適用された後にそのパケットは消失する.
+	On the other hand, when $c$ is composed of one VNF, the packet disappears.
+	%このような挙動を反応式(\ref{eq1}), (\ref{eq2})のように表す.
+	The above behaviors, as well as realizing the server resource limitation by enzyme-catalyzed reactions mechanism~\cite{goldberg2004sciencedirect}, are described by Reaction Equations (\ref{eq3})-(\ref{eq2}).
+
+%	{\scriptsize
+%	  \begin{eqnarray}
+%	    \label{eq1}
+%	    \mathit{VNF_{f^1(c)}}\,|\,\mathit{PKT_c}&\xrightarrow[]{\mathit{r_{us}}}& \begin{cases}
+%	    \mathit{VNF_{f^1(c)}}\,|\,\mathit{VNF_{f^1(c)}}\,|\,\mathit{PKT_{c\backslash\{f^1(c)\}}} \\
+%	    \,|\,\mathit{toserve(VNF_{f^1(c)},PKT_c)} \ \ (c\backslash\{f^1(c)\} \neq \emptyset) \\ \\
+%	    \mathit{VNF_{f^1(c)}}\,|\,\mathit{VNF_{f^1(c)}}  \\
+%	    \,|\,\mathit{toserve(VNF_{f^1(c)},PKT_c)} \ \ (c\backslash\{f^1(c)\} = \emptyset)\\
+%	    \end{cases} \\
+%	    \label{eq2}
+%	    \mathit{VNF_f} &\xrightarrow[]{\mathit{r_{ds}}}& 0
+%	  \end{eqnarray}
+%  }
+
+%	%物質$\mathit{VNF_{f^1(c)}}$は, サービスチェイニング要求$c$が次に実行を要求しているVNFを表す.
+%	In the above Equations, substance $\mathit{VNF_{f^1(c)}}$ indicates the VNF to be applied for a flow.
+%	%その濃度が大きいほどそのVNFに対する需要が多いことを表す.
+%	A VNF with a large concentration value means that its execution is highly demanded.
+%	%物質$\mathit{PKT_c}$は, サービスチェイニング要求が$c$を持つフローを構成するパケットを表す.
+%	Substance $\mathit{PKT_c}$ represents a packet constituting a flow with $c$.
+%	%物質$\mathit{toserve(VNF_{f^1(c)},PKT_c)}$は, サービスチェイニング要求が$c$を持つフローのパケットに対して, 次に適用すべきVNFが実行されたことを表す.
+%	Substance $\mathit{toserve(VNF_{f^1(c)}, PKT_c)}$ indicates result of applying the VNF to a packet of a flow with $c$.
+%	%$r_{us}$と$r_{ds}$は, 反応式(\ref{eq1})と(\ref{eq2})の反応速度係数である.
+%	$r_{us}$ and $r_{ds}$ are the rate coefficients of Reaction Equations (\ref{eq1}) and (\ref{eq2}), respectively, to determine the rate of reactions.
+%	%反応式(\ref{eq1})は, サーバ上のフローのパケットがVNFに適用され, 対応するVNFの需要増加を表現するために, VNFの濃度が増加する.
+%	Reaction (\ref{eq1}) indicates that a VNF is executed to packets of a flow on a server, and the concentration of $\mathit{VNF}$ increases to represent the demand increase for the corresponding VNF.
+%	%反応式(\ref{eq2})は, VNFの衰退を表す.
+%	Reaction (\ref{eq2}) indicates that $\mathit{VNF}$ decays at a rate proportional to its concentration.
+%
+%	%生化学反応の実行速度は, その反応の各反応物の濃度の積に比例して決定される.
+%	The execution rate of a biochemical reaction is determined in proportion to the product of the concentration of each reactant of the reaction.
+%	%従って, 式(\ref{eq1})では, $\mathit{VNF}$及び$\mathit{PKT}$の濃度が大きくなると, それに応じて反応速度が際限なく増加する.
+%	Therefore, in Reaction Equation (\ref{eq1}), as the concentrations of $\mathit{VNF}$ and $\mathit{PKT}$ increase, the reaction rate increases without limitation.
+%	%しかし, 実際のサーバでは, VNFの実行速度にはCPU能力やメモリサイズ等の資源による制約が存在する.
+%	However, servers have their performance constraints determined by server resources such as CPU capacity and memory size.
+%	%そのため, 式(\ref{eq1})のみを用いるのは, 実際のNFVシステムの挙動を記述するためには不適切である.
+%	Therefore, using only Reaction (\ref{eq1}) is not suitable for describing the behaviors in the NFV system.
+%	%この問題に対して，生化学反応の1つである酵素触媒反応を導入することで対処する．
+%	To describe the above constraints, enzyme-catalyzed reactions mechanism in biochemical reactions are exploited~\cite{goldberg2004sciencedirect}.
+%	%酵素触媒反応では，反応そのものに影響を与えない触媒の濃度によって反応速度を制御することができる.．
+%	In enzyme-catalyzed reactions, the reaction rate can be controlled by the concentration of the catalyst which does not affect the reaction itself.
+%	%酵素触媒反応の基本式(\ref{eq:enzyme})を以下に示す．
+%	The basic equation of the enzyme-catalyzed reaction is shown in the following Reaction Equation, which defines $E$ as an enzyme, $S$ as a substrate, $ES$ as an enzyme-substrate complex, and $P$ as a product.
+%	%ただし，$E$を酵素，$S$を基質，$ES$酵素基質複合体，$P$を生成物とする．
+%	\begin{eqnarray*}
+%		\label{eq:enzyme}
+%		E\,|\,S \leftrightarrows ES \rightarrow E\,|\,P
+%	\end{eqnarray*}
+%	%上述の反応式では, 反応速度は酵素基質複合体を導入することによって決定される.
+%	The execution rate of the enzyme-catalyzed reaction can be determined by introducing an enzyme-substrate complex into the reaction~\cite{michaelis2011biochemistry}.
+%	%元の反応式(\ref{eq1})を以下の式(\ref{eq3})，(\ref{eq4})のように拡張することで，VNFが配置されているサーバの資源量に応じたVNFの実行速度の制約を記述することができる．
+%	To describe the constraints of server resources, Reaction Equation (\ref{eq1}) is extended into the following Reaction Equations (\ref{eq3}), (\ref{eq4}) and (\ref{eq4_1}) by applying enzyme-catalyzed reactions mechanism.
+
+	{\scriptsize
+	  \begin{eqnarray}
+	    \label{eq3}
+	    \mathit{RSRC_t}\,|\,\mathit{VNF_f} &\overset{\mathit{r_{v_1}}}{\underset{\mathit{r_{u_1}}} {\leftrightarrows}}& \mathit{RS\_VNF_f}\\
+	    \label{eq4}
+	    \mathit{RS\_VNF_{f^1(c)}}\,|\,\mathit{PKT_c} &\overset{\mathit{r_{v_2}}}{\underset{\mathit{r_{u_2}}}{\leftrightarrows}}& \mathit{MEDIATE_c} \\ %&\xrightarrow{r_{w}}&
+	     \label{eq4_1}
+	    \mathit{MEDIATE_c} &\xrightarrow{r_{w}}&
+	    \begin{cases}
+	    \mathit{VNF_{f^1(c)}}\,|\,\mathit{VNF_{f^1(c)}}\,|\,\mathit{PKT_{c\backslash\{f^1(c)\}}}|\mathit{RSRC_t}\,\\|\,\mathit{toserve(VNF_{f^1(c)},PKT_c)} \ \ \text({c\backslash\{f^1(c)\} \neq \emptyset})\\ \\
+	    \mathit{VNF_{f^1(c)}}\,|\,\mathit{VNF_{f^1(c)}}\,|\,\mathit{RSRC_t}\,\\|\,\mathit{toserve(VNF_{f^1(c)},PKT_c)} \ \ \text({c\backslash\{f^1(c)\} = \emptyset})
+	    \end{cases}\\
+	    \label{eq2}
+	    \mathit{VNF_f} &\xrightarrow[]{\mathit{r_{ds}}}& 0
+	  \end{eqnarray}
+  }
+
+	%物質$\mathit{VNF_{f^1(c)}}$は, サービスチェイニング要求$c$が次に実行を要求しているVNFを表す.
+	In the above Equations, substance $\mathit{VNF_f}$ indicates the VNF to be applied for a flow.
+	%その濃度が大きいほどそのVNFに対する需要が多いことを表す.
+	A VNF with a large concentration value means that its execution is highly demanded.
+	%物質$\mathit{PKT_c}$は, サービスチェイニング要求が$c$を持つフローを構成するパケットを表す.
+	Substance $\mathit{PKT_c}$ represents a packet constituting a flow with $c$.
+	%物質$\mathit{toserve(VNF_{f^1(c)},PKT_c)}$は, サービスチェイニング要求が$c$を持つフローのパケットに対して, 次に適用すべきVNFが実行されたことを表す.
+	Substance $\mathit{toserve(VNF_{f^1(c)}, PKT_c)}$ indicates result of applying the VNF to a packet of a flow with $c$.
+	%$RSRC$，$RS\_VNF_f$，及び$MEDIATE_c$の濃度はそれぞれ，利用可能なサーバ資源量，VNF$f$に割り当てられたサーバ資源量，サービスチェイニング要求が$c$であるフローを構成するパケットに対して割り当てられたサーバ資源量を表す．
+	The concentrations of substances $\mathit{RSRC_t}$，$\mathit{RS\_VNF_f}$, and $\mathit{MEDIATE_c}$ respectively represent the amount of available resources of a server $t$, the amount of server resources allocated to VNF $f$, and the amount of server resources allocated to the flow packets with SFC request $c$.
+	%$r_{v_1}$, 及び$r_{u_1}$は, 反応式(\ref{eq3})の反応速度係数であり, $r_{v_2}$, $r_{u_2}$, 及び$r_w$は, 反応式(\ref{eq4})の反応速度係数である.
+	$r_{v_1}$ and $r_{u_1}$ are the rate coefficients for Reaction Equation (\ref{eq3}), and $r_{v_2}$, $r_{u_2}$ and $r_w$ are the rate coefficients for Reaction Equation (\ref{eq4}).
+	%
+	Reaction Equation (\ref{eq3}) indicates that server resources are allocated in accordance with the demand of each VNF, and that the allocation is controlled by the concentration of $\mathit{RSRC}$.
+	%
+	Reaction Equations (\ref{eq4}) and (\ref{eq4_1}) indicates that VNF $f$ is executed on the basis of the amount of allocated resources.
+	%
+	Reaction (\ref{eq2}) indicates that $\mathit{VNF}$ decays at a rate proportional to its concentration.
+	%%%酵素触媒反応のNFVへの応用のイメージ図を図\ref{fig:enzyme}に示す．
+	%%%Figure~\ref{fig:enzyme} shows an image diagram of the application of enzyme-catalyzed reaction to NFV system.
+	%%%\begin{figure}[!t]
+	%%% \begin{center}
+	%%%  \includegraphics[clip,width=150mm]{enzyme.pdf}
+	%%% \end{center}
+	%%% \caption{Application of enzyme-catalyzed reactions to NFV system}
+	%%% \label{fig:enzyme}
+	%%%\end{figure}
+	%%%Note that these equations are defined for each VNF in a server.
+	%%%This means that when multiple VNFs coexist on one server, server resource is shared among them according to the demand of each VNF.
+
+	\subsubsection{Diffusion of VNFs}
+	%サーバにおける需要の多いVNFが, 他のサーバへVNFが拡散することを表現するために, 以下の反応式を導入する.
+	To describe the diffusion of highly-demanded VNFs to other servers, Reaction Equation (\ref{eq5}) is described.
+	\begin{eqnarray}
+	\label{eq5}
+	\mathit{VNF_f}&\xrightarrow[]{\mathit{r_{mf}}}&\mathit{VNF_f}^\leadsto
+	\end{eqnarray}
+	%$r_{ms}$は, 反応式(\ref{eq5})の反応速度係数である.
+	$r_{ms}$ is the rate coefficient for Reaction Equation (\ref{eq5}).
+	%上記の反応式は, サーバにおける需要の多いVNFがその濃度に比例した速度で周囲の接続されたサーバに拡散することを表している.
+	This Reaction Equation indicates that a highly-demanded VNF in a server diffuses to the surrounding connected servers at a rate proportional to its concentration.
+	%VNFの拡散先は, 接続されたタプル空間におけるVNFの濃度に従って, 確率的に決定される.
+	This diffusion destination of VNFs is stochastically determined in accordance with the concentrations of $\mathit{VNF}$ at connected tuple spaces.
+	%その結果, 需要の高いVNFが複数のサーバに分散される.
+	As a result, highly-demanded VNFs are distibuted to multiple servers.
+
+	\subsubsection{Packet Forwarding}
+	\label{subsec:grad}
+	%あるサーバに存在する所望のVNFを要求するフローのパケットに対して, 資源量の枯渇等でそのサーバ上でVNFを実行できない場合には, フローのパケットは対応するVNFが提供されているサーバへ移動することが求められる
+	When packets remain unprocessed in a server due to a lack of server resources for corresponding VNF, it is required that the packets move to another server that can process the corresponding VNF.
+	%また, その移動先は, 要求するVNFが提供されているサーバに近づく方向であることが望ましい.
+	Furthermore, the forwarding direction of packets should be determined so that the packets would approach a server executing the corresponding VNFs with enough server resources.
+	%このような挙動を達成するために, パケットの移動方向を決定するための勾配場を利用する.
+	To achieve these behaviors, a gradient field is exploited to determine the moving directions of packets.
+	%勾配場は, 各VNF毎に構築され, VNFの需要やサーバで利用可能な資源量に基づいて決定される.
+	A gradient field for each VNF is constructed based on the demand of VNFs and the available resources on each server.
+	%勾配場に従って, パケットの移動方向を決定する.
+	The moving direction of packets is then determined in accordance with the gradient field.
+	%このために, 以下の反応式(\ref{eq6})-(\ref{eq:10})を導入する.
+	For that purpose, Reaction Equations (\ref{eq6})-(\ref{eq10}) are introduced.
+	\begin{eqnarray}
+	\label{eq6}
+	\mathit{VNF_f}\,|\,\mathit{RSRC_t}&\xrightarrow[]{\mathit{r_{rg}}}&\mathit{VNF_f}\,|\,\mathit{RSRC_t}\,|\,\mathit{GRAD_f} \\
+	\label{eq7}
+	\mathit{VNF_f}\,|\,\mathit{RS\_VNF_f}&\xrightarrow[]{\mathit{r_{rg}}}&\mathit{VNF_f}\,|\,\mathit{RS\_VNF_f}\,|\,\mathit{GRAD_f} \\
+	\label{eq8}
+	\mathit{GRAD_f} &\xrightarrow[]{\mathit{r_{dg}}}& 0\\
+	\label{eq9}
+	\mathit{GRAD_f}&\xrightarrow[]{\mathit{r_{mg}}}&\mathit{GRAD_f^\leadsto(\mathit{GRAD_f^-)}}\\
+	\label{eq10}
+	\mathit{PKT_c}&\xrightarrow[]{\mathit{r_{mp}}}&\mathit{PKT_c^\leadsto(\mathit{GRAD_{f}^+)}}
+	\end{eqnarray}
+	%物質$\mathit{GRAD_f}$は, $\mathit{VNF}$ fの勾配場を形成するための物質である.
+	Substance $\mathit{GRAD_f}$ establishes a gradient field for VNF $f$.
+	%r_{rg}, r_{dg}, r_{mg}, r_{mf}はそれぞれ, 反応式(\ref{eq6}), (\ref{eq7}), (\ref{eq8}), (\ref{eq9}), 及び(\ref{eq10})の反応速度係数である.
+	$\mathit{r_{rg}}$ is the rate coefficient for Reaction Equation (\ref{eq6}) and (\ref{eq7}), and $\mathit{r_{dg}}$, $\mathit{r_{mg}}$ and $\mathit{r_{mp}}$ are the rate coefficients for Reaction Equation (\ref{eq8}), (\ref{eq9}) and (\ref{eq10}), respectively.
+	%反応式(\ref{eq6})は, $\mathit{GRAD}$が$\mathit{VNF}$と$\mathit{RSRC}$の濃度に応じた速度で生成されることを表している.
+	Reaction Equation (\ref{eq6}) and (\ref{eq7}) indicate that $\mathit{GRAD}$ is generated at a rate proportional to the concentrations of $\mathit{VNF}$, $\mathit{RSRC}$, and $\mathit{RS\_VNF}$.
+	%反応式(\ref{eq8})は, $\mathit{GRAD}$が一定の速度で消失することを表している.
+	Reaction Equation (\ref{eq8}) indicates that $\mathit{GRAD}$ decays at a rate proportional to its concentration.
+	%反応式(\ref{eq9})は, $\mathit{GRAD}$がその濃度の小さい周囲の接続されたタプル空間へ拡散することを表している.
+	Reaction Equation (\ref{eq9}) indicates that $\mathit{GRAD}$ spreads to the surrounding servers with smaller concentration of $\mathit{GRAD}$.
+	%従って, $\mathit{GRAD}$による勾配場は, $\mathit{VNF}$と$\mathit{RSRC}$の濃度が大きく, $\mathit{GRAD}$が大きな速度で生成されるタプル空間を頂上とし, その周囲に向かって裾野が広がるように形成される.
+	Therefore, the gradient field is constructed so that the server providing VNFs with enough resources becomes a summit with the largest concentration of $\mathit{GRAD}$, and the surrounding servers have smaller concentration of $\mathit{GRAD}$ in accordance with the distance from the summit.
+	%反応式(\ref{eq10})は, $\mathit{PKT}$が$\mathit{GRAD}$の濃度の高い周囲の接続されたタプル空間へ移動することを表している.
+	Reaction Equation (\ref{eq10}) describes the movement of $\mathit{PKT}$ to the surrounding servers with large concentration of $\mathit{GRAD}$.
+	%パケットの移動先は, 接続されているタプル空間における$\mathit{GRAD}$の濃度に従って, 確率的に決定される.
+	The forwarding direction of packets are stochastically determined at a proportional to the concentrations of $\mathit{GRAD}$ at connected tuple spaces.
+	%図\ref{fig;gradient_field}に, 式(\ref{eq6})-(\ref{eq10})によって達成される勾配場の形成, 及びフローのパケットが移動する様子を示す.
+%	Figure~\ref{fig:gradient_field} depicts the movement of packets with the SFC request $c=\{f_0, f_1, f_2\}$.
+%	%勾配場は, 各VNF毎に形成される.
+%	The gradient fields are respectively generated for each VNF.
+%	%始めに, パケットは, VNF $f_0$に対応する勾配場の頂上の方向に移動する.
+%	First, packets move in the direction of the summit of the gradient field for $f_0$.
+%	%次に, パケットにVNF $f_0$を適用した後に, パケットは, VNF $f_1$に対応する勾配場の頂上の方向に移動する.
+%	Then, after applying $f_0$ to the packets, they move in the direction of the summit of the gradient field for $f_1$.
+%	%最後に, パケットにVNF $f_1$を適用した後に, パケットは, VNF $f_2$に対応する勾配場の頂上の方向に移動する.
+%	Finally, after applying $f_1$ to the packets, they move in the direction of the summit of the gradient field for $f_2$.
+%	\begin{figure}[!t]
+%		\centering
+%		\includegraphics[width=80mm]{../figure/gradient_field.pdf}
+%		\caption{Movement of packets in accordance with gradient fields}
+%		\label{fig:gradient_field}
+%	\end{figure}
+
+	\subsubsection{Coexistence of Multiple VNFs}
+	%1台のサーバ上に複数のVNFが共存する場合には, 各VNFの需要に応じてサーバ資源を割り当てることで, 需要に応じた資源共有を行うことが求められる.
+	When multiple VNFs coexist on a single server, it is required to share server resources by allocating them in accordance with the demand of each VNF.
+	%これを達成するために, 上述した生化学反応式をVNF毎に定義する.
+	Therefore, the above-mentioned biochemical reaction equations are defined for each VNF.
+
+	\section{Simulation Experiments}
+	%本章では, \ref{sec:model}章で定義された生化学反応式によって, NFVシステムにおける様々な状況に対処できることをコンピュータシミュレーションによって確認する.
+	In this section, we assess the performance of the NFV system based on the method described in Section~\ref{sec:model}.
+	%NFVシステムにおけるSFC要求やトラヒック量に応じたVNFの配置や, VNFの資源配分, 及びフロー経路の決定などの基本的な性能評価は, 先行研究\cite{kokisakata2018masterthesis}で示されている.
+	The basic behaviors of the proposed method, such as placement of VNFs on servers, resource allocation to each VNF, and flow routing in accordance with SFC requests, have been confirmed in \cite{kokisakata2018masterthesis}.
+	%そこで, 本論文では, 提案手法を用いて, トラヒック量の変動や障害発生などの動的な状況に応じてNFVシステムを運用できることをコンピュータシミュレーションによって確認する.
+	We then confirm that the proposed method can cope with dynamical changes in the NFV system.
+
+	%\subsection{$\tau$-Leaping Method}
+	%生化学反応式を用いたモデルのシミュレーションを行うために, 文献~\cite{tau, Stochastic}で提案されている$\tau$-leaping法を用いる. $\tau$-leaping法は, 時間間隔$\tau$毎に各生化学反応式をまとめて実行することで, 生化学反応式による化学物質の濃度の時間変化を短時間で得る手法であり, 以下の手順で進められる.
+	In order to simulate the model with biochemical reactions, we exploit $\tau$-leaping method~\cite{hongli2008biotechnologyprogress}, which is one of stochastic simulation algorithms that can capture the inherent stochasticity in many biochemical systems.
+	%$\tau$-leaping法の主な考え方は, 反応式が発生している間に事前に決定した$\tau$によってシステムを制御することである.
+	%The basic idea of $\tau$-leaping method is to obtain temporal change in concentrations of chemical substances by executing reactions simultaneously during preselected time $\tau$.
+	%提案手法における$\tau$-leaping法のアルゴリズムは, 次のように説明される.
+	%The procedures of $\tau$-leaping algorithm are briefly explained as follows.
+%	\begin{description}
+%		%時間間隔$\tau$を決定する
+%		\item[Step~1] Set $\tau$ for the time step of the simulation
+%		%各生化学反応式の反応速度を，反応物の濃度と反応速度係数の積によって決定する
+%		\item[Step~2] Calculate reaction rates of biochemical reactions by the product of concentrations of reactants and reaction rate coefficients
+%		%$\tau$の間に各反応式が起こる回数を反応速度と時間間隔$\tau$を用いて，ポアソン分布に従う乱数によって決定する
+%		\item[Step~3] Determine the number of executions of biochemical reactions during time $\tau$, using a Poisson random variable
+%		%\item[Step~3] Generate a Poisson random variable for each biochemical reaction whose mean is the product of corresponding reaction rate and time $\tau$
+%		%(3)で導出した回数だけ生化学反応を起こし，各物質の濃度を更新する
+%		\item[Step~4] Execute biochemical reactions as many times as the number determined in Step~3, and update the concentrations of substances
+%		%シミュレーション時刻を$\tau$だけ進める
+%		\item[Step~5] Progress simulation time by $\tau$
+%		%(2)-(5)をシミュレーション終了時刻まで繰り返す
+%		\item[Step~6] Return to Step~2
+%	\end{description}
+%	%
+	%The value of $\tau$ should be chosen to balance the trade-off relationship between simulation accuracy and simulation speed.
+	%%$\tau$の値が大きいほどシミュレーションは早く進めることができるが，大きすぎると実際の挙動と異なってくるので，$\tau$は慎重に選ばないといけない．
+	%As the value of $\tau$ increases, the simulation can proceed faster while the results become different from the actual behavior.
+	%As the value of $\tau$ increases, the results become different from the actual behavior while the simulation can proceed faster.
+	%%本来，最適な$\tau$を決めるアルゴリズムは存在している~\cite{Efficient}が，シミュレーションの計算コストが高くなってしまう。
+	%In~\cite{vrao2002chemicalphysics}, the authors determined the optimal value of $\tau$ especially for the simulation accuracy, at the sacrifice of the computational cost of the simulation.
+	%文献\cite{kokisakata2018masterthesis}では, あらかじめ決めたいくつかの適当な値でシミュレーションを行い，誤差があまり出ない程度でシミュレーションが早く終わるように調整した.
+	%In \cite{kokisakata2018masterthesis}, the value of $\tau$ was detemined by performing some preliminary experiments.
+	%本報告においては，時間間隔$\tau$は0.6msecとする．
+	%In the simulation experiments in this section, the value of $\tau$ is set to 0.6~[msec], which is identical to that in \cite{kokisakata2018masterthesis}.
+
+	\subsection{Common Parameter Settings}
+	%対応するVNFの$\mathit{VNF}}$は, 2,000に設定される.
+	The initial values of the concentrations of substances $\mathit{VNF}$ for the VNFs placed on servers are set to 2,000.
+	%The initial values of the concentration of $\mathit{RSRC}$ at edge server and cloud server are set to 500 and 1,000, respectively.
+	%上記で示されていない化学物質の濃度の初期値は0とした.
+	The initial values of the concentrations of other chemical substances except $\mathit{RSRC}$ are set to 0.
+	%
+	%The packet size is set to 1,500~[Bytes].
+	%以下，特に断りのない限り提案手法における式(\ref{eq:NFV1})-(\ref{eq:NFV9})の反応速度係数を，それぞれ$r_{u1}=0.0003$，$r_{v1}=0.278$，$r_{u2}=0.1$，$r_{v2}=0.001$，$r_{w}=0.05$，$r_{d}=0.01$，$r_{mf}=0.003$，$r_{rg}=0.0001$，$r_{dg}=0.03$，$r_{mg}=0.005$，$r_{m9}=0.3$とする.
+	Unless otherwise specified, the reaction rate coefficients of Reaction Equations (\ref{eq3})-(\ref{eq10}) are set as $\mathit{r_{u1}}=0.0003$, $\mathit{r_{v1}}=0.278$, $\mathit{r_{u2}}=0.1$, $\mathit{r_{v2}}=0.001$, $\mathit{r_{w}}=0.05$, $\mathit{r_{d}}=0.01$, $\mathit{r_{mf}}=0.003$, $\mathit{r_{rg}}=0.0001$, $\mathit{r_{dg}}=0.03$, $\mathit{r_{mg}}=0.005$, $\mathit{r_{mp}}=0.3$, as used in \cite{kokisakata2018masterthesis}.
+	%シナリオ1では, 提案手法によるパラメータチューニングによってNFVシステムにおける様々な処理形態が達成できることを確認するために、反応式(3)におけるr_{u1}の値を0.0003と0.003に設定して、それぞれシミュレーション実験を行う.
+	%In Scenario~1, the reaction rate coefficient $\mathit{r_{u1}}$ of Reaction Equation (\ref{eq3}) is set as $\mathit{r_{u1}}=0.0003,~0.003$ to present that various processing patterns in the NFV system can be achieved by parameter tuning of the proposed method.
+	The value of time step in $\tau$-leaping method is set to 0.6~[msec], which is identical to that in \cite{kokisakata2018masterthesis}.
+
+	\subsection{Scenario~1: Placement of VNFs Considering Flow Priorities}
+	\subsubsection{Application Scenario}
+	%本シナリオでは, 遅延要件のような優先度を持つフローがNFVシステムに到着する.
+	In this scenario, we consider the situation where there are two kinds of application flows with SFC requests that have different priorities on the latency requirements.
+	%図\ref{fig:nfv_mec_app}に, アプリケーション例を示す.
+	Figure \ref{fig:sce1_app1} depicts this scenario.
+	\begin{figure*}[!t]
+		\centering
+		\subfigure[Edge server being not busy]{
+			\label{fig:sce1_app1-1}
+			\includegraphics[scale=0.31]{../figure/app1_1.pdf}
+		}
+		\subfigure[Edge server being busy]{
+			\label{fig:sce1_app1-2}
+			\includegraphics[scale=0.31]{../figure/app1_2.pdf}
+		}
+		\subfigure[Migrating the Web service VNF to the cloud server]{
+			\label{fig:sce1_app1-3}
+			\includegraphics[scale=0.31]{../figure/app1_3.pdf}
+		}
+		\caption{Scenario1: Placement of VNFs considering flow priorities}
+		\label{fig:sce1_app1}
+	\end{figure*}
+	%図では, エッジとクラウドのネットワークに, ビデオストリーミングサービスとWebサービスをプロビジョニングする.
+	In the figure, Web service and video streaming service are provisioned in edge and cloud computing environments.
+	%Webサーバとストリーミングサーバは, クラウドネットワークに配置される.
+	In the beginning, a Web server and a video streaming server are placed in the cloud.
+	%
+	The both servers receive requests from user devices, and send content packets to the user devices.
+	%QoEの高いWebサービス及びビデオストリーミングサービスを提供するためにはそれぞれ, Webのコンテンツをレンダリングしてキャッシュする機能, 及びビデオストリーミングコンテンツをトランスコーディングしてキャッシュ機能が必要である.
+	Flows between the Web server and user devices require functions of rendering and caching in the network.
+	On the other hand, transcoding and caching functions are applied to flows between the video streaming server and the user devices.
+	%It is desirable to apply a function of rendering and cache of HTML contents to the flows in Web service and a function of transcoding and cache of video streaming contents to the flow packets in video streaming service.
+	%
+	Consequently, these VNFs are deployed in the network, that are called as VNF~0 and VNF~1, respectively.
+	%Consequently, a VNF for rendering and caching of Web contents, and a VNF for transcoding and caching of video streaming contents, are deployed in the network.
+	%These VNFs are called as VNF~0 and VNF~1, respectively.
+	%また, ストリーミングサーバ及びWebサーバからユーザ端末に送出されるフローのパケットが持つSFC要求をそれぞれ, $\{$Web server $\rightarrow$ Web content cache $\rightarrow$ User device$\}$, 及び$\{$Streaming server $\rightarrow$ Video content cache $\rightarrow$ User device$\}$とする.
+	Furthermore, the SFC requests of the flows in the NFV system are $\{$Web server$\rightarrow$VNF~0$\rightarrow$User device$\}$ and $\{$Streaming server$\rightarrow$VNF~1$\rightarrow$User device$\}$.
+	These SFCs are respectively denoted by SFC~0 and SFC~1.
+	%また、ビデオストリーミングサービスにおけるフローは、遅延要件を満たすために高い優先度を持つ。
+	We assume that the flows for the video streaming service have higher priority in being executed at the edge server to meet the latency requirements.
+	%従って、フローに適用されるフローは、ユーザデバイスに近いエッジで実行されることが望ましい。
+	%Therefore, it is desirable that VNF~1 is executed at the edge close to user devices.
+
+	%図\ref{fig:app1}のように, VNFをホストするエッジサーバの資源に余裕がある場合には, VNFであるWeb content cache及びVideo content cacheをエッジサーバに配置することで, クラウド側の負荷の低減や遅延の低減などの恩恵を受けることができる.
+	As depicted in Figure~\ref{fig:sce1_app1-1}, in case of edge server being not busy, VNF~0 and VNF~1 are deployed on the edge server to realize contents caching for both services near the user devices.
+	%一方, 図\ref{fig:app2}のように, エッジサーバの負荷が大きくなり, 資源が不足してきた場合には, フローのパケットを処理し切れずに, パケットの処理待ち, あるいは廃棄が発生する可能性があり、全てのパケットをエッジサーバで処理することができなくなり、分散実行が必要になる。
+	In Figure~\ref{fig:sce1_app1-2}, since the number of user devices increases, the edge server becomes busy and all packets cannot be processed only at the edge server.
+	%各サービスの遅延違反を避けるために, 相対的に遅延制約が厳しいと考えられるビデオストリーミングサービスを提供するSFC要求に含まれるVideo content cacheをエッジ側, 遅延制約の厳しくないWebサービスを提供するSFC要求に含まれるWeb content cacheをクラウド側に配置することで, 両サービスの遅延違反を防ぐことが考えられる.
+	Then, as depicted in Figure~\ref{fig:sce1_app1-3}, VNF~0 is migrated to the cloud server, while VNF~1 remains on the edge server to avoid the degradation of the quality of both services.
+	%図\ref{fig:sce1_app1-3}のように, 優先度が低いSFC要求に含まれるVNFをクラウド側に移行することによって, フローのパケットをすべて処理することができ, 両サービスの違反を防ぐことができる.
+	%By migrating VNF~0 to the cloud server, both services can be conducted without degrading the service quality.
+
+	\subsubsection{Network Topology and Parameter Settings for Simulation Experiments}
+	%図\ref{fig:sce1_topology}に, シナリオ1のシミュレーション実験のためのネットワークトポロジを示す. ネットワークトポロジは, 2つのノードと1つのリンクから構成される.
+	Figure~\ref{fig:sce1_topology} depicts the network topology for simulation experiments of Scenario~1, that consists of two nodes and a link.
+	\begin{figure}[!t]
+		\centering
+		\includegraphics[width=80mm]{../figure/sim1.pdf}
+		\caption{Scenario1: Network topology for simulation experiments}
+		\label{fig:sce1_topology}
+	\end{figure}
+	%
+	Node~0 and node~1 correspond to the edge server and the cloud server, respectively.
+	%ノード0の$\mathit{VNF_{f_{0}}}$と$\mathit{VNF_{f_{1}}}$の初期濃度を2,000, ノード0及びノード1の$\mathit{RSRC}$の初期濃度をそれぞれ500, 及び1,000として, それ以外の物質の初期濃度を0とする.
+	$\mathit{VNF_{f_0}}$ and $\mathit{VNF_{f_1}}$ correspond to VNF~0 and VNF~1 in Figure~\ref{fig:sce1_app1}, respectively.
+	%そして, ノード0にサービスチェイニング要求$c_{0}: \{f_{0}\}$及び$c_{1}: \{f_{1}\}$を持ったフローのパケット$\mathit{PKT_{c_{0}}}$及び$\mathit{PKT_{c_{1}}}$がそれぞれ到着する.
+	There are two flows with SFC requests $c_0 = \{f_{0}\}$ and $c_1 = \{f_{1}\}$, corresponding to the flows with SFC~0 and SFC~1.
+	These flows are denoted by flow~0 and flow~1, respectively.
+	%Therefore, $c_0$ and $c_1$ become $c_0 = \{f_{0}\}$ and $c_1 = \{f_{1}\}$, respectively.
+
+	%
+	The simulation time is 2,000~[msec].
+	%
+	$\mathit{VNF_{f_0}}$ and $\mathit{VNF_{f_1}}$ are initially deployed on node~0, and their initial concentrations are set to 2,000.
+	%
+	The initial concentrations of $\mathit{RSRC}$ at node~0 and node~1 are set to 500 and 1,000, respectively, which means that the cloud server has larger and sufficient resource than the edge server.
+	%表\ref{tab:flow_parameters}に, 各フロー$c_{0}$と$c_{1}$のパラメータについて示す.
+	Table~\ref{tab:flow_parameters} shows the temporal change in flow rates.
+	\begin{table}[!t]
+		\centering
+		\caption{Scenario1: Temporal change in rate of flows}
+		\scalebox{0.85}{
+		  \label{tab:flow_parameters}
+		  \begin{tabular}{|c||c|c|c|} \hline
+		  	\raisebox{-1em}{Flow} & \raisebox{-1em}{Priority} & \multicolumn{2}{c|}{\raisebox{-0.2em}{Rate}} \\ \cline{3-4}
+			  & & $0 \le$~$t$~$\le 1,000$~[msec] & $1,000 <$~$t$~$\le 2,000$~[msec] \\ \hline \hline
+			  flow~0 & low & 8.3~[Kpps] & 33.3~[Kpps] \\ \hline
+			  flow~1 & high & 8.3~[Kpps] & 33.3~[Kpps] \\ \hline
+		  \end{tabular}
+	  }
+	\end{table}
+	%$t$は、シミュレーションにおける時刻として定義される.
+	In the table, $t$ is defined as simuation time.
+	%時刻$t$について, $0 \le t \le 1,000$の時は, フロー$c_0$と$c_1$はそれぞれ5[Kpps]でノード0に到着し, $1,000 < t \le 2,000$のときは, フロー$c_0$と$c_1$はそれぞれ, 20[Kpps]でノード0に到着する.
+	For $0\le$~$t$~$\le1,000$, packets of flow~0 and flow~1 arrive at node~0 at 5 packets per time step, corresponding to 8.3~[Kpps].
+	%$0 \le t \le 1,000$のときは, エッジノードの資源が余っている状況を想定し, $1,000 < t \le 2,000$のときは, エッジノードの資源が不足する状況を想定する.
+	At $t$ = $1,000$, the rates of both flows are increased to 20 packets per time step, corresponding to 33.3~[Kpps].
+	%
+	Note that for $0\le$~$t$~$\le1,000$, the edge server can process all incoming packets, and for $1,000<$~$t$~$\le2,000$, the edge server cannot process all packets.
+
+	%図\ref{fig:sce1_app1}のシナリオを達成する1つの方法は, (\ref{NFV1})式の反応速度係数を調整することである.
+	To prioritize the execution of VNF~1 at node~0, the rate coefficient $\mathit{r_{u1}}$ in Reaction Equation~(\ref{eq3}) is adjusted.
+	%遅延制約が厳しいSFC要求を構成するVNFについて, (\ref{NFV1})式の反応速度係数$\mathit{r_{u_1}}$を大きくすることで, VNFに多くの資源を割り当てることができ, 資源不足の場合には優先的に資源を割り当てることが期待できる.
+	We utilize $\mathit{r_{u1}}=0.0003$ for the $\mathit{VNF_{f_0}}$, and $\mathit{r_{u1}}=0.003$ for the $\mathit{VNF_{f_1}}$ at node~0, to prioritize flow~1.
+	%また、比較のために、$\mathit{r_{u1}}=0.0003$の場合でもシミュレーション実験を行う.
+	We also perform simulation experiments with $\mathit{r_{u1}}=0.0003$ for $\mathit{VNF_{f_0}}$ and $\mathit{VNF_{f_1}}$ at node~0 for comparison purposes.
+
+	\subsubsection{Simulation Results and Discussion}
+	%図\ref{fig:sce11_toserve}に, 各ノードにおけるフローの平均実行数の変化を示す.
+	Figure~\ref{fig:sce11_toserve} plots the average number of executions of Reaction Equation~(\ref{eq4}), that corresponds to the executions of VNFs to flow packets, as a function of simulation time step.
+	%図\ref{fig:sce11_toserve_def}は,
+	Figures~\ref{fig:sce11_toserve_def} and \ref{fig:sce11_toserve_def10} show simulation results with $\mathit{r_{u1}}=0.0003$ and $\mathit{r_{u1}}=0.003$ for $\mathit{VNF_{f_0}}$ at node~0, respectively.
+	%図\ref{fig:sce11_toserve}における赤色のプロットは, ノード0(エッジ)でのフローの実行状況, 青色のプロットは, ノード1(クラウド)でのフローの実行状況を表し, また○のプロットは, 優先度の高いフローの実行状況, ×のプロットは, 優先度の低いフローの実行状況を表す.
+	%図\ref{fig:sce11_rsrc0}に, ノード0におけるリソースに関連する物質の濃度変化を示す.
+	Figure~\ref{fig:sce11_rsrc0} shows the temporal change in the concentrations of $\mathit{RSRC}$ at node~0 and node~1.
+
+	%始めに, $0 \le t \le 1,000$の場合について考察する. 図\ref{fig:sce11_toserve_def}と図\ref{fig:sce11_toserve_def10}について, フロー$c_0$と$c_1$の多くは, ノード0で実行されていることが分かる.
+	For $0\le$~$t$~$\le1,000$, $\mathit{VNF_{f_0}}$ and $\mathit{VNF_{f_1}}$ are executed almost only at node~0.
+	%これは, ノード0の資源量に余裕があるからである.
+	This is because node~0 has sufficient resources to execute both VNFs to flow packets.
+	%これは, 図\ref{fig:sce11_rsrc0}における$\mathit{RSRC}$の濃度から確認できる.
+	It can be confirmed from the concentration of $\mathit{RSRC_0}$ in Figure~\ref{fig:sce11_rsrc0}.
+	%次に, $1,000 < t \le 2,000$の場合について考察する. 図\ref{fig:sce11_toserve_def}について, フロー$c_0$と$c_1$はそれぞれ, ノード0とノード1で分散実行されていることが分かる.
+	For $1,000<$~$t$~$\le2,000$, $\mathit{VNF_{f_0}}$ and $\mathit{VNF_{f_1}}$ are executed at node~0 and node~1 in a distributed manner, when using the same value of $\mathit{r_{u1}}$ for $\mathit{VNF_{f_0}}$ and $\mathit{VNF_{f_1}}$.
+	%これは, ノード0の資源量が不足し, ノード0で処理し切れなくなったフローのパケットが, ノード1で処理されているからである.
+	This is because node~0 has insufficient resources to execute both VNFs due to the increase in flow rates.
+	%これは, 図\ref{fig:sce11_rsrc0}における$\mathit{RSRC}$の濃度から確認できる.
+	It can be confirmed from the concentration of $\mathit{RSRC_0}$ in Figure~\ref{fig:sce11_rsrc0_def}.
+	%All packets of flows cannot be processed only at node~0, and $\mathit{VNF_{f_0}}$ and $\mathit{VNF_{f_1}}$ are executed at node~0 and node~1 in a distributed manner.
+	%図\ref{fig:sce11_toserve_def10}について, 優先度の高いフローの多くはノード0で実行され, 優先度の低いフローの多くはノード1で実行されていることが分かる.
+	On the other hand, when setting $\mathit{r_{u1}}$ in accordance with flow priorities, $\mathit{VNF_{f_0}}$ and $\mathit{VNF_{f_1}}$ are executed at node~1 and node~0, respectively.
+	%
+	This behavior realizes that the VNF in video streaming service with higher priority is preferentially executed at the edge server, as depicted in Figure~\ref{fig:sce1_app1}.
+
+	%Scenario1: toserve
+	\begin{figure}[!t]
+		\begin{center}
+			\subfigure[$\mathit{r_{u1}}$ = $0.0003$]{
+				\label{fig:sce11_toserve_def}
+				\includegraphics[scale=0.31]{../master_thesis/data/Sinario11_default/Sinario11_toserve.eps}
+			}
+			\subfigure[$\mathit{r_{u1}}$ = $0.003$]{
+				\label{fig:sce11_toserve_def10}
+				\includegraphics[scale=0.31]{../master_thesis/data/Sinario11_default10/Sinario11_toserve.eps}
+			}
+			\caption{Scenario1: Average number of executions of Reaction Equation~(\ref{eq4})}
+			\label{fig:sce11_toserve}
+		\end{center}
+	\end{figure}
+
+	%Scenario1: Node0: RSRC, MEDIATE
+	\begin{figure}[!t]
+		\begin{center}
+			\subfigure[$\mathit{r_{u1}}$ = $0.0003$]{
+				\label{fig:sce11_rsrc0_def}
+				\includegraphics[scale=0.31]{../master_thesis/data/Sinario11_default/Sinario11_RSRC.eps}
+			}
+			\subfigure[$\mathit{r_{u1}}$ = $0.003$]{
+				\label{fig:sce11_rsrc0_def10}
+				\includegraphics[scale=0.31]{../master_thesis/data/Sinario11_default10/Sinario11_RSRC.eps}
+			}
+			\caption{Scenario1: Temporal change in the concentrations of $\mathit{RSRC}$ at node~0 and node~1}
+			\label{fig:sce11_rsrc0}
+		\end{center}
+	\end{figure}
+
+	\subsection{Scenario~2: Route changes and VNF migrations on network failures}
+	\subsubsection{Application Scenario}
+	%本シナリオでは, NFVシステムにおいてリンク障害が発生する.
+	In this scenario, we consider the situation where failures of network link occur.
+	%図\ref{fig:nfv_mec_app}に, アプリケーション例を示す.
+	Figure \ref{fig:sce2_app2} depicts this scenario.
+	\begin{figure*}[!t]
+		\begin{center}
+			\subfigure[System being operated normally]{
+				\label{fig:sce2_app2-1}
+				\includegraphics[scale=0.29]{../figure/app2_1.pdf}
+			}
+			\subfigure[System failures occur]{
+				\label{fig:sce2_app2-2}
+				\includegraphics[scale=0.29]{../figure/app2_2.pdf}
+			}
+			\subfigure[The server being busy]{
+				\label{fig:sce2_app2-3}
+				\includegraphics[scale=0.29]{../figure/app2_3.pdf}
+			}
+			\caption{Scenario2: Route changes and VNF migrations on network failures}
+			\label{fig:sce2_app2}
+		\end{center}
+	\end{figure*}
+	%図では, クラウドのネットワーク内に4つのサーバが存在する.
+	In the figure, two Web services are provisioned in cloud computing environment.
+	%
+	The both of Web server~0 and Web server~1 receive requests from user devices, and send content packets to the user devices.
+	%サービスは, Webサービスを想定しており, QoEの高いWebサービスを提供するために, Firewall, 及びWebのコンテンツをレンダリングしてキャッシュする機能が必要である.
+	Flows between the Web servers and user devices require a function for filtering, monitoring, and blocking HTTP traffic, a function for monitoring and controling incoming and outgoing network traffic, a function for rendering and caching in the network, and a function for translating network addresses.
+	%
+	Consequently, four VNFs exist in the network, that are denoted by VNF~0, VNF~1, VNF~2, and VNF~3.
+	%
+	Initially, VNF~0, VNF~1, VNF~2, and VNF~3 are respectively deployed on server~0, server~1, server~2, and server~3.
+	%
+	VNF~1 is applied to the flow between Web server~0 and user devices, and VNF~0, VNF~2, VNF~3 are sequentially applied to the flow Web server~1 and user devices.
+	%また, Webサーバからユーザ端末に送出されるフローのパケットが持つSFC要求を, $\{$Web server $\rightarrow$ Web Application Firewall $\rightarrow$ Web content cache $\rightarrow$ User device$\}$とする.
+	The SFC requests of the two flows are $\{$Web server$\rightarrow$VNF1$\rightarrow$User device$\}$ and $\{$Web server$\rightarrow$VNF0$\rightarrow$VNF2$\rightarrow$VNF3$\rightarrow$User device$\}$, that is called SFC~0 and SFC~1.
+
+	%図\ref{fig:app2_1}は, システムが正常に動作している状況を示している.
+	Figure~\ref{fig:sce2_app2-1} shows the situation where the system is operated normally.
+	%一方, 図\ref{fig:app2_2}のように, システムに障害が発生した場合には, システムは自律的に経路を変更し, サービスを継続することが求められる.
+	In Figure~\ref{fig:sce2_app2-2}, a network link between server~0 and server~2 is disconnected due to network failures.
+	Then, server~0 forwards flow packets via server~1 to continue the service.
+	%
+	Additionally, VNF~2 is migrated to server~1 to reduce the number of hops.
+	%提案手法を適用することによって, 自律的にフロー経路を変更し, 障害発生時においてもサービスを継続することが可能となる.
+	In Figure~\ref{fig:sce2_app2-3}, the number of user devices increases and server~1 becomes busy, that means all packets cannot be processed only at server~1.
+	Then, VNF~1 and VNF~2 are executed at server~1 and server~2 in a distributed manner.
+
+	\subsubsection{Network Topology and Parameter Settings for Simulation Experiments}
+	%図\ref{fig:sce1_topology}に, シミュレーションを実行したネットワークトポロジ, パケット投入レート, 及び物質の初期濃度値を示す.
+	Figure~\ref{fig:sce2_topology} depicts the network topology for Scenario~2, that consists of four nodes and five links.
+	\begin{figure}[!t]
+		\centering
+		\includegraphics[width=80mm]{../figure/sim2.pdf}
+		\caption{Scenario2: Network topology for simulation experiments}
+		\label{fig:sce2_topology}
+	\end{figure}
+	%
+	Node~0, node~1, node~2, and node~3 correspond to server~0, server~1, server~2, and server~3 in Figure~\ref{fig:sce2_app2}, respectively.
+	%ノード0の$\mathit{VNF_{f_{0}}}$と$\mathit{VNF_{f_{1}}}$の初期濃度を2,000, ノード0及びノード1の$\mathit{RSRC}$の初期濃度をそれぞれ500, 及び1,000として, それ以外の物質の初期濃度を0とする.
+	$\mathit{VNF_{f_0}}$, $\mathit{VNF_{f_1}}$, $\mathit{VNF_{f_2}}$, and $\mathit{VNF_{f_3}}$ correspond to VNF~0, VNF~1, VNF~2, and VNF~3, and are initially deployed on node~0, node~1, node~2, and node~3, respectively.
+	%そして, ノード0にサービスチェイニング要求$c_{0}: \{f_{0}\}$及び$c_{1}: \{f_{1}\}$を持ったフローのパケット$\mathit{PKT_{c_{0}}}$及び$\mathit{PKT_{c_{1}}}$がそれぞれ到着する.
+	There are two flows with SFC requests $c_0 = \{f_{1}\}$ and $c_1 = \{f_{0}, f_{2}, f_{3}\}$, corresponding to the flows with SFC~0 and SFC~1, that are called flow~0 and flow~1, respectively.
+	When $\mathit{VNF_{f_0}}$ is executed to the flow with $c_1$, $c_1$ changes as $c_2 = \{f_{2}, f_{3}\}$.
+	When $\mathit{VNF_{f_2}}$ is executed to the flow with $c_2$, $c_2$ changes as $c_3 = \{f_{3}\}$.
+	The flows with SFC requests $c_2$ and $c_3$ are called flow~2 and flow~3, respectively.
+
+	The simulation time is 3,000~[msec].
+	The initial concentrations of $\mathit{VNF_{f_0}}$, $\mathit{VNF_{f_1}}$, $\mathit{VNF_{f_2}}$, and $\mathit{VNF_{f_3}}$ are set to 2,000.
+	The initial concentrations of $\mathit{RSRC}$ at all nodes are set to 1,000.
+	%表\ref{tab:flow_parameters}に, 各フロー$c_{0}$と$c_{1}$のパラメータについて示す.
+	Table~\ref{tab:sce2_flow_parameters} shows the temporal change in flow rates.
+	\begin{table}[!t]
+		\centering
+		\caption{Scenario2: Temporal change in rate of flows}
+		\scalebox{1.0} {
+			\label{tab:sce2_flow_parameters}
+			\begin{tabular}{|c||c|c|} \hline
+				\raisebox{-1em}{Flow} & \multicolumn{2}{c|}{\raisebox{-0.2em}{Rate}} \\ \cline{2-3}
+				& $0 \le$~$t$~$\le 2,000$~[msec] & $2,000 <$~$t$~$\le 3,000$~[msec]  \\ \hline \hline
+				flow~0 & 16.6~[Kpps] & 50~[Kpps]\\ \hline
+				flow~1 & 33.3~[Kpps] & 33.3~[Kpps]\\ \hline
+				%			flow~2 & 33.3~[Kpps] & 33.3~[Kpps]\\ \hline
+				%			flow~3 & 33.3~[Kpps] & 33.3~[Kpps]\\ \hline
+			\end{tabular}
+		}
+	\end{table}
+	In the table, $t$ is defined as simulation time.
+	%時刻$t$について, $0 \le t \le 1,000$の時は, フロー$c_0$と$c_1$はそれぞれ5[Kpps]でノード0に到着し, $1,000 < t \le 2,000$のときは, フロー$c_0$と$c_1$はそれぞれ, 20[Kpps]でノード0に到着する.
+	For $0\le$~$t$~$\le2,000$, packets of flow~0 arrive at node~1 at 10 packets per time step, corresponding to 16.6~[Kpps].
+	Packets of flow~1 arrive at node~0 at 20 packets per time step, corresponding to 33.3~[Kpps].
+	%$0 \le t \le 1,000$のときは, エッジノードの資源が余っている状況を想定し, $1,000 < t \le 2,000$のときは, エッジノードの資源が不足する状況を想定する.
+	At $t = 2,000$, the rate of flow~0 is increased to 30 packets per time step, corresponding to 50~[Kpps].
+	%
+	Note that for $0\le$~$t$~$\le2,000$, node~1 processes all incoming packets, and for $2,000<$~$t$~$\le3,000$, node~1 cannot process all packets.
+	%時刻が500[msec]のとき, 図\ref{fig:sim2_2}のように, ノード0とノード2間のリンクが切断され, システム障害が発生する.
+	In addition, at $t = 1,000$, a network link between node~0 and node~2 is disconnected.
+
+	%サービスチェイニング$c_0$を持つフローについて、全てのVNFを他のサーバに拡散させると、ノード0において, VNF_{f_1}やVNF_{f_2}の濃度が大きくなる.
+	When we configure the diffusion of VNFs so that all VNFs can be diffused to any other nodes, the concentrations of $\mathit{VNF_{f_1}}$ and $\mathit{VNF_{f_2}}$ increase at node~0 by executions of Reaction Equation~(\ref{eq4}) because packets of flow~1 arrive at node~0.
+	%従って,  VNF_{f_1}やVNF_{f_2}はノード0で実行されるため, フローの適切な決定を確認することができない.
+	Then, $\mathit{VNF_{f_1}}$ and $\mathit{VNF_{f_2}}$ are executed at node~0, and we cannot confirm the behaviors in Scenario~2.
+	Therefore, the diffusion areas of $\mathit{VNF_{f_1}}$ and $\mathit{VNF_{f_2}}$ are limited to node~1 and node~2, and the reaction rate coefficient $\mathit{r_{mf}}$ for $\mathit{VNF_{f_0}}$ and $\mathit{VNF_{f_3}}$ of Reaction Equation~(\ref{eq5}) is set to 0, so that the route of flow~1 is adequately changed on network failure, and that $\mathit{VNF_{f_1}}$ and $\mathit{VNF_{f_2}}$ are executed at node~1 and node~2 in a distributed manner, when the amount of traffic increases.
+	%また, フローの経路が適切に変更されることを確認するために, VNFの拡散を行わないようにする.
+	%In addition, by setting the reaction rate coefficients $\mathit{r_{mf}}$ for $\mathit{VNF_{f_0}}$ and $\mathit{VNF_{f_3}}$ of Reaction Equation~(\ref{eq5}) to 0, we prevent $\mathit{VNF_{f_0}}$ and $\mathit{VNF_{f_3}}$ from diffusing, to confirm that $\mathit{VNF_{f_1}}$ and $\mathit{VNF_{f_2}}$ are dispersibility executed at node~1 and node~2, when the amount of traffic increases.
+	%
+	%In addition, $\mathit{VNF_{f_1}}$ and $\mathit{VNF_{f_2}}$ are diffused to node~1 and node~2, to confirm that $\mathit{VNF_{f_1}}$ and $\mathit{VNF_{f_2}}$ are dispersibility executed at node~1 and node~2, when the amount of traffic increases.
+	%本シナリオを通して, システム障害が発生した場合に, 各ノードが自律的にパケットの経路を決定し, フローのパケットが適切に処理されることを確認する.
+
+	\subsubsection{Simulation Results and Discussion}
+	Figure~\ref{fig:sce12_toserve} plots the average number of executions of Reaction Equation~(\ref{eq4}).
+	Figures~\ref{fig:sce12_f0_toserve}, \ref{fig:sce12_f1_toserve}, \ref{fig:sce12_f2_toserve}, and \ref{fig:sce12_f3_toserve} are results for $\mathit{VNF_{f_0}}$, $\mathit{VNF_{f_1}}$, $\mathit{VNF_{f_2}}$, and $\mathit{VNF_{f_3}}$, respectively.
+	%図\ref{fig:sce12_vnf}に, \mathit{VNF}の濃度変化を示す.
+	Figure~\ref{fig:sce12_vnf} shows the temporal change in the concentrations of $\mathit{VNF_{f_0}}$, $\mathit{VNF_{f_1}}$, $\mathit{VNF_{f_2}}$, and $\mathit{VNF_{f_3}}$.
+	%図\ref{fig:sce12_rsrc}に, 全ノードの\mathit{RSRC}の濃度変化を示す.
+	Figure~\ref{fig:sce12_rsrc} shows the temporal change in the concentrations of $\mathit{RSRC}$ at all nodes.
+
+	%始めに, $0 \le t \le 1,000$の場合について考察する. 図\ref{fig:sce11_toserve_def}と図\ref{fig:sce11_toserve_def10}について, フロー$c_0$と$c_1$の多くは, ノード0で実行されていることが分かる.
+	For $0\le$~$t$~$\le1,000$, $\mathit{VNF_{f_1}}$ is executed at node~1 in Figure~\ref{fig:sce12_f1_toserve}.
+	It can be confirmed from the concentration of $\mathit{VNF_{f_1}}$ in Figure~\ref{fig:sce12_f1_vnf}.
+	$\mathit{VNF_{f_0}}$, $\mathit{VNF_{f_2}}$, and $\mathit{VNF_{f_3}}$ are executed at node~0, node~2, and node~3 in Figures~\ref{fig:sce12_f0_toserve}, \ref{fig:sce12_f2_toserve}, and \ref{fig:sce12_f3_toserve}.
+	% that can be confirmed from the concentrations of $\mathit{VNF_{f_0}}$, $\mathit{VNF_{f_2}}$, and $\mathit{VNF_{f_3}}$ in Figures~\ref{fig:sce12_f0_vnf}, \ref{fig:sce12_f2_vnf}, and \ref{fig:sce12_f3_vnf}, respectively.
+	%次に, $1,000 < t \le 2,000$の場合について考察する. 図\ref{fig:sce11_toserve_def}について, フロー$c_0$と$c_1$はそれぞれ, ノード0とノード1で分散実行されていることが分かる.
+	For $1,000<$~$t$~$\le2,000$, $\mathit{VNF_{f_2}}$ is executed at node~1.
+	%これは, ノード0の資源量が不足し, ノード0で処理し切れなくなったフローのパケットが, ノード1で処理されているからである.
+	This is because $\mathit{VNF_{f_2}}$ is migrated to node~1, where packets of flow~1 arrive after $\mathit{VNF_{f_0}}$ is applied.
+	This behavior realizes that server~0 forwards flow packets via server~1 and VNF~2 is migrated to server~1, as depicted in Figure~\ref{fig:sce2_app2}.
+	%次に, $1,000 < t \le 2,000$の場合について考察する. 図\ref{fig:sce11_toserve_def}について, フロー$c_0$と$c_1$はそれぞれ, ノード0とノード1で分散実行されていることが分かる.
+	For $2,000<$~$t$~$\le3,000$, $\mathit{VNF_{f_1}}$ and $\mathit{VNF_{f_2}}$ are executed at both of node~1 and node~2 in a distibuted manner.
+	This is because node~1 has insufficient resources to execute $\mathit{VNF_{f_1}}$ and $\mathit{VNF_{f_2}}$.
+	It can be confirmed from the concentration of $\mathit{RSRC_1}$ in Figure~\ref{fig:sce12_rsrc}.
+	%これらの結果から、
+	From the above results, we confirmed that the behaviors in Scenario~2 can be achieved.
+
+	\begin{figure}[!t]
+		\begin{center}
+			\subfigure[average execution number of $\mathit{VNF_{f_0}}$]{
+				\label{fig:sce12_f0_toserve}
+				\includegraphics[scale=0.31]{../master_thesis/data/Sinario12/Sinario12_f0_toserve.eps}
+			}
+			\subfigure[average execution number of $\mathit{VNF_{f_1}}$]{
+				\label{fig:sce12_f1_toserve}
+				\includegraphics[scale=0.31]{../master_thesis/data/Sinario12/Sinario12_f1_toserve.eps}
+			}
+			\subfigure[average execution number of $\mathit{VNF_{f_2}}$]{
+				\label{fig:sce12_f2_toserve}
+				\includegraphics[scale=0.31]{../master_thesis/data/Sinario12/Sinario12_f2_toserve.eps}
+			}
+			\subfigure[average execution number of $\mathit{VNF_{f_3}}$]{
+				\label{fig:sce12_f3_toserve}
+				\includegraphics[scale=0.31]{../master_thesis/data/Sinario12/Sinario12_f3_toserve.eps}
+			}
+			\caption{Scenario2: Average number of executions of Reaction Equation~(\ref{eq4})}
+			\label{fig:sce12_toserve}
+		\end{center}
+	\end{figure}
+
+	\begin{figure}[!t]
+		\begin{center}
+			\subfigure[$\mathit{VNF_{f_0}}$]{
+				\label{fig:sce12_f0_vnf}
+				\includegraphics[scale=0.31]{../master_thesis/data/Sinario12/Sinario12_f0_VNF.eps}
+			}
+			\subfigure[$\mathit{VNF_{f_1}}$]{
+				\label{fig:sce12_f1_vnf}
+				\includegraphics[scale=0.31]{../master_thesis/data/Sinario12/Sinario12_f1_VNF.eps}
+			}
+			\subfigure[$\mathit{VNF_{f_2}}$]{
+				\label{fig:sce12_f2_vnf}
+				\includegraphics[scale=0.31]{../master_thesis/data/Sinario12/Sinario12_f2_VNF.eps}
+			}
+			\subfigure[$\mathit{VNF_{f_3}}$]{
+				\label{fig:sce12_f3_vnf}
+				\includegraphics[scale=0.31]{../master_thesis/data/Sinario12/Sinario12_f3_VNF.eps}
+			}
+			\caption{Scenario2: Temporal change in the concentration of $\mathit{VNF}$}
+			\label{fig:sce12_vnf}
+		\end{center}
+	\end{figure}
+
+	\begin{figure}[!t]
+		\centering
+		\includegraphics[width=80mm]{../master_thesis/data/Sinario12/Sinario12_RSRC.eps}
+		\caption{Scenario2: Temporal change in the concentrations of $\mathit{RSRC}$ at all nodes}
+		\label{fig:sce12_rsrc}
+	\end{figure}
+
+  \section{Conclusion and Future Work}
+	%%%本報告においては，NFVにおけるVNFの配置，VNFへの資源配分，及びフローの経路を，サービスチェイニング要求やトラヒック量等に応じて適切に決定するために，生化学反応式を用いたタプル空間モデルに基づくサービス空間構築手法を適用する方法を検討した．
+	In this report, we evaluated the performance of the NFV system based on biochemically-inspired tuple space model, and presented its implementation design.
+	%%%具体的には，NFV システムにおけるフローのパケットへのVNFの実行，フローによるサーバ資源の利用，サービスチェイニングの実現，同一サーバ上での複数のVNFの共存等を生化学反応式を用いたタプル空間モデルを用いて記述した．
+	Specifically, we explained the tuple space model using biochemical reactions and how to apply the model to NFV system.
+	%%%そして，複数のシナリオに基づくコンピュータシミュレーションを行い，提案手法がNFVに求められる機能をで実現できることを明らかにした．
+	We then performed computer simulation experiments assuming two situations in the NFV system.
+	We confirmed that the proposed method can cope with dynamical environmental changes in the NFV system.
+
+	%今後の課題として, 実際のネットワークサービスにより近づけるために, 提案手法を拡張することが挙げられる.
+	For future work, we plan to extend the proposed method to include more factors of the actual network environment, such as the effect of the propagation delay and the link bandwidth between tuple spaces..
+	%さらに, クラウド環境におけるCPUコア毎にVNFへの資源割り当てを達成するために, VNFへの離散的な資源割り当てを達成することも必要である.
+	It is also necessary to achieve discrete resource allocation to VNFs to accommodate the CPU core-based resource control in the current virtualized computing environment.
+	%また, 本論文で述べた設計に基づいて, 提案手法を実装, 評価することも重要である.
+	Furthermore, it is also important to implement and evaluate the NFV system based on the proposed method.
+
+	% 参考文献
+	\bibliographystyle{ieeetr}
+	\bibliography{../bib/r-kurokw}
+
+\end{document}

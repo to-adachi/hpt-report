@@ -1,0 +1,193 @@
+\documentclass[a4j]{ujarticle}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{url}
+\usepackage{bbding}
+\usepackage{lscape}
+\usepackage[subrefformat=parens]{subcaption}
+\usepackage{bm}
+\usepackage{amsmath}
+
+\title{進捗報告資料}
+\author{安達智哉\\to-adachi@ist.osaka-u.ac.jp}
+\date{2019年9月25日}
+
+\begin{document}
+\maketitle
+
+\section{CQ研究会}
+論文を執筆中である。
+
+
+\section{Idleタイマの最適化}
+以前までの評価において、Idleタイマを適切に設定することにより、CPU負荷およびメモリ使用量の削減が期待できることを示した。
+それと同時に、Idleタイマの最適な値は、UEの通信周期やその分布に依存して大きく変化することも示した。
+
+一方で、現実的にはUEの通信周期やその分布は明らかではない。
+また、それらは時間とともに変化するものである。
+そのため、UEの通信周期やその分布が不明であり、動的に変化するような環境においても、Idleタイマを適切な値に設定するような制御方法が必要となる。そこで本章では、Idleタイマの制御方法に関して述べる。
+第\ref{sec:IdleTimer_setting}節でIdleタイマの更新タイミングについて述べる。
+第\ref{sec:objective_function}節でIdleタイマを制御する上での目的関数を定義する。
+第\ref{sec:control}節で目的関数を最小化するためのIdleタイマの制御方法を述べる。
+\subsection{Idleタイマの更新タイミング}
+\label{sec:IdleTimer_setting}
+MMEは、自身の負荷に応じてIdleタイマを適応的に変化させる。
+この時、MMEが決定したIdleタイマを各UEに適用するタイミングは、複数通り考えられる。
+まず、UEの強制的な状態遷移を引き起こさない方法として以下の2つが考えられる。
+\begin{itemize}
+  \item UEがアタッチしたタイミング
+  \item UEがデータ送信を行うタイミング
+\end{itemize}
+次に、UEの強制的な状態遷移を引き起こす方法として以下の2つが考えられる。
+\begin{itemize}
+\item UEの動作や状態に依存しない、定期的なタイミング
+\item 任意のタイミング
+\end{itemize}
+% さらに、一部の状態のUEに対してのみ強制的に状態遷移を引き起こす方法も考えられる。
+% \begin{itemize}
+% \item 接続状態およびInactive状態のUEに対しては、MMEが任意のタイミングでIdleタイマを設定できる。一方、アイドル状態のUEは、アタッチもしくはデータ送信のタイミングでIdleタイマを設定する。
+% \end{itemize}
+
+それぞれには、メリットデメリットが考えられる。
+
+UEの強制的な状態遷移を引き起こさない方法の場合、更新タイミングがUEの動作に依存するため、新しいIdleタイマをUEに設定するまでにかかる時間がUEごとに異なるという問題がある。
+これにより、異なるIdleタイマを持つUEが同時に存在するような状況が発生するため、Idleタイマの制御が複雑になると考えられる。
+また、Idleタイマを変更した後、CPU負荷とメモリ使用量に変化が現れるまでに遅延が発生するため、MMEのリソースの制御が難しくなると考えられる。
+しかし、アタッチやデータ送信など、UEとMMEが通信するタイミングでIdleタイマの更新を行うため、追加のシグナリングや状態遷移が少なく、オーバヘッドが小さい。
+
+一方、更新タイミングがUEの動作や状態に依存しない場合、Idleタイマを更新するためにUEの状態を変化させる必要がある場合があり、オーバヘッドが大きくなるという問題がある。
+具体的には、MMEと通信できない状態にあるUEのIdleタイマを変化させるためには、UEを一度接続状態へと遷移させる必要がある。
+この際に、状態遷移に伴うシグナリング処理が発生するため、MMEのCPU負荷が増加する。
+しかし、IdleタイマをUEに反映させるまでにかかる時間はUEに依存しないため、全UEのIdleタイマの値を一定期間内で更新できる。
+さらに、設定するIdleタイマの値を0にすることで、MMEは任意のタイミングで任意のUEを強制的にアイドル状態へ遷移させることができる。
+これにより、UEの強制的な状態遷移を引き起こさない方法の場合と比較してMMEのリソース制御が容易になると考えられる。
+
+% 一部の状態のUEに対してのみ強制的に状態遷移を引き起こす方法の場合のメリットは以下の2点である。
+% \begin{itemize}
+% \item Idleタイマを更新する際のオーバヘッドを小さく抑えることができる。
+% \item Idleタイマを変更した後、CPU負荷とメモリ使用量に変化が現れるまでに遅延を小さくできる。
+% \end{itemize}
+% この方法では、接続状態およびInactive状態のUEに対してのみ、MMEは任意のタイミングでIdleタイマを設定できる。
+% つまり、CPU負荷およびメモリ使用量に影響を与えているUEに対しては、
+
+
+\subsection{目的関数の定義}
+\label{sec:objective_function}
+本節では、UEの強制的な状態変化を引き起こさないことを前提にする。
+つまり、Idleタイマが切れていないUEを強制的にIdle状態へ遷移させることなないとする。
+また、Idleタイマの更新は、UEがデータ送信を行うタイミングで実行するものとする。
+MMEはUEを収容するために使用されているCPUおよびメモリリソース量を観測できるものとする。
+つまり、UEの収容とは無関係な処理によって発生する負荷を取り除いたCPU負荷およびメモリ使用量を知ることができるとする。
+MMEは現在収容されているUE台数を観測できるものとする。
+
+突発的な負荷の増加に対応するという観点から、現在収容しているUEに加え、最も多くのUEを収容できるようなIdleタイマの値が最適と考える。
+具体的には、現在収容しているUEと同じ通信周期を持つUEがネットワークに参加すると仮定し、最も多くのUEを追加で収容できるIdleタイマの値を最適と定義する。
+また、CPUよびメモリのどちらも過負荷状態でないことは、UEを収容可能であることの必要十分条件であるとする。
+
+まず、UE一台あたりが各リソースに与える負荷の平均を推定する。
+現在収容しているUE台数を$N_{\rm UE}$とする。
+UE台数が$N_{\rm UE}$、Idleタイマが$T^{\rm i}$の時に観測される、CPU負荷およびメモリ使用量をそれぞれ$C_{N_{\rm UE}}(T^{\rm i})$、$M_{N_{\rm UE}}(T^{\rm i})$とする。
+この時、UE一台あたりが与えるCPU負荷およびメモリ使用量の平均($C_{1}(T^{\rm i})$、$M_{1}(T^{\rm i})$)は以下の式(\ref{eq:cpu_1})、(\ref{eq:memory_1})で表せる。
+\begin{eqnarray}
+   C_{1}(T^{\rm i}) =& \frac{C_{N_{\rm UE}}(T^{\rm i})}{N_{\rm UE}}\label{eq:cpu_1}\\
+   M_{1}(T^{\rm i}) =& \frac{M_{N_{\rm UE}}(T^{\rm i})}{N_{\rm UE}}\label{eq:memory_1}
+\end{eqnarray}
+
+Idleタイマを$T^{\rm i}$とした時に、$N_{\rm UE}$台のUEを収容している状態から追加で収容可能なUE台数を$N_{\rm UE}^{\rm add}(T^{\rm i})$とする。
+$N_{\rm UE}^{\rm add}(T^{\rm i})$は、$C_{1}(T^{\rm i})$、$M_{1}(T^{\rm i})$、$C_{N_{\rm UE}}(T^{\rm i})$、$M_{N_{\rm UE}}(T^{\rm i})$、$C^{\rm max}$および$M^{\rm max}$を用いて、以下の式(\ref{eq:UE_add})で表せる。
+ここで、$C^{\rm max}$，$M^{\rm max}$はそれぞれシグナリング処理およびUEのセッション情報を保持するために使用可能なCPUリソース量およびメモリリソース量である。
+\begin{eqnarray}
+   N_{\rm UE}^{\rm add}(T^{\rm i}) =& \min \{\lfloor \frac{C^{\rm max} - C_{N_{\rm UE}}(T^{\rm i})}{C_{1}(T^{\rm i})} \rfloor, \lfloor \frac{M^{\rm max} - M_{N_{\rm UE}}(T^{\rm i})}{M_{1}(T^{\rm i})} \rfloor\} \label{eq:UE_add}
+\end{eqnarray}
+
+Idleタイマを制御する上での目的関数を以下の式(\ref{eq:objective_function})に示す。
+\begin{eqnarray}
+  \text{maximize} :& N_{\rm UE}^{\rm add}(T^{\rm i})
+  \label{eq:objective_function}
+\end{eqnarray}
+
+%
+%
+% Idleタイマを$T^{\rm i}$とした時に、追加で収容可能なUE台数を$N_{\rm UE}^{add}(T^{\rm i})$と定義する。
+% すると目的関数は以下のように表せる。
+% \begin{eqnarray}
+%   \text{maximize} :& N_{\rm UE}^{add}(T^{\rm i}) \nonumber\\
+%   \label{eq:objective_function}
+% \end{eqnarray}
+%
+%
+% シグナリング処理およびUEのセッション情報を保持するために使用可能なCPUリソース量およびメモリリソース量をそれぞれ$C^{\rm max}$，$M^{\rm max}$と定義する。
+% Idleタイマを$T^{\rm i}$とし、$n$台のUEを収容した時に、シグナリング処理およびUEのセッション情報を保持するために使用される各リソースの量を$C^{T^{\rm i}}およびM^{T^{\rm i}}$と定義する。
+% 各リソースの使用率$U_{\rm cpu}(T^{\rm i})およびU_{\rm memory}(T^{\rm i})$をそれぞれ以下の式\ref{eq:cpu_use}、\ref{eq:memory_use}のように定義する。
+% \begin{eqnarray}
+%   U_{\rm cpu}(T^{\rm i}) =& C(T^{\rm i}) / C^{\rm max}\label{eq:cpu_use}\\
+%   U_{\rm memory}(T^{\rm i}) =& M(T^{\rm i}) / M^{\rm max}\label{eq:memory_use}
+% \end{eqnarray}
+%
+% $U_{\rm cpu}(T^{\rm i})およびU_{\rm memory}(T^{\rm i})$がどちらも小さい値を取るような$T^{\rm i}$の設定がMMEにとって良いことは明らかであるが、$U_{\rm cpu}(T^{\rm i})とU_{\rm memory}(T^{\rm i})$の間にはトレードオフの関係があるため、$U_{\rm cpu}(T^{\rm i})とU_{\rm memory}(T^{\rm i})$の双方を最小化させることは一般的に困難である。
+%
+% 一方で、突発的な負荷の増加に対応するという観点から、最も余力のある状態が$T^{\rm i}$の最適値とする考え方がある。
+% そのような最適化を目標とする場合、$U_{\rm cpu}(T^{\rm i})およびU_{\rm memory}(T^{\rm i})$がどのような時に、最も余力のある状態と言えるのかを考える必要がある。
+% まず、突発的な負荷は、現在のネットワークに存在するUEと同じような通信周期を持つUEが大量にネットワークに参加することにより発生すると仮定する。
+% この仮定に基づくと以前の評価結果より、$U_{\rm cpu}(T^{\rm i})およびU_{\rm memory}(T^{\rm i})$は共にUE台数に対して比例して増加することになる。
+% つまり、UE台数が$\alpha$倍になった時、CPUとメモリの負荷はそれぞれ$\alpha \cdot U_{\rm cpu}(T^{\rm i})および\alpha \cdot U_{\rm memory}(T^{\rm i})$になる。
+% 今回の条件では、CPUおよびメモリのどちらか一方でも過負荷状態になると、UEの収容が難しくなるため、使用率の高い方のリソースがボトルネックになることに注意し、以下の式(\ref{eq:objective_function})ように目的関数を定義する。
+% % \begin{eqnarray}
+% %   \text{maximize} :& \alpha \nonumber\\
+% %   \text{subject to} :& \alpha \cdot U_{\rm cpu}(T^{\rm i}) \le 1,\\
+% %   & \alpha \cdot U_{\rm memory}(T^{\rm i}) \le 1 \nonumber
+% %   \label{eq:objective_function}
+% % \end{eqnarray}
+% \begin{eqnarray}
+%   \text{maximize} :& \alpha \nonumber\\
+%   \text{subject to} :& \max \{\alpha \cdot U_{\rm cpu}(T^{\rm i}), \alpha \cdot U_{\rm memory}(T^{\rm i}) \} \le 1\\
+%   \label{eq:objective_function}
+% \end{eqnarray}
+
+
+\subsection{Idleタイマの制御方法}
+\label{sec:control}
+$N_{\rm UE}^{\rm add}(T^{\rm i})$を最大化するように、Idleタイマを制御すれば、Idleタイマを最適な値に近づけることができる。
+具体的には、各リソースの使用量を観測して、$N_{\rm UE}^{\rm add}(T^{\rm i})$を大きくする向きにIdleタイマを変化させる。
+このステップを複数回繰り返すことにより、Idleタイマを制御する。
+% ここで、Idleタイマを変化させた時に、その効果がMMEのリソースに反映されるまでには一定の時間が必要であることを留意する必要がある。
+
+この時、１ステップごとのIdleタイマの変化量を考える必要がある。
+この値を小さく設定すると、最適な値に到達するまでに大きな時間がかかってしまう場合がある。
+逆にIdleタイマの変化量を大きく設定すると、Idleタイマが発振する可能性もあり、制御が不安定になる。
+また、UEの通信周期によって、Idleタイマが変化した時に各リソースの負荷の変化量が異なる点も考慮する必要がある。
+
+つまり、ネットワークの変化に短い時間スケールで対応しつつ、安定した制御を実現するためには、ネットワークの環境に応じてIdleタイマの変化量を制御する仕組みが必要である。
+この仕組みにはPID制御が利用できると考えている。
+Idleタイマの設定を入力、各リソースの使用率を出力をして捉えることで、PID制御により、Idleタイマの変化量を調整しつつ、最適値に近づけることができる。
+
+以前の評価より、UE台数を固定した時、CPU負荷はIdleタイマの値に対して広義単調減少でありかつ、メモリ使用量はIdleタイマの値に対して広義単調増加であることがわかっている。
+このことから、$C_{1}(T^{\rm i})$および$C_{N_{\rm UE}}(T^{\rm i})$は$T^{\rm i}$に対して広義単調減少であることがわかる。
+同様に$M_{1}(T^{\rm i})$および$M_{N_{\rm UE}}(T^{\rm i})$は$T^{\rm i}$に対して広義単調増加であることがわかる。
+以上を踏まえて式(\ref{eq:UE_add})を確認すると、$\lfloor \frac{C^{\rm max} - C_{N_{\rm UE}}(T^{\rm i})}{C_{1}(T^{\rm i})} \rfloor$は広義単調増加でありかつ、$\lfloor \frac{M^{\rm max} - M_{N_{\rm UE}}(T^{\rm i})}{M_{1}(T^{\rm i})} \rfloor$は広義単調減少であることがわかる。
+ここで、$|\lfloor \frac{C^{\rm max} - C_{N_{\rm UE}}(T^{\rm i})}{C_{1}(T^{\rm i})} \rfloor$と$\lfloor \frac{M^{\rm max} - M_{N_{\rm UE}}(T^{\rm i})}{M_{1}(T^{\rm i})} \rfloor|$の差分を最小化するような$T^{\rm i}$の集合を$\bm{T^{\rm i}}$とする。また、$N_{\rm UE}^{\rm add}(T^{\rm i})$を最大化するような$T^{\rm i}$の集合を$\bm{T^{\rm i}}_{\rm optimal}$とする。すると、$\lfloor \frac{C^{\rm max} - C_{N_{\rm UE}}(T^{\rm i})}{C_{1}(T^{\rm i})} \rfloor$は広義単調増加でありかつ、$\lfloor \frac{M^{\rm max} - M_{N_{\rm UE}}(T^{\rm i})}{M_{1}(T^{\rm i})} \rfloor$は広義単調減少であることを考慮すると、$T^{\rm i}\in\bm{T^{\rm i}}$であることは$T^{\rm i}\in\bm{T^{\rm i}}_{\rm optimal}$であるための十分条件になる。
+
+このことを踏まえ、PID制御における出力値$y(t)$および目標値$r(t)$を以下の式(\ref{eq:PDI_y_t})、(\ref{eq:PDI_r_t})のように定義する。
+$t$は時刻を表す変数である。
+\begin{eqnarray}
+  y(t) &=& \lfloor \frac{C^{\rm max} - C_{N_{\rm UE}}(T^{\rm i})}{C_{1}(T^{\rm i})} \rfloor - \lfloor \frac{M^{\rm max} - M_{N_{\rm UE}}(T^{\rm i})}{M_{1}(T^{\rm i})} \rfloor
+  \label{eq:PDI_y_t} \\
+  r(t) &=& 0
+  \label{eq:PDI_r_t}
+\end{eqnarray}
+
+(※ $N_{\rm UE}^{\rm add}(T^{\rm i})$を最大化することが本来の目的であるが、最大化問題はそのままではPID制御に落とし込めないと考え、式(\ref{eq:PDI_y_t})、(\ref{eq:PDI_r_t})に示すように、$N_{\rm UE}^{\rm add}(T^{\rm i})$を用いない形で、出力値および目標値を定義した。本節の第4段落で述べている通り、目的関数は異なるが得られる結果は正しい値であると思われる。)
+
+  \section{今後の予定}
+  \begin{itemize}
+    \item PID制御に関する学習
+    \item 論文の執筆
+    \begin{itemize}
+      \item 完成: 〜 9/25
+    \end{itemize}
+    \item 発表スライドの作成: 〜10/16
+  \end{itemize}
+%
+% \section*{\addcontentsline{toc}{section}{参考文献}}
+% \bibliographystyle{IEEEtran}
+% \bibliography{/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio,/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/Study_Group_Bibtex/bib/hptCoreNetwork_Study}
+\end{document}

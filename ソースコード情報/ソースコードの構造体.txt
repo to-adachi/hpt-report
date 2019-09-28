@@ -1,0 +1,404 @@
+記載場所
+  データ型 変数名 /*説明*/
+
+OpenairinterfaceCN-develop/Data Structures/itti_s1ap_initial_ctxt_setup_req_s/Data Fields
+  mme_ue_s1ap_id_t(uint32_t) 	mme_ue_s1ap_id
+     /* A MME UE S1AP ID shall be allocated so as to uniquely identify the UE over the S1 interface within the MME. When an eNB receives MME UE S1AP ID it shall store it for the duration of the UE-associated logical S1-connection for this UE. Once known to an eNB this IE is included in all UE associated S1-AP signalling. The MME UE S1AP ID shall be unique within the MME logical node. */
+  enb_ue_s1ap_id_t(uint32_t)  	enb_ue_s1ap_id:24
+    /* An eNB UE S1AP ID shall be allocated so as to uniquely identify the UE over the S1 interface within an eNB. When an MME receives an eNB UE S1AP ID it shall store it for the duration of the UE-associated logical S1-connection for this UE. Once known to an MME this IE is included in all UE associated S1-AP signalling. The eNB UE S1AP ID shall be unique within the eNB logical node.*/
+  uint8_t 	kenb [32] /* Key eNB */
+  ambr_t 	ambr
+    bitrate_t(uint64_t) 	br_ul
+    bitrate_t(uint64_t) 	br_dl
+  ambr_t 	apn_ambr
+    bitrate_t(uint64_t) 	br_ul
+    bitrate_t(uint64_t) 	br_dl
+  unsigned 	ebi:4 /* EPS bearer ID */
+  qci_t 	qci /* QoS */
+    QCI_1(enum)
+    QCI_2(enum)
+    QCI_3(enum)
+    QCI_4(enum)
+    QCI_5(enum)
+    QCI_6(enum)
+    QCI_7(enum)
+    QCI_8(enum)
+    QCI_9(enum)
+    QCI_MAX(enum)
+  priority_level_t(uint8_t) 	prio_level /* QoS */
+  pre_emp_vulnerability_t 	pre_emp_vulnerability /* QoS */
+    PRE_EMPTION_VULNERABILITY_ENABLED(enum)
+    PRE_EMPTION_VULNERABILITY_DISABLED(enum)
+    RE_EMPTION_VULNERABILITY_MAX(enum)
+  pre_emp_capability_t 	pre_emp_capability /* QoS */
+    PRE_EMPTION_CAPABILITY_ENABLED(enum)
+    PRE_EMPTION_CAPABILITY_DISABLED(enum)
+    PRE_EMPTION_CAPABILITY_MA(enum)
+  teid_t(uint32_t) 	teid
+  ip_address_t 	s_gw_address
+    uint8_t   ipv4_address [4]
+    uint8_t   ipv6_address [16]
+
+OpenairinterfaceCN-develop/Data Structures/itti_s1ap_initial_ue_message_s/Data Fields
+  mme_ue_s1ap_id_t(uint32_t) 	mme_ue_s1ap_id
+    /* A MME UE S1AP ID shall be allocated so as to uniquely identify the UE over the S1 interface within the MME. When an eNB receives MME UE S1AP ID it shall store it for the duration of the UE-associated logical S1-connection for this UE. Once known to an eNB this IE is included in all UE associated S1-AP signalling. The MME UE S1AP ID shall be unique within the MME logical node. */
+  enb_ue_s1ap_id_t(uint32_t)  	enb_ue_s1ap_id:24
+   /* An eNB UE S1AP ID shall be allocated so as to uniquely identify the UE over the S1 interface within an eNB. When an MME receives an eNB UE S1AP ID it shall store it for the duration of the UE-associated logical S1-connection for this UE. Once known to an MME this IE is included in all UE associated S1-AP signalling. The eNB UE S1AP ID shall be unique within the eNB logical node.*/
+  ecgi_t 	e_utran_cgi
+    plmn_t   plmn
+      uint8_t mcc_digit2:4;
+      uint8_t mcc_digit1:4;
+      uint8_t mnc_digit3:4;
+      uint8_t mcc_digit3:4;
+      uint8_t mnc_digit2:4;
+      uint8_t mnc_digit1:4;
+    eci_t    cell_identity
+      uint32_t enb_id:20;
+        /* Anoop - This is correct only when eNB type is macro. In case eNB type is Home eNB then all the 28 bits are used for eNB id . This needs correction since MME uses combination of enb_id and "eNB S1AP UEid" for the key to UE context,this may not work if MME is connected to many HeNBs - which is not critical now.*/
+      uint32_t cell_id:8;
+      uint32_t empty:4;
+
+OpenairinterfaceCN-develop/Data Structures/itti_s11_modify_bearer_request_s/Data Fields
+  teid_t(uint32_t) 	local_teid
+    /*not in specs for inner MME use More...*/
+  teid_t(uint32_t) 	teid
+    /*S11 SGW Tunnel Endpoint Identifier. More...*/
+  Uli_t 	uli
+    /*< SGSN to MME TAU. More...*/
+    present(uint8_t)
+    s
+      Cgi_t   cgi
+        uint8_t  mcc[3]
+        uint8_t  mnc[3]
+        uint16_t lac
+        uint16_t ci
+      Sai_t   sai
+        uint8_t  mcc[3]
+        uint8_t  mnc[3]
+        uint16_t lac
+        uint16_t sac
+      Rai_t   rai
+        uint8_t  mcc[3]
+        uint8_t  mnc[3]
+        uint16_t lac
+        uint16_t rac
+      Tai_t   tai
+        uint8_t  mcc[3]
+        uint8_t  mnc[3]
+        uint16_t tac
+      Ecgi_t   ecgi
+        uint8_t  mcc[3]
+        uint8_t  mnc[3]
+        uint32_t eci
+      Lai_t   lai
+        uint8_t  mcc[3]
+        uint8_t  mnc[3]
+        uint16_t lac
+  ServingNetwork_t 	serving_network
+    uint8_t 	mcc [3]
+    uint8_t 	mnc [3]
+  rat_type_t 	rat_type
+    RAT_WLAN(enum)
+    RAT_VIRTUAL(enum)
+    RAT_UTRAN(enum)
+    RAT_GERAN(enum)
+    RAT_GAN(enum)
+    RAT_HSPA_EVOLUTION(enum)
+    RAT_EUTRAN(enum)
+    RAT_CDMA2000_1X(enum)
+    RAT_HRPD(enum)
+    RAT_UMB(enum)
+    RAT_EHRPD(enum)
+  indication_flags_t 	indication_flags
+    uint8_t 	daf:1
+    uint8_t 	dtf:1
+    uint8_t 	hi:1
+    uint8_t 	dfi:1
+    uint8_t 	oi:1
+    uint8_t 	isrsi:1
+    uint8_t 	israi:1
+    uint8_t 	sgwci:1
+    uint8_t 	sqci:1
+    uint8_t 	uimsi:1
+    uint8_t 	cfsi:1
+    uint8_t 	crsi:1
+    uint8_t 	p:1
+    uint8_t 	pt:1
+    uint8_t 	si:1
+    uint8_t 	msv:1
+    uint8_t 	spare1:1
+    uint8_t 	spare2:1
+    uint8_t 	spare3:1
+    uint8_t 	s6af:1
+    uint8_t 	s4af:1
+    uint8_t 	mbmdt:1
+    uint8_t 	israu:1
+    uint8_t 	ccrsi:1
+  FTeid_t 	sender_fteid_for_cp
+    unsigned 	ipv4:1
+    unsigned 	ipv6:1
+    InterfaceType_t(enumerator) 	interface_type
+      S1_U_ENODEB_GTP_U
+      S1_U_SGW_GTP_U
+      S12_RNC_GTP_U
+      S12_SGW_GTP_U
+      S5_S8_SGW_GTP_U
+      S5_S8_PGW_GTP_U
+      S5_S8_SGW_GTP_C
+      S5_S8_PGW_GTP_C
+      S11_MME_GTP_C
+      S11_SGW_GTP_C
+    teid_t(uint32_t) 	teid
+    uint32_t 	ipv4_address
+    uint8_t 	ipv6_address [16]
+  ambr_t 	apn_ambr
+    bitrate_t(uint64_t)  	br_ul
+    bitrate_t (uint64_t) 	br_dl
+  DelayValue_t(uint8_t ) 	delay_dl_packet_notif_req
+  bearer_contexts_to_be_modified_t 	bearer_contexts_to_be_modified
+    uint8_t num_bearer_context
+    bearer_context_to_be_modified_t bearer_contexts[MSG_MODIFY_BEARER_REQUEST_MAX_BEARER_CONTEXTS];
+      uint8_t eps_bearer_id
+      FTeid_t s1_eNB_fteid
+        unsigned 	ipv4:1
+        unsigned 	ipv6:1
+        InterfaceType_t 	interface_type
+          S1_U_ENODEB_GTP_U
+          S1_U_SGW_GTP_U
+          S12_RNC_GTP_U
+          S12_SGW_GTP_U
+          S5_S8_SGW_GTP_U
+          S5_S8_PGW_GTP_U
+          S5_S8_SGW_GTP_C
+          S5_S8_PGW_GTP_C
+          S11_MME_GTP_C
+          S11_SGW_GTP_C
+        teid_t(uint32_t) 	teid
+        uint32_t 	ipv4_address
+        uint8_t 	ipv6_address [16]
+  bearer_contexts_to_be_removed_t 	bearer_contexts_to_be_removed
+    uint8_t 	num_bearer_context
+    bearer_context_to_be_removed_t 	bearer_contexts [MSG_CREATE_SESSION_REQUEST_MAX_BEARER_CONTEXTS]
+      uint8_t 	eps_bearer_id
+      FTeid_t 	s4u_sgsn_fteid
+        unsigned 	ipv4:1
+        unsigned 	ipv6:1
+        InterfaceType_t 	interface_type
+          S1_U_ENODEB_GTP_U
+          S1_U_SGW_GTP_U
+          S12_RNC_GTP_U
+          S12_SGW_GTP_U
+          S5_S8_SGW_GTP_U
+          S5_S8_PGW_GTP_U
+          S5_S8_SGW_GTP_C
+          S5_S8_PGW_GTP_C
+          S11_MME_GTP_C
+          S11_SGW_GTP_C
+        teid_t(uint32_t) 	teid
+        uint32_t 	ipv4_address
+        uint8_t 	ipv6_address [16]
+  UETimeZone_t 	ue_time_zone
+    /*< time. More...*/
+    uint8_t 	time_zone
+    unsigned 	daylight_saving_time:2
+  FQ_CSID_t 	mme_fq_csid
+    node_id_type_t node_id_type
+      GLOBAL_UNICAST_IPv4(enum)
+      GLOBAL_UNICAST_IPv6(enum)
+      TYPE_EXOTIC(enum)
+    uint16_t       csid
+    node_id
+      uint32_t   unicast_ipv4
+      uint8_t    unicast_ipv6[16]
+      exotic
+        uint16_t mcc
+        uint16_t mnc
+        uint16_t operator_specific_id
+  FQ_CSID_t 	sgw_fq_csid
+    /*the requirements in 3GPP TS 23.007 [17]. More...*/
+    node_id_type_t node_id_type
+    uint16_t       csid
+    node_id
+      uint32_t   unicast_ipv4
+      uint8_t    unicast_ipv6[16]
+      exotic
+        uint16_t mcc
+        uint16_t mnc
+        uint16_t operator_specific_id
+  UCI_t 	uci
+    uint8_t 	mcc [3]
+    uint8_t 	mnc [3]
+    uint32_t 	csg_id
+    AccessMode_t(Enumerator) 	access_mode
+      CLOSED_MODE
+      HYBRID_MODE
+    unsigned 	lcsg:1
+    unsigned 	cmi:1
+  void * 	trxn
+    /*Transaction identifier. More...*/
+  uint32_t 	peer_ip
+
+OpenairinterfaceCN-develop/Data Structures/itti_s11_modify_bearer_response_s/Data Fields
+  teid_t(uint32_t)  	teid
+  SGWCause_t(enum) 	cause
+    LOCAL_DETACH                    = 2
+    COMPLETE_DETACH                 = 3
+    RAT_CHANGE_3GPP_TO_NON_3GPP     = 4
+    ISR_DEACTIVATION                = 5
+    ERROR_IND_FROM_RNC_ENB_SGSN     = 6
+    IMSI_DETACH_ONLY                = 7
+    REQUEST_ACCEPTED                = 16
+    REQUEST_ACCEPTED_PARTIALLY      = 17
+    NEW_PDN_TYPE_NW_PREF            = 18
+    NEW_PDN_TYPE_SAB_ONLY           = 19
+    CONTEXT_NOT_FOUND               = 64
+    INVALID_MESSAGE_FORMAT          = 65
+    INVALID_LENGTH                  = 67
+    SERVICE_NOT_SUPPORTED           = 68
+    MANDATORY_IE_INCORRECT          = 69
+    MANDATORY_IE_MISSING            = 70
+    SYSTEM_FAILURE                  = 72
+    NO_RESOURCES_AVAILABLE          = 73
+    SEMANTIC_ERROR_IN_TFT           = 74
+    SYNTACTIC_ERROR_IN_TFT          = 75
+    SEMANTIC_ERRORS_IN_PF           = 76
+    SYNTACTIC_ERRORS_IN_PF          = 77
+    MISSING_OR_UNKNOWN_APN          = 78
+    GRE_KEY_NOT_FOUND               = 80
+    RELOCATION_FAILURE              = 81
+    DENIED_IN_RAT                   = 82
+    ALL_DYNAMIC_IP_ADD_OCCUPIED     = 84
+    UE_NOT_RESPONDING               = 87
+    UE_REFUSES                      = 88
+    SERVICE_DENIED                  = 89
+    UNABLE_TO_PAGE_UE               = 90
+    NO_MEMORY_AVAILABLE             = 91
+    REQUEST_REJECTED                = 94
+    DATA_FORWARDING_NOT_SUPPORTED   = 106
+    INVALID_REPLY_FROM_REMOTE_PEER  = 107
+    FALLBACK_TO_GTPV1               = 108
+    INVALID_PEER                    = 109
+    TEMP_REJECT_HO_IN_PROGRESS      = 110
+    REJECTED_FOR_PMIPv6_REASON      = 112
+    M_PDN_APN_NOT_ALLOWED           = 116
+    SGW_CAUSE_MAX
+  protocol_configuration_options_s 	pco
+ 	  < interfaces if contacting the peer for the first time More...
+    uint8_t 	ext:1
+    uint8_t 	spare:4
+    uint8_t 	configuration_protocol:3
+    uint8_t 	num_protocol_or_container_id
+    pco_protocol_or_container_id_t 	protocol_or_container_ids [PCO_UNSPEC_MAXIMUM_PROTOCOL_ID_OR_CONTAINER_ID]
+      uint16_t 	id
+      uint8_t 	length
+      bstring 	contents
+  void * 	trxn
+  uint32_t 	peer_ip
+
+OpenairinterfaceCN-develop/Data Structures/itti_s1ap_ue_context_release_req_s/Data Fields
+  mme_ue_s1ap_id_t(uint32_t) 	mme_ue_s1ap_id
+  enb_ue_s1ap_id_t(uint32_t) 	enb_ue_s1ap_id:24
+  uint32_t 	enb_id
+
+OpenairinterfaceCN-develop/Data Structures/itti_s1ap_ue_context_release_command_s/Data Fields
+  mme_ue_s1ap_id_t(uint32_t) 	mme_ue_s1ap_id
+  enb_ue_s1ap_id_t(uint32_t) 	enb_ue_s1ap_id:24
+  enum s1cause 	cause
+    S1AP_INVALID_CAUSE
+    S1AP_NAS_NORMAL_RELEASE
+    S1AP_NAS_DETACH
+    S1AP_RADIO_EUTRAN_GENERATED_REASON
+    S1AP_IMPLICIT_CONTEXT_RELEASE
+    S1AP_INITIAL_CONTEXT_SETUP_FAILED
+    S1AP_SCTP_SHUTDOWN_OR_RESET
+
+OpenairinterfaceCN-develop/Data Structures/itti_s1ap_ue_context_release_complete_s/Data Fields
+  mme_ue_s1ap_id_t(uint32_t) 	mme_ue_s1ap_id
+  enb_ue_s1ap_id_t(uint32_t) 	enb_ue_s1ap_id:24
+
+OpenairinterfaceCN-develop/Data Structures/itti_s11_release_access_bearers_request_s/Data Fields
+  teid_t(uint32_t) 	local_teid
+ 	  not in specs for inner MME use More...
+  teid_t(uint32_t) 	teid
+ 	  Tunnel Endpoint Identifier. More...
+  ebi_list_t 	list_of_rabs
+    uint32_t 	num_ebi
+    EBI_t(uint8_t) 	ebis [RELEASE_ACCESS_BEARER_MAX_BEARERS]
+  node_type_t(enum) 	originating_node
+ 	  This IE shall be sent on S4 interface, if ISR is active in the SGSN. More...
+    NODE_TYPE_MME
+    NODE_TYPE_SGSN
+  void * 	trxn
+  uint32_t 	peer_ip
+OpenairinterfaceCN-develop/Data Structures/itti_s11_release_access_bearers_response_s/Data Fields
+  teid_t(uint32_t) 	teid
+ 	  Tunnel Endpoint Identifier. More...
+  SGWCause_t(enum) 	cause
+    LOCAL_DETACH                    = 2
+    COMPLETE_DETACH                 = 3
+    RAT_CHANGE_3GPP_TO_NON_3GPP     = 4
+    ISR_DEACTIVATION                = 5
+    ERROR_IND_FROM_RNC_ENB_SGSN     = 6
+    IMSI_DETACH_ONLY                = 7
+    REQUEST_ACCEPTED                = 16
+    REQUEST_ACCEPTED_PARTIALLY      = 17
+    NEW_PDN_TYPE_NW_PREF            = 18
+    NEW_PDN_TYPE_SAB_ONLY           = 19
+    CONTEXT_NOT_FOUND               = 64
+    INVALID_MESSAGE_FORMAT          = 65
+    INVALID_LENGTH                  = 67
+    SERVICE_NOT_SUPPORTED           = 68
+    MANDATORY_IE_INCORRECT          = 69
+    MANDATORY_IE_MISSING            = 70
+    SYSTEM_FAILURE                  = 72
+    NO_RESOURCES_AVAILABLE          = 73
+    SEMANTIC_ERROR_IN_TFT           = 74
+    SYNTACTIC_ERROR_IN_TFT          = 75
+    SEMANTIC_ERRORS_IN_PF           = 76
+    SYNTACTIC_ERRORS_IN_PF          = 77
+    MISSING_OR_UNKNOWN_APN          = 78
+    GRE_KEY_NOT_FOUND               = 80
+    RELOCATION_FAILURE              = 81
+    DENIED_IN_RAT                   = 82
+    ALL_DYNAMIC_IP_ADD_OCCUPIED     = 84
+    UE_NOT_RESPONDING               = 87
+    UE_REFUSES                      = 88
+    SERVICE_DENIED                  = 89
+    UNABLE_TO_PAGE_UE               = 90
+    NO_MEMORY_AVAILABLE             = 91
+    REQUEST_REJECTED                = 94
+    DATA_FORWARDING_NOT_SUPPORTED   = 106
+    INVALID_REPLY_FROM_REMOTE_PEER  = 107
+    FALLBACK_TO_GTPV1               = 108
+    INVALID_PEER                    = 109
+    TEMP_REJECT_HO_IN_PROGRESS      = 110
+    REJECTED_FOR_PMIPv6_REASON      = 112
+    M_PDN_APN_NOT_ALLOWED           = 116
+    SGW_CAUSE_MAX
+  void * 	trxn
+  uint32_t 	peer_ip
+
+
+新規UEの追加
+s1ap_mme.h:64に定義してある情報を保持
+typedef struct ue_description_s {
+ struct enb_description_s *enb;
+
+ enum s1_ue_state_s        s1_ue_state;
+
+ enb_ue_s1ap_id_t enb_ue_s1ap_id:24;
+ mme_ue_s1ap_id_t mme_ue_s1ap_id;
+
+ sctp_stream_id_t sctp_stream_recv;
+ sctp_stream_id_t sctp_stream_send;
+
+ s11_teid_t       s11_sgw_teid;
+
+
+ /* Timer for procedure outcome issued by MME that should be answered */
+ long outcome_response_timer_id;
+
+ // UE Context Release procedure guard timer
+ struct s1ap_timer_t       s1ap_ue_context_rel_timer;
+
+} ue_description_t;
