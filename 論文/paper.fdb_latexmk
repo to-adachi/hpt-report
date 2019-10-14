@@ -1,17 +1,17 @@
 # Fdb version 3
-["bibtex paper"] 1569645012 "paper.aux" "paper.bbl" "paper" 1569645420
+["bibtex paper"] 1569984388 "paper.aux" "paper.bbl" "paper" 1569984392
   "/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/Study_Group_Bibtex/bib/hptCoreNetwork_Study.bib" 1566957378 46950 b0a9097daaa342d6abb0644b091f838b ""
-  "/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio.bib" 1566957310 83988 e51ae447811178eaab35d2493ac94540 ""
+  "/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio.bib" 1569984327 85124 b36ea26a1bdd520af87580e21b36b728 ""
   "/usr/local/texlive/2017/texmf-dist/bibtex/bst/IEEEtran/IEEEtran.bst" 1480098433 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "paper.aux" 1569645418 4705 bdbe1556cefe36357bc0e925801b5217 ""
+  "paper.aux" 1569984390 4569 415a7b916e944ff754f3892061c92f64 ""
   (generated)
   "paper.bbl"
   "paper.blg"
-["dvipdf"] 1569645418 "paper.dvi" "paper.pdf" "paper" 1569645420
-  "paper.dvi" 1569645418 63968 87e069c78191e997da3e89dcc718ed10 "latex"
+["dvipdf"] 1569984390 "paper.dvi" "paper.pdf" "paper" 1569984392
+  "paper.dvi" 1569984390 63408 33d700107a0b8a5213da19ba34e7ba57 "latex"
   (generated)
   "paper.pdf"
-["latex"] 1569645416 "paper.tex" "paper.dvi" "paper" 1569645420
+["latex"] 1569984388 "paper.tex" "paper.dvi" "paper" 1569984392
   "/usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/jknappen/ec/ecrm0900.tfm" 1480098696 3584 d3d8ac8b25ca19c0a40b86a5db1e8ccc ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmr7.tfm" 1480098701 1300 53d07721103816e093902637bc167021 ""
@@ -105,7 +105,7 @@
   "/usr/local/texlive/2017/texmf-dist/web2c/texmf.cnf" 1494087824 32646 eadc4ca26cdbe7105ac7c593aa8c4f72 ""
   "/usr/local/texlive/2017/texmf-var/web2c/euptex/uplatex.fmt" 1505440380 4338250 41983557c21b6da30b6d682855b508ba ""
   "/usr/local/texlive/2017/texmf.cnf" 1495593465 577 2b71d4d888f9e5560b2e99985915a9fa ""
-  "10_11_12_signaling_vs_memoryload_all_300s_theory.pdf" 1569341277 33234 d93834d8fcb96087dc7bdfb9363b46cf ""
+  "10_11_12_signaling_vs_memoryload_all_300s_theory.pdf" 1569826738 32725 5b504ba9d6bf9f23212bb38f97907524 ""
   "Idle_Connect_Signaling.pdf" 1567125234 54962 ff02c961cf5875896f37ed65c9288128 ""
   "extractbb -B cropbox -O 10_11_12_signaling_vs_memoryload_all_300s_theory.pdf" 0 -1 0 ""
   "extractbb -B cropbox -O Idle_Connect_Signaling.pdf" 0 -1 0 ""
@@ -115,15 +115,15 @@
   "extractbb -B cropbox -O theory_1_all_30s_theory.pdf" 0 -1 0 ""
   "extractbb -B cropbox -O theory_2_all_300s_theory.pdf" 0 -1 0 ""
   "ieicej-rev.cls" 1549857184 101836 d4ca7d3c52f99909d23356da1ec2d6a7 ""
-  "networkmodel.pdf" 1567126002 66810 de70a319d0b56ae90e9b00166eb10149 ""
-  "paper.aux" 1569645418 4705 bdbe1556cefe36357bc0e925801b5217 ""
-  "paper.bbl" 1569645012 6563 420d484908e6db1cc354fb64202a0156 "bibtex paper"
-  "paper.tex" 1569645415 42875 51214d4be585d1b7dfe234033511b478 ""
-  "state_change_inactive.pdf" 1567658770 22584 c7fecab27e162714d97a8ab4694fab4c ""
-  "state_change_propose.pdf" 1567670224 22709 7f8b696b6cca5c62186b2e5e5193dd84 ""
-  "theory_1_all_30s_theory.pdf" 1569295584 13332 4fea6d7a61062811b64d501c28bb9a34 ""
-  "theory_2_all_300s_theory.pdf" 1569297811 13879 33275d63a9d12903523e1bc872e2665d ""
+  "networkmodel.pdf" 1569818683 66816 4b3f8ad8cb974da0cd86cdf25e1ccf86 ""
+  "paper.aux" 1569984390 4569 415a7b916e944ff754f3892061c92f64 ""
+  "paper.bbl" 1569984388 6528 5995d2a574f2cdec2555a5ee7117359a "bibtex paper"
+  "paper.tex" 1569984382 40631 8638354f7ad99bd2de8950a8d58e9118 ""
+  "state_change_inactive.pdf" 1569824785 22620 2e78b074a98a96167b5b0a81c53e441c ""
+  "state_change_propose.pdf" 1569824785 22735 263153957bc7d7072d8ce55f3a83771e ""
+  "theory_1_all_30s_theory.pdf" 1569825988 13317 8e09e1999bad9760b60d515f8e724ccd ""
+  "theory_2_all_300s_theory.pdf" 1569826111 13880 a40fbee8a45fe856901e632ba1f0cd91 ""
   (generated)
-  "paper.dvi"
   "paper.aux"
+  "paper.dvi"
   "paper.log"

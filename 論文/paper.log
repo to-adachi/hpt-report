@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.14159265-p3.7.1-u1.22-161114-2.6 (utf8.uptex) (TeX Live 2017) (preloaded format=uplatex 2017.9.15)  28 SEP 2019 13:36
+This is e-upTeX, Version 3.14159265-p3.7.1-u1.22-161114-2.6 (utf8.uptex) (TeX Live 2017) (preloaded format=uplatex 2017.9.15)  2 OCT 2019 11:46
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -401,29 +401,28 @@ File: state_change_inactive.pdf Graphic file (type pdf)
  [2]
 File: state_change_propose.pdf Graphic file (type pdf)
 <state_change_propose.pdf>
- [3]
 LaTeX Font Info:    Font shape `JT2/mc/m/n' will be
-(Font)              scaled to size 5.77332pt on input line 238.
+(Font)              scaled to size 5.77332pt on input line 236.
 LaTeX Font Info:    Font shape `JT2/mc/m/n' will be
-(Font)              scaled to size 4.8111pt on input line 238.
+(Font)              scaled to size 4.8111pt on input line 236.
 
-Overfull \hbox (11.55606pt too wide) detected at line 243
+Overfull \hbox (11.55606pt too wide) detected at line 241
 \OML/lmm/m/it/9 c[]\OT1/lmr/m/n/9 (\OML/lmm/m/it/9 T[]\OT1/lmr/m/n/9 ) = []
  []
 
+[3]
 
 Package amsmath Warning: Cannot use `split' here;
-(amsmath)                trying to recover with `aligned' on input line 308.
+(amsmath)                trying to recover with `aligned' on input line 306.
 
-[4]
 File: theory_1_all_30s_theory.pdf Graphic file (type pdf)
 <theory_1_all_30s_theory.pdf>
+[4]
 File: theory_2_all_300s_theory.pdf Graphic file (type pdf)
 <theory_2_all_300s_theory.pdf>
- [5]
 File: 10_11_12_signaling_vs_memoryload_all_300s_theory.pdf Graphic file (type pdf)
 <10_11_12_signaling_vs_memoryload_all_300s_theory.pdf>
- [6] (./paper.bbl
+ [5] (./paper.bbl
 LaTeX Font Info:    Font shape `JT2/gt/m/n' will be
 (Font)              scaled to size 7.69775pt on input line 26.
 LaTeX Font Info:    Font shape `JT2/gt/m/it' in size <8> not available
@@ -453,14 +452,14 @@ Overfull \hbox (3.93867pt too wide) in paragraph at lines 127--132
 \T1/lmr/m/n/8 Speci^^\cations / Speci^^\cationDetails . aspx ? speci^^\cationId = 2719$ 
  []
 
-) [7] (./paper.aux) ) 
+) [6] (./paper.aux) ) 
 Here is how much of TeX's memory you used:
  3294 strings out of 493644
- 43415 string characters out of 6149000
- 124972 words of memory out of 5000000
+ 43381 string characters out of 6149000
+ 124923 words of memory out of 5000000
  6810 multiletter control sequences out of 15000+600000
  114440 words of font info for 139 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
  27i,24n,35p,1570b,321s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on paper.dvi (7 pages, 63968 bytes).
+Output written on paper.dvi (6 pages, 63408 bytes).

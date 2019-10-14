@@ -39,43 +39,43 @@ Warning--empty author in DisaggregatedServersDriveDataCenterEfficiencyandInnovat
 Done.
 You've used 17 entries,
             4087 wiz_defined-function locations,
-            925 strings with 12698 characters,
-and the built_in function-call counts, 10952 in all, are:
-= -- 814
-> -- 266
-< -- 53
-+ -- 141
-- -- 53
-* -- 537
-:= -- 1681
+            926 strings with 12624 characters,
+and the built_in function-call counts, 11329 in all, are:
+= -- 844
+> -- 280
+< -- 59
++ -- 149
+- -- 55
+* -- 558
+:= -- 1721
 add.period$ -- 35
 call.type$ -- 17
 change.case$ -- 19
-chr.to.int$ -- 120
+chr.to.int$ -- 135
 cite$ -- 19
-duplicate$ -- 843
-empty$ -- 986
-format.name$ -- 64
-if$ -- 2535
+duplicate$ -- 863
+empty$ -- 1007
+format.name$ -- 67
+if$ -- 2629
 int.to.chr$ -- 0
 int.to.str$ -- 17
-missing$ -- 181
+missing$ -- 184
 newline$ -- 86
 num.names$ -- 14
-pop$ -- 453
+pop$ -- 460
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 816
+skip$ -- 843
 stack$ -- 0
-substring$ -- 301
-swap$ -- 617
-text.length$ -- 13
+substring$ -- 336
+swap$ -- 643
+text.length$ -- 14
 text.prefix$ -- 0
 top$ -- 5
 type$ -- 17
 warning$ -- 2
-while$ -- 38
+while$ -- 41
 width$ -- 19
-write$ -- 187
+write$ -- 188
 (There were 5 error messages)

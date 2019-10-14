@@ -116,11 +116,11 @@ S.~Legtchenko, H.~Williams, K.~Razavi, A.~Donnelly, R.~Black, A.~Douglas,
   \url{http://www.openairinterface.org/}
 \BIBentrySTDinterwordspacing
 
-\bibitem{多数のM2M/IoT端末からの集中アクセスを考慮したモバイルコアネットワークの実験評価}
-{上野真生,長谷川 剛,村田正幸},
-  ``{多数のM2M/IoT端末からの集中アクセスを考慮したモバイルコアネットワークの実験評価},''
-  in \emph{Proceedings of
-  電子情報通信学会技術研究報告(NS2018-226)}, Mar. 2019.
+\bibitem{ExperimentalEvaluationofMobileCoreNetworksonSimultaneousAccessfromM2MIoTTerminals}
+M.~{Ueno}, G.~{Hasegawa}, and M.~{Murata}, ``{Experimental Evaluation of Mobile
+  Core Networks on Simultaneous Access from M2M/IoT Terminals},'' in
+  \emph{Proceedings of 2019 International Conference on Information Networking
+  (ICOIN)}, Jan. 2019, pp. 13--18.
 
 \bibitem{3gpp.45.820}
 \BIBentryALTinterwordspacing
