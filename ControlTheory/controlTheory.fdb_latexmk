@@ -1,9 +1,9 @@
 # Fdb version 3
-["dvipdf"] 1570584408 "controlTheory.dvi" "controlTheory.pdf" "controlTheory" 1570584410
-  "controlTheory.dvi" 1570584408 27892 0b7f0847e934c2cf6d1a9be256c9b9a7 "latex"
+["dvipdf"] 1571793978 "controlTheory.dvi" "controlTheory.pdf" "controlTheory" 1571793980
+  "controlTheory.dvi" 1571793978 33412 563ab7b97653580bcf5e452c4403ecc8 "latex"
   (generated)
   "controlTheory.pdf"
-["latex"] 1570584407 "controlTheory.tex" "controlTheory.dvi" "controlTheory" 1570584410
+["latex"] 1571793976 "controlTheory.tex" "controlTheory.dvi" "controlTheory" 1571793980
   "/usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1480098698 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1480098698 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
@@ -69,17 +69,29 @@
   "/usr/local/texlive/2017/texmf-dist/web2c/texmf.cnf" 1494087824 32646 eadc4ca26cdbe7105ac7c593aa8c4f72 ""
   "/usr/local/texlive/2017/texmf-var/web2c/euptex/uplatex.fmt" 1505440380 4338250 41983557c21b6da30b6d682855b508ba ""
   "/usr/local/texlive/2017/texmf.cnf" 1495593465 577 2b71d4d888f9e5560b2e99985915a9fa ""
-  "Simulation_UML.pdf" 1570583258 127692 f22f736f1c9ecd7d6f33df9657b61721 ""
-  "controlTheory.aux" 1570584408 1613 af7953c7807411c3cdab53c09dc98524 ""
-  "controlTheory.tex" 1570584406 21211 82696b478e72ea917f7b8b59d9abb6f1 ""
+  "Simulation_UML.pdf" 1571158205 131832 accc46fb28b48d9895c11df05f7c8493 ""
+  "controlTheory.aux" 1571793978 3458 8789e7a4bd9307bf1bd194552a3879f4 ""
+  "controlTheory.tex" 1571793972 27692 b6699b25cb04e96f11506b155f5d09d0 ""
   "extractbb -B cropbox -O Simulation_UML.pdf" 0 -1 0 ""
+  "extractbb -B cropbox -O scenario_1_signaling_and_memoryload_vs_timeStep.pdf" 0 -1 0 ""
+  "extractbb -B cropbox -O scenario_1_stateBreakdown.pdf" 0 -1 0 ""
+  "extractbb -B cropbox -O scenario_3_signaling_and_memoryload_vs_timeStep.pdf" 0 -1 0 ""
+  "extractbb -B cropbox -O scenario_3_stateBreakdown.pdf" 0 -1 0 ""
+  "extractbb -B cropbox -O scenario_4_signaling_and_memoryload_vs_timeStep_all.pdf" 0 -1 0 ""
+  "extractbb -B cropbox -O scenario_4_stateBreakdown_all.pdf" 0 -1 0 ""
   "extractbb -B cropbox -O theory_1_add_C_M.pdf" 0 -1 0 ""
   "extractbb -B cropbox -O theory_1_add_all.pdf" 0 -1 0 ""
   "extractbb -B cropbox -O theory_1_all_30s_theory.pdf" 0 -1 0 ""
+  "scenario_1_signaling_and_memoryload_vs_timeStep.pdf" 1571718074 5054 889177a62b5a7d126d2c1b5cb684222c ""
+  "scenario_1_stateBreakdown.pdf" 1571718075 4898 473de8de1a38db1678cbbe10a643dad3 ""
+  "scenario_3_signaling_and_memoryload_vs_timeStep.pdf" 1571746735 18874 6fa690f5650703bc3a090eaa6b4fb142 ""
+  "scenario_3_stateBreakdown.pdf" 1571746318 25532 f2a134266e9f156b6a445f622dbe97d0 ""
+  "scenario_4_signaling_and_memoryload_vs_timeStep_all.pdf" 1571780769 222191 22d8d9075fc46ae7f3355bc75a4c8793 ""
+  "scenario_4_stateBreakdown_all.pdf" 1571780805 328417 e37ec36a19a19327f33d4b9baf361280 ""
   "theory_1_add_C_M.pdf" 1569973321 6993 b8d98aa9f0a48476e91c504d28fa579a ""
   "theory_1_add_all.pdf" 1569973565 8455 7dc811bce3a2eef4c0437bd2acb5b65a ""
   "theory_1_all_30s_theory.pdf" 1569825988 13317 8e09e1999bad9760b60d515f8e724ccd ""
   (generated)
-  "controlTheory.log"
-  "controlTheory.aux"
   "controlTheory.dvi"
+  "controlTheory.aux"
+  "controlTheory.log"

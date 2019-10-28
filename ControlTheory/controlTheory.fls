@@ -115,4 +115,16 @@ INPUT theory_1_add_all.pdf
 INPUT extractbb -B cropbox -O theory_1_add_all.pdf
 INPUT Simulation_UML.pdf
 INPUT extractbb -B cropbox -O Simulation_UML.pdf
+INPUT scenario_1_signaling_and_memoryload_vs_timeStep.pdf
+INPUT extractbb -B cropbox -O scenario_1_signaling_and_memoryload_vs_timeStep.pdf
+INPUT scenario_1_stateBreakdown.pdf
+INPUT extractbb -B cropbox -O scenario_1_stateBreakdown.pdf
+INPUT scenario_3_signaling_and_memoryload_vs_timeStep.pdf
+INPUT extractbb -B cropbox -O scenario_3_signaling_and_memoryload_vs_timeStep.pdf
+INPUT scenario_3_stateBreakdown.pdf
+INPUT extractbb -B cropbox -O scenario_3_stateBreakdown.pdf
+INPUT scenario_4_signaling_and_memoryload_vs_timeStep_all.pdf
+INPUT extractbb -B cropbox -O scenario_4_signaling_and_memoryload_vs_timeStep_all.pdf
+INPUT scenario_4_stateBreakdown_all.pdf
+INPUT extractbb -B cropbox -O scenario_4_stateBreakdown_all.pdf
 INPUT controlTheory.aux

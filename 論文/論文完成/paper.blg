@@ -1,0 +1,81 @@
+This is BibTeX, Version 0.99d (TeX Live 2017)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: paper.aux
+The style file: IEEEtran.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: /Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio.bib
+Repeated entry---line 1348 of file /Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio.bib
+ : @misc{EnhancedBackoffTimerSolutionforGTPCOverloadControl
+ :                                                         ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 1526 of file /Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio.bib
+ : @inproceedings{ACloudNativeSolutionforDynamicAutoScalingofMMEinLTE
+ :                                                                   ,
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 1548 of file /Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio.bib
+ :   
+ :   month=jun
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Database file #2: /Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/Study_Group_Bibtex/bib/hptCoreNetwork_Study.bib
+Repeated entry---line 162 of file /Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/Study_Group_Bibtex/bib/hptCoreNetwork_Study.bib
+ : @inproceedings{AcloudnativesolutionfordynamicautoscalingofMMEinLTE
+ :                                                                   ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 529 of file /Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/Study_Group_Bibtex/bib/hptCoreNetwork_Study.bib
+ : @inproceedings{TechnoEconomicFrameworkforCloudInfrastructureACostStudyofResourceDisaggregation
+ :                                                                                               ,
+I'm skipping whatever remains of this entry
+-- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+Warning--empty author in IntelsDisaggregatedServerRack
+Warning--empty author in DisaggregatedServersDriveDataCenterEfficiencyandInnovation
+
+Done.
+You've used 17 entries,
+            4087 wiz_defined-function locations,
+            926 strings with 12624 characters,
+and the built_in function-call counts, 11329 in all, are:
+= -- 844
+> -- 280
+< -- 59
++ -- 149
+- -- 55
+* -- 558
+:= -- 1721
+add.period$ -- 35
+call.type$ -- 17
+change.case$ -- 19
+chr.to.int$ -- 135
+cite$ -- 19
+duplicate$ -- 863
+empty$ -- 1007
+format.name$ -- 67
+if$ -- 2629
+int.to.chr$ -- 0
+int.to.str$ -- 17
+missing$ -- 184
+newline$ -- 86
+num.names$ -- 14
+pop$ -- 460
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 2
+skip$ -- 843
+stack$ -- 0
+substring$ -- 336
+swap$ -- 643
+text.length$ -- 14
+text.prefix$ -- 0
+top$ -- 5
+type$ -- 17
+warning$ -- 2
+while$ -- 41
+width$ -- 19
+write$ -- 188
+(There were 5 error messages)

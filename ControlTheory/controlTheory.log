@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.14159265-p3.7.1-u1.22-161114-2.6 (utf8.uptex) (TeX Live 2017) (preloaded format=uplatex 2017.9.15)  9 OCT 2019 10:26
+This is e-upTeX, Version 3.14159265-p3.7.1-u1.22-161114-2.6 (utf8.uptex) (TeX Live 2017) (preloaded format=uplatex 2017.9.15)  23 OCT 2019 10:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -257,16 +257,45 @@ File: theory_1_add_all.pdf Graphic file (type pdf)
 [3] [4]
 File: Simulation_UML.pdf Graphic file (type pdf)
 <Simulation_UML.pdf>
- [5] [6] [7
+ [5] [6]
+LaTeX Font Info:    Font shape `JT2/mc/bx/n' in size <10> not available
+(Font)              Font shape `JT2/gt/m/n' tried instead on input line 255.
+LaTeX Font Info:    Font shape `JT2/gt/m/n' will be
+(Font)              scaled to size 9.6222pt on input line 255.
+LaTeX Font Info:    Font shape `JY2/mc/bx/n' in size <10> not available
+(Font)              Font shape `JY2/gt/m/n' tried instead on input line 255.
+LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
+(Font)              scaled to size 9.6222pt on input line 255.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 260.
+
+File: scenario_1_signaling_and_memoryload_vs_timeStep.pdf Graphic file (type pdf)
+<scenario_1_signaling_and_memoryload_vs_timeStep.pdf>
+File: scenario_1_stateBreakdown.pdf Graphic file (type pdf)
+<scenario_1_stateBreakdown.pdf>
+File: scenario_3_signaling_and_memoryload_vs_timeStep.pdf Graphic file (type pdf)
+<scenario_3_signaling_and_memoryload_vs_timeStep.pdf>
+File: scenario_3_stateBreakdown.pdf Graphic file (type pdf)
+<scenario_3_stateBreakdown.pdf>
+[7
+
+]
+File: scenario_4_signaling_and_memoryload_vs_timeStep_all.pdf Graphic file (type pdf)
+<scenario_4_signaling_and_memoryload_vs_timeStep_all.pdf>
+File: scenario_4_stateBreakdown_all.pdf Graphic file (type pdf)
+<scenario_4_stateBreakdown_all.pdf>
+ [8] [9] [10] [11
 
 ] (./controlTheory.aux) ) 
 Here is how much of TeX's memory you used:
- 2795 strings out of 493644
- 41005 string characters out of 6149000
+ 2834 strings out of 493644
+ 42640 string characters out of 6149000
  109630 words of memory out of 5000000
- 6371 multiletter control sequences out of 15000+600000
+ 6398 multiletter control sequences out of 15000+600000
  20261 words of font info for 86 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
  42i,15n,40p,692b,742s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on controlTheory.dvi (7 pages, 27892 bytes).
+Output written on controlTheory.dvi (11 pages, 33412 bytes).

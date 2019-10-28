@@ -10,7 +10,7 @@
 
 \title{進捗報告資料}
 \author{安達智哉\\to-adachi@ist.osaka-u.ac.jp}
-\date{2019年10月8日}
+\date{2019年10月22日}
 
 \begin{document}
 \maketitle
@@ -202,21 +202,23 @@ PID制御を機能させるためには、これら3つの定数を適切に設�
 
 \subsection{Idleタイマの制御方法(UEの強制的な状態遷移を引き起こす方法)}
 \label{sec:soft-state}
-本節では、UEの強制的な状態変化を引き起こすことを前提にする。
-つまり、Idleタイマが切れていないUEを強制的にIdle状態へ遷移させることが可能である。
-また、MMEはCPUおよびメモリリソースの使用量および、現在収容しているUE台数を観測できるものとする。
-
-第\ref{sec:hard-state}節と同様に、現在収容しているUEに加え、最も多くのUEを収容できるようなIdleタイマの値が最適と考える。
-
-本節は第\ref{sec:hard-state}節と異なり、UEを強制的にIdle状態へ遷移させることが可能であるため、短期間にメモリ使用量を削減することが可能である。
-そこで、常にメモリに使用量が大きい状態にしておき、UEの増加に応じて一部のUEをIdle状態へ遷移させるような制御が良いと考える。
-例えば、Idleタイマとシグナリング頻度およびメモリ使用量の関係が図\ref{theory_1_all_30s_theory}のようになる場合、メモリ使用量がメモリ容量を超えない範囲で閾値を設定する。
-そして閾値を超えないギリギリの値(約4,000~s)をIdleタイマに設定する。
-そして、UE台数が増加し、メモリ使用量が増加した場合には、Idleタイマを小さくする。
-具体的には、メモリ負荷が閾値を下回るまで、最後のデータ送信時刻が古いUEから順にIdle状態へ落としていく。
-そして、メモリ負荷が解消された時に、Connected Inactive状態を維持しているUEのなかで、最後のデータ送信の時刻が最も古いUEを参考にし、新しいIdleタイマを設定する。
+現在検討中である。
+% 本節では、UEの強制的な状態変化を引き起こすことを前提にする。
+% つまり、Idleタイマが切れていないUEを強制的にIdle状態へ遷移させることが可能である。
+% また、MMEはCPUおよびメモリリソースの使用量および、現在収容しているUE台数を観測できるものとする。
+%
+% 第\ref{sec:hard-state}節と同様に、現在収容しているUEに加え、最も多くのUEを収容できるようなIdleタイマの値が最適と考える。
+%
+% 本節は第\ref{sec:hard-state}節と異なり、UEを強制的にIdle状態へ遷移させることが可能であるため、短期間にメモリ使用量を削減することが可能である。
+% そこで、常にメモリに使用量が大きい状態にしておき、UEの増加に応じて一部のUEをIdle状態へ遷移させるような制御が良いと考える。
+% 例えば、Idleタイマとシグナリング頻度およびメモリ使用量の関係が図\ref{theory_1_all_30s_theory}のようになる場合、メモリ使用量がメモリ容量を超えない範囲で閾値を設定する。
+% そして閾値を超えないギリギリの値(約4,000~s)をIdleタイマに設定する。
+% そして、UE台数が増加し、メモリ使用量が増加した場合には、Idleタイマを小さくする。
+% 具体的には、メモリ負荷が閾値を下回るまで、最後のデータ送信時刻が古いUEから順にIdle状態へ落としていく。
+% そして、メモリ負荷が解消された時に、Connected Inactive状態を維持しているUEのなかで、最後のデータ送信の時刻が最も古いUEを参考にし、新しいIdleタイマを設定する。
 
 \subsection{シミュレーション環境}
+\label{sec:simulation_system}
 Idleタイマの制御方式の妥当性を評価するためには、UEおよびMMEの動作をシミュレートする必要がある。
 UEのシミュレートとは、各UE1台ごとの状態や状態遷移、データ送信等の挙動を再現することである。
 MMEのシミュレートとは、全UEの状態および状態遷移から、MMEに発生する負荷を再現することである。
@@ -236,20 +238,138 @@ Idle Timerコントローラは、``Idleタイマの更新()"というメソッ�
 このクラスでは、MMEシミュレータからMMEの負荷とUE台数を取得し、Idleタイマの制御に用いる。
 % それ以外の情報(UEの通信周期など)にはこのクラスからはアクセスできない。
 
-
-
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=1.0\hsize]{Simulation_UML.pdf}
   \caption{Idleタイマに対する，メッセージ処理頻度とメモリ使用量の関係}
   \label{Simulation_UML}
 \end{figure}
-
 \clearpage
+
+
+\subsection{シミュレーション環境の動作環境}
+\label{sec:simulation_program}
+第\ref{sec:simulation_system}節で述べたシミュレーション環境を実装した。
+評価を行う前に、MMEの負荷を正しくシミュレートできているかを以下の3つのシナリオで確認した。
+
+\subsubsection{シナリオ~1}
+シナリオ1では、UE台数を1台とし、その通信周期は20 sとした。
+また、タイムステップ1で最初のデータ送信が発生するものとする。
+その他のパラメータは表\ref{table:parameter}の通りとし、1タイムステップの長さは1~sとした。
+今後の研究ではIdleタイマの制御を行う予定だが、今回はシミュレータの動作確認が目的であるため、Idleタイマは15~sで固定している。
+\begin{table}[]
+  \centering
+  \caption{パラメータ設定}
+  \label{table:parameter}
+  \begin{tabular}{c|l}
+    \hline
+    Parameter  & Numerical setting \\\hline \hline
+    $T^{\rm ci}$ & 10~s\\
+    $s_{\rm MME}^{\rm c \to \rm c}$ & 0~messages\\
+    $s_{\rm MME}^{\rm ci \to \rm ci}$ & 0~messages\\
+    $s_{\rm MME}^{\rm c \to \rm ci}$ & 0~messages\\
+    $s_{\rm MME}^{\rm ci \to \rm c}$ & 0~messages\\
+    $s_{\rm MME}^{\rm ci \to \rm i}$ & 5~messages\\
+    $s_{\rm MME}^{\rm i \to \rm c}$ & 5~messages\\
+    $m^{\rm c}_{\rm MME}$ & 17878~bits\\
+    $m^{\rm ci}_{\rm MME}$ & 17878~bits\\
+    $m^{\rm i}_{\rm MME}$ & 408~bits\\
+    $C^{\rm max}$ & 1200~messages/s\\
+    $M^{\rm max}$ & 1,000~MB\\
+    $d_h$ & 1 \\\hline
+  \end{tabular}
+\end{table}
+
+図\ref{scenario_1_signaling_and_memoryload_vs_timeStep}に、タイムステップ毎のMME負荷を示す。
+横軸がタイムステップ、縦軸がメッセージ処理数およびメモリ使用量である。
+また、図\ref{scenario_1_stateBreakdown}では、各状態に存在するUE台数タイムステップ毎に示している。
+図\ref{scenario_1_signaling_and_memoryload_vs_timeStep}と図\ref{scenario_1_stateBreakdown}を見ると、UEがアイドル状態から接続状態へ遷移するタイミングおよびConnected Inactive状態からアイドル状態へ遷移するタイミングでメッセージ処理が発生していることがわかる。
+また、UEが接続状態およびConnected Inactive状態である時にメモリ使用量が増加し、アイドル状態である時にメモリ負荷が減少していることがわかる。
+
+\begin{figure}[htbp]
+  \begin{center}
+    \begin{tabular}{c}
+      \begin{minipage}{0.47\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_1_signaling_and_memoryload_vs_timeStep.pdf}
+        \subcaption{メッセージ処理数とメモリ使用量の変化(シナリオ~1)}
+        \label{scenario_1_signaling_and_memoryload_vs_timeStep}
+        \end{center}
+      \end{minipage}
+      \begin{minipage}{0.47\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_1_stateBreakdown.pdf}
+        \subcaption{各状態に存在するUE台数の変化(シナリオ~1)}
+        \label{scenario_1_stateBreakdown}
+        \end{center}
+      \end{minipage}
+    \end{tabular}
+    \caption{}
+  \end{center}
+\end{figure}
+
+
+\subsubsection{シナリオ~2}
+シナリオ2では、UE台数を約1,036,800台とし、それらの通信周期は1~dayとした。%1036800
+また、UEの通信タイミングは理想的に分散している。
+その他のパラメータは表\ref{table:parameter}の通りとし、1タイムステップの長さは1~sとした。
+Idleタイマは600~sで固定している。
+
+図\ref{scenario_2_signaling_and_memoryload_vs_timeStep}に、タイムステップ毎のMME負荷を示す。
+横軸がタイムステップ、縦軸がメッセージ処理数およびメモリ使用量である。
+また、図\ref{scenario_2_stateBreakdown}では、各状態に存在するUE台数タイムステップ毎に示している。
+シナリオ~1と比較するとMMEの負荷が一定であることがわかる。
+なぜなら、UEの通信タイミングが理想的に分散しているため、タイムステップに依存せず、常に一定の台数のUEがデータ送信を行う状態遷移を行うためである。
+また、MMEの負荷やUEの状態は正しい値であることを確認した。
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.6\hsize]{scenario_3_signaling_and_memoryload_vs_timeStep.pdf}
+    \caption{メッセージ処理数とメモリ使用量の変化(シナリオ~2)}
+    \label{scenario_2_signaling_and_memoryload_vs_timeStep}
+  \end{center}
+\end{figure}
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.6\hsize]{scenario_3_stateBreakdown.pdf}
+    \caption{各状態に存在するUE台数の変化(シナリオ~2)}
+    \label{scenario_2_stateBreakdown}
+  \end{center}
+\end{figure}
+
+
+\subsubsection{シナリオ~3}
+シナリオ3は、途中でUEが増加するシナリオである。
+初期状態のUE台数は86,400台である。
+タイムステップ21,600から43,200の間に86,400台のUEが新しく追加され、UE台数は172,800台に増加する。
+全てのUEの通信周期は1~dayとした。%1036800
+また、初期状態では、UEの通信タイミングは理想的に分散している。
+その他のパラメータは表\ref{table:parameter}の通りとし、1タイムステップの長さは1~sとした。
+Idleタイマは3600~sで固定している。
+
+図\ref{scenario_3_signaling_and_memoryload_vs_timeStep}に、タイムステップ毎のMME負荷を示す。
+横軸がタイムステップ、縦軸がメッセージ処理数およびメモリ使用量である。
+また、図\ref{scenario_3_stateBreakdown}では、各状態に存在するUE台数タイムステップ毎に示している。
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.6\hsize]{scenario_4_signaling_and_memoryload_vs_timeStep_all.pdf}
+    \caption{メッセージ処理数とメモリ使用量の変化(シナリオ~3)}
+    \label{scenario_3_signaling_and_memoryload_vs_timeStep}
+  \end{center}
+\end{figure}
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.6\hsize]{scenario_4_stateBreakdown_all.pdf}
+    \caption{各状態に存在するUE台数の変化(シナリオ~3)}
+    \label{scenario_3_stateBreakdown}
+  \end{center}
+\end{figure}
+\clearpage
+
 \section{今後の予定}
   \begin{itemize}
     \item PID制御に関する学習
-    \item 発表スライドの作成: 〜10/16
+    \item 発表スライドの作成: 〜10/18
   \end{itemize}
 %
 % \section*{\addcontentsline{toc}{section}{参考文献}}
