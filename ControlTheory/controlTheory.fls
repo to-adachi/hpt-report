@@ -45,10 +45,15 @@ INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amsbsy.sty
 INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amsbsy.sty
 INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amsopn.sty
 INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/amsmath/amsopn.sty
+INPUT /usr/local/texlive/2017/texmf-dist/tex/platex/base/ascmac.sty
+INPUT /usr/local/texlive/2017/texmf-dist/tex/platex/base/ascmac.sty
+INPUT /usr/local/texlive/2017/texmf-dist/tex/platex/base/tascmac.sty
+INPUT /usr/local/texlive/2017/texmf-dist/tex/platex/base/tascmac.sty
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/ptex-fonts/ascgrp/ascgrp.tfm
 INPUT controlTheory.aux
 INPUT controlTheory.aux
 OUTPUT controlTheory.aux
-INPUT /usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/uptex-fonts/jis/upjisr-v.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/uptex-fonts/jis/upjisr-h.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
@@ -127,4 +132,12 @@ INPUT scenario_4_signaling_and_memoryload_vs_timeStep_all.pdf
 INPUT extractbb -B cropbox -O scenario_4_signaling_and_memoryload_vs_timeStep_all.pdf
 INPUT scenario_4_stateBreakdown_all.pdf
 INPUT extractbb -B cropbox -O scenario_4_stateBreakdown_all.pdf
+INPUT scenario_5_signaling_and_memoryload_vs_timeStep.pdf
+INPUT extractbb -B cropbox -O scenario_5_signaling_and_memoryload_vs_timeStep.pdf
+INPUT scenario_5_stateBreakdown.pdf
+INPUT extractbb -B cropbox -O scenario_5_stateBreakdown.pdf
+INPUT scenario_5_idleTimer.pdf
+INPUT extractbb -B cropbox -O scenario_5_idleTimer.pdf
+INPUT scenario_5_capa.pdf
+INPUT extractbb -B cropbox -O scenario_5_capa.pdf
 INPUT controlTheory.aux
