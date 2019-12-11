@@ -9,9 +9,9 @@
 \usepackage{ascmac}
 % \usepackage{minipage}
 
-\title{進捗報告資料}
+\title{ミーティング資料}
 \author{安達智哉\\to-adachi@ist.osaka-u.ac.jp}
-\date{2019年12月4日}
+\date{2019年12月11日}
 
 \begin{document}
 \maketitle
@@ -228,7 +228,7 @@ UE台数は648,000台であり、UEの持つ通信周期は1~day，2~hours，1~h
 
 % まず、限界感度および限界周期を求めるために、$K_i$および$K_d$を0にして、$K_p$を0から徐々に大きくしていった。その結果を図\ref{result_1}および図\ref{result_2}に示す。これらの図は$K_p=0.2$、$K_p=0.5$、$K_p=0.52$、$K_p=0.53$の場合の結果を示している。左側の図は、タイムステップごとの$r(y)$(式(\ref{eq:PID_e_t})より)の変化を示している。右図は、タイムステップごとのIdleタイマの変化を示している。これらの図を見ると、$K_p=0.52$以下の場合は制御が収束するが、$K_p=0.53$の場合は制御が収束せず、一定振幅振動していることがわかる。このことから、限界感度($K_u$)を0.53とする。また、限界周期($P_u$)は図\ref{scenario_5_e_86400_345600_053_0_0}より、7450~sとする。
 
-限界感度および限界周期を求めるために、$K_i$および$K_d$を0にして、$K_p$を0から徐々に大きくしていった。その結果、$K_p=0.53$の場合は制御が収束せず、一定振幅振動することがわかった。このことから、限界感度($K_u$)を0.53とする。また、限界周期($P_u$)は図\ref{scenario_5_e_86400_345600_053_0_0}より、7450~sとする。
+限界感度および限界周期を求めるために、$K_i$および$K_d$を0にして、$K_p$を0から徐々に大きくしていった。その結果、$K_p=0.53$の場合は制御が収束せず、一定振幅振動することがわかった。このことから、限界感度($K_u$)を0.53とする。また、限界周期($P_u$)は7450~sとする。
 % \begin{figure}[htbp]
 %   \begin{center}
 %     \begin{tabular}{c}
@@ -578,28 +578,28 @@ UE台数は648,000台であり、UEの持つ通信周期は1~day，2~hours，1~h
       \begin{minipage}{0.45\hsize}
         \begin{center}
         \includegraphics[width=1\hsize]{scenario_5_e_86400_345600_0-318_3725_931-25_0-125_average.pdf}
-        \subcaption{$e(t)$の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均)}
+        \subcaption{$e(t)$の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.125$)}
         \label{scenario_5_e_86400_345600_0-318_0-318_3725_931-25_0-125_average}
         \end{center}
       \end{minipage}
       \begin{minipage}{0.45\hsize}
         \begin{center}
         \includegraphics[width=1\hsize]{scenario_5_idleTimer_86400_345600_0-318_3725_931-25_0-125_average.pdf}
-        \subcaption{IdleTimerの変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均)}
+        \subcaption{IdleTimerの変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.125$)}
         \label{scenario_5_idleTimer_86400_345600_0-318_3725_931-25_0-125_average}
         \end{center}
       \end{minipage}\\
       \begin{minipage}{0.45\hsize}
         \begin{center}
         \includegraphics[width=1\hsize]{scenario_5_signaling_and_memoryload_vs_timeStep_86400_345600_0-318_3725_931-25_0-125_average.pdf}
-        \subcaption{CPU負荷とメモリ使用量の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均)}
+        \subcaption{CPU負荷とメモリ使用量の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.125$)}
         \label{scenario_5_signaling_and_memoryload_vs_timeStep_86400_345600_0-318_3725_931-25_0-125_average}
         \end{center}
       \end{minipage}
       \begin{minipage}{0.45\hsize}
         \begin{center}
         \includegraphics[width=1\hsize]{scenario_5_stateBreakdown_86400_345600_0-318_3725_931-25_0-125_average.pdf}
-        \subcaption{各状態にあるUE台数の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均)}
+        \subcaption{各状態にあるUE台数の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.125$)}
         \label{scenario_5_stateBreakdown_86400_345600_0-318_3725_931-25_0-125_average}
         \end{center}
       \end{minipage}
@@ -649,9 +649,22 @@ UE台数は648,000台であり、UEの持つ通信周期は1~day，2~hours，1~h
 \end{figure}
 
 \clearpage
-図\ref{result_pid_average}および図\ref{result_pid_practice}の結果より、指数移動平均や実用PID制御を用いて入力の離散的な変動を平滑化することによって、そのようにしない場合(図\ref{result_pid})と比較して制御が安定することがわかる。しかし、依然としてIdleタイマの制御が十分安定しているとは言えない。指数移動平均の荷重($\alpha$)や実用PID制御における微分係数($\eta$)の値を変更しても同様に、Idleタイマが安定することはなかった。
+図\ref{result_pid_average}および図\ref{result_pid_practice}の結果より、指数移動平均や実用PID制御を用いて入力の離散的な変動を平滑化することによって、そのようにしない場合(図\ref{result_pid})と比較して制御が安定することがわかる。
+しかし、依然としてIdleタイマの制御が十分安定しているとは言えない。
 
-図\ref{result_pid_average}に示したIdleタイマの変化とシグナリング頻度の変化をタイムステップ50,000から55,000の範囲でプロットしたグラフを図\ref{scenario_5_analyze_86400_345600_0-318_3725_931-25_0-125_average}に示す。この図を見ると、Idleタイマおよびシグナリング頻度は周期的に変動していることがわかる。また、それぞれの変動のタイミングおよび周期が一致していることもわかる。これは、シグナリング頻度の変化にIdleタイマを追従させるようにPID制御が機能しているためである。シグナリング頻度が周期的に変化している理由は、Idleタイマの変化によって、UEの状態遷移が集中する期間が周期的に発生するためである。図中の左側に2本の破線と2本の直線を引いた。2本の破線に囲まれた期間はシグナリング頻度が大きく、Idleタイマが約3,500~sに設定されている。一方、2本の直線に囲まれた期間はシグナリング頻度が小さく、Idleタイマは約3,100~sに設定されている。すると、破線で示した期間にデータ送信を行ったUEは、約3,500~s後にConnected Inactive 状態からアイドル状態への状態遷移を発生させる。同様に、直線で示した期間にデータ送信を行ったUEは、約3,100~s後に状態遷移を発生させる。このタイミングを図中の右側の破線および直線に示す。右側の破線および直線は左側の破線および直線のそれぞれ3,500~s、3,100~s後を示している。これを見ると、UEの状態遷移のタイミングが重なっていることがわかる。また、それが原因となり、シグナリング頻度が大きくなっている。上述のように、シグナリング頻度の変動が、一定期間後に同様のシグナリング頻度の変動を引き起こす場合がある。　
+図\ref{result_pid_average}に示したIdleタイマの変化とシグナリング頻度の変化をタイムステップ50,000から55,000の範囲でプロットしたグラフを図\ref{scenario_5_analyze_86400_345600_0-318_3725_931-25_0-125_average}に示す。
+この図を見ると、Idleタイマおよびシグナリング頻度は周期的に変動していることがわかる。
+また、それぞれの変動のタイミングおよび周期が一致していることもわかる。
+これは、シグナリング頻度の変化にIdleタイマを追従させるようにPID制御が機能しているためである。
+シグナリング頻度が周期的に変化している理由は、Idleタイマの変化によって、UEの状態遷移が集中する期間が周期的に発生するためである。
+図中の左側に2本の破線と2本の直線を引いた。2本の破線に囲まれた期間はシグナリング頻度が大きく、Idleタイマが約3,500~sに設定されている。
+一方、2本の直線に囲まれた期間はシグナリング頻度が小さく、Idleタイマは約3,100~sに設定されている。
+すると、破線で示した期間にデータ送信を行ったUEは、約3,500~s後にConnected Inactive 状態からアイドル状態への状態遷移を発生させる。
+同様に、直線で示した期間にデータ送信を行ったUEは、約3,100~s後に状態遷移を発生させる。このタイミングを図中の右側の破線および直線に示す。
+右側の破線および直線は左側の破線および直線のそれぞれ3,500~s、3,100~s後を示している。
+これを見ると、UEの状態遷移のタイミングが重なっていることがわかる。
+また、それが原因となり、シグナリング頻度が大きくなっている。
+上述のように、シグナリング頻度の変動が、一定期間後に同様のシグナリング頻度の変動を引き起こす場合がある。
 \begin{figure}[htbp]
   \centering
     \includegraphics[width=1\hsize]{scenario_5_analyze_86400_345600_0-318_3725_931-25_0-125_average.pdf}
@@ -659,7 +672,7 @@ UE台数は648,000台であり、UEの持つ通信周期は1~day，2~hours，1~h
     \label{scenario_5_analyze_86400_345600_0-318_3725_931-25_0-125_average}
 \end{figure}
 
-% 限界ゲイン$K_{pc}$=0
+% 限界ゲイン$K_{pc}$=0.53
 
 % 限界周期$T_c$=7450
 % $K_p=0.6K_{pc}=0.318$
@@ -672,11 +685,191 @@ UE台数は648,000台であり、UEの持つ通信周期は1~day，2~hours，1~h
 % $K_p=0.54K_{pc}=0.2862$
 % $K_i=K_p / 0.83T_c = 0.2862 / 6183.5 = 0.00004628$
 
+\clearpage
+移動平均に関する式(\ref{eq:PID_average})における$\alpha$の値を様々に変化させて実験を行った。
+結果を以下の図\ref{result_pid_average_0-01}、\ref{result_pid_average_0-005}、\ref{result_pid_average_0-003}、\ref{result_pid_average_0-001}に示す。
+これらの結果を見ると$\alpha$の値が小さい場合、Idleタイマが小さい周期で変動が安定することがわかる。
+一方で、オーバシュートの発生により、周期の大きな変動が発生していることがわかる。
+\begin{figure}[htbp]
+  \begin{center}
+    \begin{tabular}{c}
+      \begin{minipage}{0.45\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_5_e_86400_345600_0-318_3725_931-25_0-01_average.pdf}
+        \subcaption{$e(t)$の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.01$)}
+        \label{scenario_5_e_86400_345600_0-318_0-318_3725_931-25_0-01_average}
+        \end{center}
+      \end{minipage}
+      \begin{minipage}{0.45\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_5_idleTimer_86400_345600_0-318_3725_931-25_0-01_average.pdf}
+        \subcaption{IdleTimerの変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.01$)}
+        \label{scenario_5_idleTimer_86400_345600_0-318_3725_931-25_0-01_average}
+        \end{center}
+      \end{minipage}\\
+      \begin{minipage}{0.45\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_5_signaling_and_memoryload_vs_timeStep_86400_345600_0-318_3725_931-25_0-01_average.pdf}
+        \subcaption{CPU負荷とメモリ使用量の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.01$)}
+        \label{scenario_5_signaling_and_memoryload_vs_timeStep_86400_345600_0-318_3725_931-25_0-01_average}
+        \end{center}
+      \end{minipage}
+      \begin{minipage}{0.45\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_5_stateBreakdown_86400_345600_0-318_3725_931-25_0-01_average.pdf}
+        \subcaption{各状態にあるUE台数の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.01$)}
+        \label{scenario_5_stateBreakdown_86400_345600_0-318_3725_931-25_0-01_average}
+        \end{center}
+      \end{minipage}
+    \end{tabular}
+    \caption{}
+    \label{result_pid_average_0-01}
+  \end{center}
+\end{figure}
+
+\clearpage
+\begin{figure}[htbp]
+  \begin{center}
+    \begin{tabular}{c}
+      \begin{minipage}{0.45\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_5_e_86400_345600_0-318_3725_931-25_0-005_average.pdf}
+        \subcaption{$e(t)$の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.005$)}
+        \label{scenario_5_e_86400_345600_0-318_0-318_3725_931-25_0-005_average}
+        \end{center}
+      \end{minipage}
+      \begin{minipage}{0.45\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_5_idleTimer_86400_345600_0-318_3725_931-25_0-005_average.pdf}
+        \subcaption{IdleTimerの変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.005$)}
+        \label{scenario_5_idleTimer_86400_345600_0-318_3725_931-25_0-005_average}
+        \end{center}
+      \end{minipage}\\
+      \begin{minipage}{0.45\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_5_signaling_and_memoryload_vs_timeStep_86400_345600_0-318_3725_931-25_0-005_average.pdf}
+        \subcaption{CPU負荷とメモリ使用量の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.005$)}
+        \label{scenario_5_signaling_and_memoryload_vs_timeStep_86400_345600_0-318_3725_931-25_0-005_average}
+        \end{center}
+      \end{minipage}
+      \begin{minipage}{0.45\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_5_stateBreakdown_86400_345600_0-318_3725_931-25_0-005_average.pdf}
+        \subcaption{各状態にあるUE台数の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.005$)}
+        \label{scenario_5_stateBreakdown_86400_345600_0-318_3725_931-25_0-005_average}
+        \end{center}
+      \end{minipage}
+    \end{tabular}
+    \caption{}
+    \label{result_pid_average_0-005}
+  \end{center}
+\end{figure}
+
+\clearpage
+\begin{figure}[htbp]
+  \begin{center}
+    \begin{tabular}{c}
+      \begin{minipage}{0.45\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_5_e_86400_345600_0-318_3725_931-25_0-003_average.pdf}
+        \subcaption{$e(t)$の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.003$)}
+        \label{scenario_5_e_86400_345600_0-318_0-318_3725_931-25_0-003_average}
+        \end{center}
+      \end{minipage}
+      \begin{minipage}{0.45\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_5_idleTimer_86400_345600_0-318_3725_931-25_0-003_average.pdf}
+        \subcaption{IdleTimerの変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.003$)}
+        \label{scenario_5_idleTimer_86400_345600_0-318_3725_931-25_0-003_average}
+        \end{center}
+      \end{minipage}\\
+      \begin{minipage}{0.45\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_5_signaling_and_memoryload_vs_timeStep_86400_345600_0-318_3725_931-25_0-003_average.pdf}
+        \subcaption{CPU負荷とメモリ使用量の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.003$)}
+        \label{scenario_5_signaling_and_memoryload_vs_timeStep_86400_345600_0-318_3725_931-25_0-003_average}
+        \end{center}
+      \end{minipage}
+      \begin{minipage}{0.45\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_5_stateBreakdown_86400_345600_0-318_3725_931-25_0-003_average.pdf}
+        \subcaption{各状態にあるUE台数の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.003$)}
+        \label{scenario_5_stateBreakdown_86400_345600_0-318_3725_931-25_0-003_average}
+        \end{center}
+      \end{minipage}
+    \end{tabular}
+    \caption{}
+    \label{result_pid_average_0-003}
+  \end{center}
+\end{figure}
+
+\clearpage
+\begin{figure}[htbp]
+  \begin{center}
+    \begin{tabular}{c}
+      \begin{minipage}{0.45\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_5_e_86400_345600_0-318_3725_931-25_0-001_average.pdf}
+        \subcaption{$e(t)$の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.001$)}
+        \label{scenario_5_e_86400_345600_0-318_0-318_3725_931-25_0-001_average}
+        \end{center}
+      \end{minipage}
+      \begin{minipage}{0.45\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_5_idleTimer_86400_345600_0-318_3725_931-25_0-001_average.pdf}
+        \subcaption{IdleTimerの変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.001$)}
+        \label{scenario_5_idleTimer_86400_345600_0-318_3725_931-25_0-001_average}
+        \end{center}
+      \end{minipage}\\
+      \begin{minipage}{0.45\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_5_signaling_and_memoryload_vs_timeStep_86400_345600_0-318_3725_931-25_0-001_average.pdf}
+        \subcaption{CPU負荷とメモリ使用量の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.001$)}
+        \label{scenario_5_signaling_and_memoryload_vs_timeStep_86400_345600_0-318_3725_931-25_0-001_average}
+        \end{center}
+      \end{minipage}
+      \begin{minipage}{0.45\hsize}
+        \begin{center}
+        \includegraphics[width=1\hsize]{scenario_5_stateBreakdown_86400_345600_0-318_3725_931-25_0-001_average.pdf}
+        \subcaption{各状態にあるUE台数の変化($K_p = 0.318、K_i = 0.0000854、K_d = 296.14$、指数移動平均 $\alpha = 0.001$)}
+        \label{scenario_5_stateBreakdown_86400_345600_0-318_3725_931-25_0-001_average}
+        \end{center}
+      \end{minipage}
+    \end{tabular}
+    \caption{}
+    \label{result_pid_average_0-001}
+  \end{center}
+\end{figure}
+
+% \captionsetup[subfigure]{labelformat=simple}
+% \renewcommand*{\thesubfigure}{(\alph{subfigure})}
+% 【figureとsubfigureの関係】
+% （ここでは2行2列）
+% \begin{figure}[オプション]
+%  \centering
+%  <subfigure1>
+%  <subfigure2>
+%  \par\bigskip %改行
+%  <subfigure3>
+%  <subfigure4>
+%  \caption{図のグループ全体のキャプション}}
+%  \label{fig:図のグループ全体のラベル}
+% \end{figure}
+% 【subfigureの中身】
+% \begin{subfigure}{横幅}
+% \centering
+% \includegraphics[width=1.0\hsize]{図のパス}
+% \subcaption{図のキャプション}
+% \label{subfig:図のラベル}
+% \end{subfigure}
+
+
 \section{今後の予定}
   \begin{itemize}
-    \item PID制御に関する学習
-    \item リソースが不足した際の制御
+    \item 制御の安定性と制御方式の関係について整理する
+    \item リソースが不足した際の制御を考える
   \end{itemize}
+
 
 \section*{\addcontentsline{toc}{section}{参考文献}}
 \bibliographystyle{IEEEtran}
