@@ -7,11 +7,14 @@
 \usepackage{bm}
 \usepackage{amsmath}
 \usepackage{ascmac}
+\usepackage{comment}
+\usepackage{ascmac}
+% \usepackage{fancybx}
 % \usepackage{minipage}
 
-\title{ミーティング資料}
+\title{進捗報告資料}
 \author{安達智哉\\to-adachi@ist.osaka-u.ac.jp}
-\date{2019年12月11日}
+\date{2019年12月19日}
 
 \begin{document}
 \maketitle
@@ -46,125 +49,124 @@
 %  ば、方式はあると思う。
 
 
-%
-% \section{Idleタイマの制御方法}
-% \label{sec:hard-state}
-% 本節では、UEの強制的な状態変化を引き起こさないことを前提にする。
-% つまり、Idleタイマが切れていないUEを強制的にIdle状態へ遷移させることはないとする。
-% また、Idleタイマの更新は、UEがデータ送信を行うタイミングで実行するものとする。
-% MMEはUEを収容するために使用されているCPUおよびメモリリソース量を観測できるものとする。
-% つまり、UEの収容とは無関係な処理によって発生する負荷を取り除いたCPU負荷およびメモリ使用量を知ることができるとする。
-% MMEは現在収容されているUE台数を観測できるものとする。
-%
-% 突発的な負荷の増加に対応するという観点から、現在収容しているUEに加え、最も多くのUEを収容できるようなIdleタイマの値が最適と考える。
-% 具体的には、現在収容しているUEと同じ通信周期を持つUEがネットワークに参加すると仮定し、収容可能なUE台数が最大となるIdleタイマの値を最適と定義する。
-% また、CPUよびメモリのどちらも過負荷状態でないことは、UEを収容可能であることの必要十分条件であるとする。
-%
-% まず、UE一台あたりが各リソースに与える負荷の平均を推定する。
-% 現在収容しているUE台数を$N_{\rm UE}$とする。
-% UE台数が$N_{\rm UE}$、Idleタイマが$T$の時に観測される、CPU負荷およびメモリ使用量をそれぞれ$C_{N_{\rm UE}}(T)$、$M_{N_{\rm UE}}(T)$とする。
-% この時、UE一台あたりが与えるCPU負荷およびメモリ使用量の平均($C_{1}(T)$、$M_{1}(T)$)は以下の式(\ref{eq:cpu_1})、(\ref{eq:memory_1})で表せる。
-% \begin{eqnarray}
-%    C_{1}(T) =& \frac{C_{N_{\rm UE}}(T)}{N_{\rm UE}}\label{eq:cpu_1}\\
-%    M_{1}(T) =& \frac{M_{N_{\rm UE}}(T)}{N_{\rm UE}}\label{eq:memory_1}
-% \end{eqnarray}
-%
-% Idleタイマを$T$とした時に、収容可能なUEの総数を$N_{\rm UE}^{\rm capa}(T)$とする。
-% $N_{\rm UE}^{\rm capa}(T)$は、$C_{1}(T)$、$M_{1}(T)$、$C^{\rm max}$および$M^{\rm max}$を用いて、以下の式(\ref{eq:UE_add})で表せる。
-% ここで、$C^{\rm max}$、$M^{\rm max}$はそれぞれシグナリング処理およびUEのセッション情報を保持するために使用可能なCPUリソース量およびメモリリソース量である。
-% \begin{eqnarray}
-%    N_{\rm UE}^{\rm capa}(T) =& \lfloor  \min \{\frac{C^{\rm max}}{C_{1}(T)},\frac{M^{\rm max}}{M_{1}(T)}\} \rfloor \nonumber\\
-%    =& \lfloor N_{\rm UE} \cdot \min \{\frac{C^{\rm max}}{C_{N_{\rm UE}}(T)}, \frac{M^{\rm max}}{M_{N_{\rm UE}}(T)}\} \rfloor\label{eq:UE_add}
-% \end{eqnarray}
-% Idleタイマを制御する上での目的関数を以下の式(\ref{eq:objective_function})に示す。
-% \begin{eqnarray}
-%   \text{maximize} :& N_{\rm UE}^{\rm capa}(T)
-%   \label{eq:objective_function}
-% \end{eqnarray}
-%
-%
-%
-% $N_{\rm UE}^{\rm capa}(T)$を最大化するIdleタイマの値が明らかである場合は、その値をIdleタイマに設定すれば良い。
-% しかし一般的に、UEの台数や通信周期は未知であり時間的に変動するため、$N_{\rm UE}^{\rm capa}(T)$を最大化するIdleタイマの値を知ることは難しい。
-% そのような場合は、$N_{\rm UE}^{\rm capa}(T)$を最大化するように、Idleタイマを適応的に制御する必要がある。
-% 具体的には、各リソースの使用量を観測して、$N_{\rm UE}^{\rm capa}(T)$を大きくする向きにIdleタイマを変化させる。
-% このステップを複数回繰り返すことにより、Idleタイマを制御する。
-%
-% この時、１ステップごとのIdleタイマの変化量を考える必要がある。
-% この値を小さく設定すると、最適な値に到達するまでに大きな時間がかかってしまう場合がある。
-% 逆にIdleタイマの変化量を大きく設定すると、Idleタイマが発振する可能性もあり、制御が不安定になる。
-% また、UEの通信周期によって、Idleタイマが変化した時に各リソースの負荷の変化量が異なる点も考慮する必要がある。
-% つまり、ネットワークの変化に短い時間スケールで対応しつつ、安定した制御を実現するためには、ネットワークの環境に応じてIdleタイマの変化量を制御する仕組みが必要である。
-% このような制御には様々な手法が考えられるが、本報告では動作がシンプルであり、汎用性が高いPID制御を用いる。
-% $T$および$N_{\rm UE}^{\rm capa}(T)$をそれぞれ、PID制御における入力値および出力値として捉えることで、Idleタイマの変化量を調整しつつ、最適値に近づけることができる。
-%
-% まず、PID制御における出力値$y(t)$および目標値$r(t)$を設定する。
-% 以前の評価より、UE台数を固定した時、CPU負荷はIdleタイマの値に対して広義単調減少でありかつ、メモリ使用量はIdleタイマの値に対して広義単調増加であることがわかっている。
-% このことから、式(\ref{eq:UE_add})を確認すると、$\frac{C^{\rm max}}{C_{N_{\rm UE}}(T)}$は広義単調増加でありかつ、$\frac{M^{\rm max}}{M_{N_{\rm UE}}(T)}$は広義単調減少であることがわかる。
-% ここで、$\frac{C^{\rm max}}{C_{N_{\rm UE}}(T)}$と$\frac{M^{\rm max}}{M_{N_{\rm UE}}(T)}$の差分を最小化するような$T$の集合を$\bm{T}$とする。また、$N_{\rm UE}^{\rm capa}(T)$を最大化するような$T$の集合を$\bm{T}_{\rm optimal}$とする。すると、$T\in\bm{T}$であることは$T\in\bm{T}_{\rm optimal}$であるための十分条件になる。
-%
-% 以上の議論のイメージを図\ref{theory_1_all_30s_theory}、図\ref{theory_1_add_C_M}および図\ref{theory_1_add_all}に示す。
-% 図\ref{theory_1_all_30s_theory}はUE台数が500,000台，UEごとの通信周期は10~sから6,000~sの範囲で一様分布とした時の、Idleタイマと各リソース負荷の関係を示したものである。
-% 図\ref{theory_1_add_C_M}は図\ref{theory_1_all_30s_theory}と同じUEを収容した時の、Idleタイマと$N_{\rm UE} \cdot \frac{C^{\rm max}}{C_{N_{\rm UE}}(T)}$と$N_{\rm UE} \cdot \frac{M^{\rm max}}{M_{N_{\rm UE}}(T)}$との関係を示している。
-% また、図\ref{theory_1_add_all}は図\ref{theory_1_all_30s_theory}と同じUEを収容した時の、Idleタイマと$N_{\rm UE}^{\rm capa}(T)$との関係を示している。
-% 図\ref{theory_1_add_all}を見ると、$N_{\rm UE}^{\rm capa}(T)$を最大化するIdleタイマの値と$\frac{C^{\rm max}}{C_{N_{\rm UE}}(T)}$と$\frac{M^{\rm max}}{M_{N_{\rm UE}}(T)}$の差分を最小化するIdleタイマの値が一致していることが確認できる。
-%
-% \begin{figure}[htbp]
-%   \begin{center}
-%     \begin{tabular}{c}
-%       \begin{minipage}{1\hsize}
-%         \begin{center}
-%           \includegraphics[width=0.6\hsize]{theory_1_all_30s_theory.pdf}
-%           \caption{Idleタイマに対する，メッセージ処理頻度とメモリ使用量の関係}
-%           \label{theory_1_all_30s_theory}
-%         \end{center}
-%       \end{minipage}
-%     \end{tabular}
-%   \end{center}
-% \end{figure}
-%
-% \begin{figure}[htbp]
-%   \begin{center}
-%     \begin{tabular}{c}
-%       \begin{minipage}{0.47\hsize}
-%         \begin{center}
-%         \includegraphics[width=1\hsize]{theory_1_add_C_M.pdf}
-%         \subcaption{Idleタイマと$N_{\rm UE} \cdot \frac{C^{\rm max}}{C_{N_{\rm UE}}(T)}$と$N_{\rm UE} \cdot \frac{M^{\rm max}}{M_{N_{\rm UE}}(T)}$の関係}
-%         \label{theory_1_add_C_M}
-%         \end{center}
-%       \end{minipage}
-%       \begin{minipage}{0.47\hsize}
-%         \begin{center}
-%         \includegraphics[width=1\hsize]{theory_1_add_all.pdf}
-%         \subcaption{Idleタイマと$N_{\rm UE}^{\rm capa}(T)$の関係}
-%         \label{theory_1_add_all}
-%         \end{center}
-%       \end{minipage}
-%     \end{tabular}
-%     \caption{}
-%   \end{center}
-% \end{figure}
-%
-% このことを踏まえ、PID制御における出力値$y(t)$および目標値$r(t)$を以下の式(\ref{eq:PID_y_t})、(\ref{eq:PID_r_t})のように定義する。
-% $t$は時刻を表す変数である。
-% \begin{eqnarray}
-%   y(t) &=& \frac{C^{\rm max}}{C_{N_{\rm UE}}(T)} - \frac{M^{\rm max}}{M_{N_{\rm UE}}(T)}
-%   \label{eq:PID_y_t} \\
-%   r(t) &=& 0
-%   \label{eq:PID_r_t}
-% \end{eqnarray}
-%
-%
-% 時刻$t$における$y(t)$と$r(t)$の差を$e(t)$として以下の式(\ref{eq:PID_e_t})ように定義すると、PID制御における操作量($u(t)$)は以下の式(\ref{eq:PID_u_t})で表せる。
-% \begin{eqnarray}
-%   e(t) &=& r(t) - y(t)
-%   \label{eq:PID_e_t} \\
-%   u(t) &=& K_p \cdot e(t) + K_i \cdot \int_0^t e(\tau) d\tau + K_d \cdot \frac{de(t)}{dt}
-%   \label{eq:PID_u_t}
-% \end{eqnarray}
-% ここで、$K_p$、$K_i$および$K_d$はそれそれ、比例ゲイン、積分ゲインおよび微分ゲインと呼ばれる定数である。
-% これらの定数は、$e(t)$およびその積分値、微分値が$u(t)$にどの程度寄与するのかを決定する。
 
+\section{Idleタイマの制御方法}
+\label{sec:hard-state}
+本節では、UEの強制的な状態変化を引き起こさないことを前提にする。
+つまり、Idleタイマが切れていないUEを強制的にIdle状態へ遷移させることはないとする。
+また、Idleタイマの更新は、UEがデータ送信を行うタイミングで実行するものとする。
+MMEはUEを収容するために使用されているCPUおよびメモリリソース量を観測できるものとする。
+つまり、UEの収容とは無関係な処理によって発生する負荷を取り除いたCPU負荷およびメモリ使用量を知ることができるとする。
+MMEは現在収容されているUE台数を観測できるものとする。
+
+突発的な負荷の増加に対応するという観点から、現在収容しているUEに加え、最も多くのUEを収容できるようなIdleタイマの値が最適と考える。
+具体的には、現在収容しているUEと同じ通信周期を持つUEがネットワークに参加すると仮定し、収容可能なUE台数が最大となるIdleタイマの値を最適と定義する。
+また、CPUよびメモリのどちらも過負荷状態でないことは、UEを収容可能であることの必要十分条件であるとする。
+
+まず、現在収容しているUE台数を$N_{\rm UE}$とする。
+UE台数が$N_{\rm UE}$、Idleタイマが$T$の時に観測される、CPUおよびメモリの使用量をそれぞれ$C_{N_{\rm UE}}(T)$、$M_{N_{\rm UE}}(T)$とする。
+
+Idleタイマを$T$とした時に、収容可能なUEの総数を$N_{\rm UE}^{\rm capa}(T)$とすると$N_{\rm UE}^{\rm capa}(T)$は、$C_{N_{\rm UE}}(T)$、$M_{N_{\rm UE}}(T)$、$C^{\rm max}$および$M^{\rm max}$を用いて、以下の式(\ref{eq:UE_add})で表せる。
+ここで、$C^{\rm max}$、$M^{\rm max}$はそれぞれシグナリング処理およびUEのセッション情報を保持するために使用可能なCPUリソース量およびメモリリソース量である。
+\begin{eqnarray}
+   N_{\rm UE}^{\rm capa}(T) =& \lfloor N_{\rm UE} \cdot \min \{\frac{C^{\rm max}}{C_{N_{\rm UE}}(T)}, \frac{M^{\rm max}}{M_{N_{\rm UE}}(T)}\} \rfloor\label{eq:UE_add}
+\end{eqnarray}
+Idleタイマを制御する上での目的関数を以下の式(\ref{eq:objective_function})に示す。
+\begin{eqnarray}
+  \text{maximize} :& N_{\rm UE}^{\rm capa}(T)
+  \label{eq:objective_function}
+\end{eqnarray}
+
+$N_{\rm UE}^{\rm capa}(T)$を最大化するIdleタイマの値が明らかである場合は、その値をIdleタイマに設定すれば良い。
+しかし一般的に、UEの台数や通信周期は未知であり時間的に変動するため、$N_{\rm UE}^{\rm capa}(T)$を最大化するIdleタイマの値を知ることは難しい。
+そのような場合は、$N_{\rm UE}^{\rm capa}(T)$を最大化するように、Idleタイマを適応的に制御する必要がある。
+具体的には、各リソースの使用量を観測して、$N_{\rm UE}^{\rm capa}(T)$を大きくする向きにIdleタイマを変化させる。
+このステップを複数回繰り返すことにより、Idleタイマを制御する。
+
+この時、１ステップごとのIdleタイマの変化量を考える必要がある。
+この値を小さく設定すると、最適な値に到達するまでに大きな時間がかかってしまう場合がある。
+逆にIdleタイマの変化量を大きく設定すると、Idleタイマが発振する可能性もあり、制御が不安定になる。
+また、UEの通信周期によって、Idleタイマが変化した時に各リソースの負荷の変化量が異なる点も考慮する必要がある。
+つまり、ネットワークの変化に短い時間スケールで対応しつつ、安定した制御を実現するためには、ネットワークの環境に応じてIdleタイマの変化量を制御する仕組みが必要である。
+このような制御には様々な手法が考えられるが、本報告では動作がシンプルであり、汎用性が高いPID制御を用いる。
+
+
+まず、PID制御における出力値$y(t)$および目標値$r(t)$を設定する。
+以前の評価より、CPU使用量はIdleタイマの値に対して広義単調減少でありかつ、メモリ使用量はIdleタイマの値に対して広義単調増加であることがわかっている。
+このことから、式(\ref{eq:UE_add})を確認すると、$\frac{C^{\rm max}}{C_{N_{\rm UE}}(T)}$は広義単調増加でありかつ、$\frac{M^{\rm max}}{M_{N_{\rm UE}}(T)}$は広義単調減少であることがわかる。
+ここで、以下の式(\ref{eq:c=m})を満たすような$T$の集合を$\bm{T}$とし、$N_{\rm UE}^{\rm capa}(T)$を最大化するような$T$の集合を$\bm{T}_{\rm optimal}$とすると、$T\in\bm{T}$であることは$T\in\bm{T}_{\rm optimal}$であるための十分条件になる。
+\begin{eqnarray}
+\frac{C^{\rm max}}{C_{N_{\rm UE}}(T)}=\frac{M^{\rm max}}{M_{N_{\rm UE}}(T)}
+  \label{eq:c=m}
+\end{eqnarray}
+
+
+以上の議論のイメージを図\ref{theory_1_all_30s_theory}、図\ref{theory_1_add_C_M}および図\ref{theory_1_add_all}に示す。
+図\ref{theory_1_all_30s_theory}はUE台数が500,000台，UEごとの通信周期は10~sから6,000~sの範囲で一様分布とした時の、Idleタイマと各リソース負荷の関係を示したものである。
+図\ref{theory_1_add_C_M}は図\ref{theory_1_all_30s_theory}と同じUEを収容した時の、Idleタイマと$N_{\rm UE} \cdot \frac{C^{\rm max}}{C_{N_{\rm UE}}(T)}$と$N_{\rm UE} \cdot \frac{M^{\rm max}}{M_{N_{\rm UE}}(T)}$との関係を示している。
+また、図\ref{theory_1_add_all}は図\ref{theory_1_all_30s_theory}と同じUEを収容した時の、Idleタイマと$N_{\rm UE}^{\rm capa}(T)$との関係を示している。
+図\ref{theory_1_add_all}を見ると、$N_{\rm UE}^{\rm capa}(T)$を最大化するIdleタイマの値と$\frac{C^{\rm max}}{C_{N_{\rm UE}}(T)}=\frac{M^{\rm max}}{M_{N_{\rm UE}}(T)}$となる時のIdleタイマの値が一致していることが確認できる。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\hsize]{theory_1_all_30s_theory.pdf}
+  \caption{Idleタイマに対する，メッセージ処理頻度とメモリ使用量の関係}
+  \label{theory_1_all_30s_theory}
+\end{figure}
+
+
+\begin{figure}[htbp]
+ \centering
+ \begin{subfigure}{0.49\hsize}
+   \centering
+   \includegraphics[width=1\hsize]{theory_1_add_C_M.pdf}
+   \subcaption{Idleタイマと$N_{\rm UE} \cdot \frac{C^{\rm max}}{C_{N_{\rm UE}}(T)}$と$N_{\rm UE} \cdot \frac{M^{\rm max}}{M_{N_{\rm UE}}(T)}$の関係}
+   \label{theory_1_add_C_M}
+ \end{subfigure}
+ \begin{subfigure}{0.49\hsize}
+   \centering
+   \includegraphics[width=1\hsize]{theory_1_add_all.pdf}
+   \subcaption{Idleタイマと$N_{\rm UE}^{\rm capa}(T)$の関係}
+   \label{theory_1_add_all}
+ \end{subfigure}
+ \caption{}
+ \label{}
+\end{figure}
+
+このことを踏まえ、PID制御における出力値$y(t)$および目標値$r(t)$を以下の式(\ref{eq:PID_y_t})、(\ref{eq:PID_r_t})のように定義する。
+$t$は時刻を表す変数である。
+\begin{eqnarray}
+  y(t) &=& \frac{C_{N_{\rm UE}}(T)}{C^{\rm max}} - \frac{M_{N_{\rm UE}}(T)}{M^{\rm max}}
+  \label{eq:PID_y_t} \\
+  r(t) &=& 0
+  \label{eq:PID_r_t}
+\end{eqnarray}
+% \begin{itembox}[l]{式(\ref{eq:PID_y_t})の問題点と修正案}
+%   式(\ref{eq:PID_y_t})では、CPUの余力を表す指標として$\frac{C^{\rm max}}{C_{N_{\rm UE}}(T)}$、メモリの余力を表す指標として$\frac{M^{\rm max}}{M_{N_{\rm UE}}(T)}$を用いている。ここでの余力とは、現状収容しているUE台数に対する、追加で収容可能なUE台数の割合である。
+%
+%   式(\ref{eq:PID_y_t})の問題点は、各指標の分母が小さい値をとると、制御が著しく不安定になることである。例えば、あるタイムステップでCPU使用率が0になったとすると、$\frac{C^{\rm max}}{C_{N_{\rm UE}}(T)}$が無限大に発散するため、Idleタイマを減少させる向きに無限の力でPID制御が働くことになる。このような問題を解消するために、式\ref{eq:PID_y_t2}に示すように$y(t)$の式を変更することを考えている。
+%   \begin{eqnarray}
+%     y(t) &=& (CPU使用率) - (メモリ使用率)
+%     \nonumber\\
+%      &=& \frac{C_{N_{\rm UE}}(T)}{C^{\rm max}} - \frac{M_{N_{\rm UE}}(T)}{M^{\rm max}}
+%     \label{eq:PID_y_t2}
+%   \end{eqnarray}
+% \end{itembox}
+
+時刻$t$における$y(t)$と$r(t)$の差を$e(t)$として以下の式(\ref{eq:PID_e_t})ように定義すると、PID制御における操作量($u(t)$)は以下の式(\ref{eq:PID_u_t})で表せる。
+\begin{eqnarray}
+  e(t) &=& r(t) - y(t)
+  \label{eq:PID_e_t} \\
+  u(t) &=& K_p \cdot e(t) + K_i \cdot \int_0^t e(\tau) d\tau + K_d \cdot \frac{de(t)}{dt}
+  \label{eq:PID_u_t}
+\end{eqnarray}
+ここで、$K_p$、$K_i$および$K_d$はそれそれ、比例ゲイン、積分ゲインおよび微分ゲインと呼ばれる定数である。
+これらの定数は、$e(t)$およびその積分値、微分値が$u(t)$にどの程度寄与するのかを決定する。
+
+
+
+
+\begin{comment}
 \section{ジーグラニコルスの限界感度法}
 \label{gigura}
 PID制御においては、比例ゲイン($K_p$)、積分ゲイン($K_i$)、微分ゲイン($K_d$)と呼ばれる3つの定数を設定する必要がある。これらの定数を``ジーグラ・ニコルスの限界感度法"と呼ばれる手順に基づき設定した。
@@ -301,6 +303,7 @@ UE台数は648,000台であり、UEの持つ通信周期は1~day，2~hours，1~h
 %     \label{result_2}
 %   \end{center}
 % \end{figure}
+
 
 
 以上の結果を用いて、各ゲインの値は以下の表\ref{table:Ziegler-Nichols_setting}のように求まる。
@@ -672,23 +675,10 @@ UE台数は648,000台であり、UEの持つ通信周期は1~day，2~hours，1~h
     \label{scenario_5_analyze_86400_345600_0-318_3725_931-25_0-125_average}
 \end{figure}
 
-% 限界ゲイン$K_{pc}$=0.53
-
-% 限界周期$T_c$=7450
-% $K_p=0.6K_{pc}=0.318$
-% $K_i=K_p / 0.5T_c = 0.318 / 3725 = 0.0000854$
-% $K_d=K_p \cdot 0.125T_c = 296.14$
-%T_i =
-%T_d = 931.25
-%29402 36863 44317 51752   7461 7454  7435
-
-% $K_p=0.54K_{pc}=0.2862$
-% $K_i=K_p / 0.83T_c = 0.2862 / 6183.5 = 0.00004628$
-
 \clearpage
 移動平均に関する式(\ref{eq:PID_average})における$\alpha$の値を様々に変化させて実験を行った。
 結果を以下の図\ref{result_pid_average_0-01}、\ref{result_pid_average_0-005}、\ref{result_pid_average_0-003}、\ref{result_pid_average_0-001}に示す。
-これらの結果を見ると$\alpha$の値が小さい場合、Idleタイマが小さい周期で変動が安定することがわかる。
+これらの結果を見ると$\alpha$の値が小さい場合、短い周期でのIdleタイマが変動が安定することがわかる。
 一方で、オーバシュートの発生により、周期の大きな変動が発生していることがわかる。
 \begin{figure}[htbp]
   \begin{center}
@@ -841,20 +831,128 @@ UE台数は648,000台であり、UEの持つ通信周期は1~day，2~hours，1~h
   \end{center}
 \end{figure}
 
-% \captionsetup[subfigure]{labelformat=simple}
-% \renewcommand*{\thesubfigure}{(\alph{subfigure})}
-% 【figureとsubfigureの関係】
-% （ここでは2行2列）
-% \begin{figure}[オプション]
-%  \centering
-%  <subfigure1>
-%  <subfigure2>
-%  \par\bigskip %改行
-%  <subfigure3>
-%  <subfigure4>
-%  \caption{図のグループ全体のキャプション}}
-%  \label{fig:図のグループ全体のラベル}
-% \end{figure}
+
+
+\clearpage
+実用PID制御における微分係数$\eta$の値を様々に変化させて実験を行った。
+結果を以下の図\ref{fig:result_pid_practice_0.3}、\ref{fig:result_pid_practice_0.6}、\ref{fig:result_pid_practice_1}に示す。
+これらの結果を見ると$\eta$の値が大きい場合、小さい周期でのIdleタイマの変動が安定することがわかる。
+一方で、オーバシュートの発生により、周期の大きな変動が発生していることがわかる。
+
+\begin{figure}[htbp]
+ \centering
+ \begin{subfigure}{0.49\hsize}
+   \centering
+   \includegraphics[width=1.0\hsize]{scenario_5_e_86400_345600_0-318_3725_931-25_0-3_practice.pdf}
+   \subcaption{$e(t)$の変化}
+   \label{subfig:scenario_5_e_86400_345600_0-318_0-318_3725_931-25_0-3_practice}
+ \end{subfigure}
+ \begin{subfigure}{0.49\hsize}
+   \centering
+   \includegraphics[width=1.0\hsize]{scenario_5_idleTimer_86400_345600_0-318_3725_931-25_0-3_practice.pdf}
+   \subcaption{IdleTimerの変化}
+   \label{subfig:scenario_5_idleTimer_86400_345600_0-318_3725_931-25_0-3_practice}
+ \end{subfigure}
+ \par\bigskip %改行
+ \begin{subfigure}{0.49\hsize}
+   \centering
+   \includegraphics[width=1.0\hsize]{scenario_5_signaling_and_memoryload_vs_timeStep_86400_345600_0-318_3725_931-25_0-3_practice.pdf}
+   \subcaption{CPU負荷とメモリ使用量の変化}
+   \label{subfig:scenario_5_signaling_and_memoryload_vs_timeStep_86400_345600_0-318_3725_931-25_0-3_practice}
+ \end{subfigure}
+ \begin{subfigure}{0.49\hsize}
+   \centering
+   \includegraphics[width=1.0\hsize]{scenario_5_stateBreakdown_86400_345600_0-318_3725_931-25_0-3_practice.pdf}
+   \subcaption{各状態にあるUE台数の変化}
+   \label{subfig:scenario_5_stateBreakdown_86400_345600_0-318_3725_931-25_0-3_practice}
+ \end{subfigure}
+ \caption{実用PID($K_p = 0.318、K_i = 0.0000854、K_d = 296.14、\eta = 0.3$)}
+ \label{fig:result_pid_practice_0.3}
+\end{figure}
+
+\begin{figure}[htbp]
+ \centering
+ \begin{subfigure}{0.49\hsize}
+   \centering
+   \includegraphics[width=1.0\hsize]{scenario_5_e_86400_345600_0-318_3725_931-25_0-6_practice.pdf}
+   \subcaption{$e(t)$の変化}
+   \label{subfig:scenario_5_e_86400_345600_0-318_0-318_3725_931-25_0-6_practice}
+ \end{subfigure}
+ \begin{subfigure}{0.49\hsize}
+   \centering
+   \includegraphics[width=1.0\hsize]{scenario_5_idleTimer_86400_345600_0-318_3725_931-25_0-6_practice.pdf}
+   \subcaption{IdleTimerの変化}
+   \label{subfig:scenario_5_idleTimer_86400_345600_0-318_3725_931-25_0-6_practice}
+ \end{subfigure}
+ \par\bigskip %改行
+ \begin{subfigure}{0.49\hsize}
+   \centering
+   \includegraphics[width=1.0\hsize]{scenario_5_signaling_and_memoryload_vs_timeStep_86400_345600_0-318_3725_931-25_0-6_practice.pdf}
+   \subcaption{CPU負荷とメモリ使用量の変化}
+   \label{subfig:scenario_5_signaling_and_memoryload_vs_timeStep_86400_345600_0-318_3725_931-25_0-6_practice}
+ \end{subfigure}
+ \begin{subfigure}{0.49\hsize}
+   \centering
+   \includegraphics[width=1.0\hsize]{scenario_5_stateBreakdown_86400_345600_0-318_3725_931-25_0-6_practice.pdf}
+   \subcaption{各状態にあるUE台数の変化}
+   \label{subfig:scenario_5_stateBreakdown_86400_345600_0-318_3725_931-25_0-6_practice}
+ \end{subfigure}
+ \caption{実用PID($K_p = 0.318、K_i = 0.0000854、K_d = 296.14、\eta = 0.6$)}
+ \label{fig:result_pid_practice_0.6}
+\end{figure}
+
+\begin{figure}[htbp]
+ \centering
+ \begin{subfigure}{0.49\hsize}
+   \centering
+   \includegraphics[width=1.0\hsize]{scenario_5_e_86400_345600_0-318_3725_931-25_1_practice.pdf}
+   \subcaption{$e(t)$の変化}
+   \label{subfig:scenario_5_e_86400_345600_0-318_0-318_3725_931-25_1_practice}
+ \end{subfigure}
+ \begin{subfigure}{0.49\hsize}
+   \centering
+   \includegraphics[width=1.0\hsize]{scenario_5_idleTimer_86400_345600_0-318_3725_931-25_1_practice.pdf}
+   \subcaption{IdleTimerの変化}
+   \label{subfig:scenario_5_idleTimer_86400_345600_0-318_3725_931-25_1_practice}
+ \end{subfigure}
+ \par\bigskip %改行
+ \begin{subfigure}{0.49\hsize}
+   \centering
+   \includegraphics[width=1.0\hsize]{scenario_5_signaling_and_memoryload_vs_timeStep_86400_345600_0-318_3725_931-25_1_practice.pdf}
+   \subcaption{CPU負荷とメモリ使用量の変化}
+   \label{subfig:scenario_5_signaling_and_memoryload_vs_timeStep_86400_345600_0-318_3725_931-25_1_practice}
+ \end{subfigure}
+ \begin{subfigure}{0.49\hsize}
+   \centering
+   \includegraphics[width=1.0\hsize]{scenario_5_stateBreakdown_86400_345600_0-318_3725_931-25_1_practice.pdf}
+   \subcaption{各状態にあるUE台数の変化}
+   \label{subfig:scenario_5_stateBreakdown_86400_345600_0-318_3725_931-25_1_practice}
+ \end{subfigure}
+ \caption{実用PID($K_p = 0.318、K_i = 0.0000854、K_d = 296.14、\eta = 1$)}
+ \label{fig:result_pid_practice_1}
+\end{figure}
+
+\clearpage
+\section{制御の性質}
+\begin{description}
+  \item[比例制御] 比例ゲインが小さい場合は制御が収束するまでにかかる時間が増加し、比例ゲインが大きい場合はオーバーシュートやハンチング等が発生して制御が不安定になる(一般的な性質)。
+  \item[積分制御] 一般的に積分ゲインは定常偏差を抑制するために有効であるが、本評価では定常偏差が発生しないため、積分制御の効果は限定的であると言える。
+  \item[微分制御] 微分制御により、過渡応答特性を改善することが可能である(一般的な性質)。一方で、本評価では、離散的な負荷の変動が発生しているため、制御が不安的になる。
+  \item[指数移動平均を用いた制御] 指数移動平均を用いることで離散的な負荷の変動を平滑化して、制御を安定させることが可能である。制御の安定性と、変動に対する応答性はトレードオフの関係がある。平滑化係数の値を小さくすると離散的な負荷の変動を平滑化できるが、オーバーシュートやハンチングが発生しやすくなる。
+  \item[実用PID制御] 不完全微分を用いることで、一時的な負荷の変動を平滑化して制御を安定させることが可能である。制御の安定性と、変動に対する応答性はトレードオフの関係がある。微分係数の値を大きくすると、一時的な負荷の変動を平滑化できるが、過渡応答特性が低下する。
+\end{description}
+
+\end{comment}
+
+% \section{CPUおよびメモリ使用率が100\%を超えないような制御}
+% オーバーシュートやハンチングの発生はCPUおよびメモリの過負荷を引き起こす。
+% また、Idleタイマを急激に変化させたり、Idleタイマの増減を細かく繰り返したりするような制御も過負荷を引き起こしやすい。
+%
+% 各リソースの過負荷を避けるためには、図\ref{result_p}に示すように、微分ゲインを0にする（もしくは小さい値を設定する）ことが効果的である。
+% また、移動平均や不完全微分を用いて、観測された負荷の変動を平滑化することによっても、過負荷状態を避けることが可能である。
+%
+% 一方で、UEの通信周期や台数が異なる複数のシナリオに対して、常にCPUおよびメモリ使用率が100\%を超えないような制御を実現することは、一般的なPID制御では難しいと考えられる。
+% 異なるシナリオでは、ゲインの設定値を変化させる必要がある。もしくは、観測された負荷から動的にゲインの値を修正するような仕組みが必要であると言える。
 % 【subfigureの中身】
 % \begin{subfigure}{横幅}
 % \centering
@@ -866,6 +964,7 @@ UE台数は648,000台であり、UEの持つ通信周期は1~day，2~hours，1~h
 
 \section{今後の予定}
   \begin{itemize}
+    \item PID制御の出力値($y(t)$)に関する式を変更した上で、これまで行っていた一連の評価結果を差し替える(次回の報告まで)
     \item 制御の安定性と制御方式の関係について整理する
     \item リソースが不足した際の制御を考える
   \end{itemize}
@@ -875,13 +974,29 @@ UE台数は648,000台であり、UEの持つ通信周期は1~day，2~hours，1~h
 \bibliographystyle{IEEEtran}
 \bibliography{/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/myBib/LABbiblio,/Users/t-adachi/Documents/study/Bibliography/bib/hpt_core_network/Study_Group_Bibtex/bib/hptCoreNetwork_Study}
 
-\section{補足}
-\begin{eqnarray}
-  u_d(t) &=& T_d (\frac{d}{dt}e(t) - \eta \cdot \frac{d}{dt}u_d(t))\nonumber\\
-  u_d(t) &=& T_d \cdot (e(t) - e(t-1)) - \eta \cdot T_d \cdot (u_d(t) - u_d(t-1))\nonumber\\
-  u_d(t) + \eta \cdot T_d \cdot u(t) &=& T_d \cdot \Delta e(t) + \eta \cdot T_d \cdot u_d(t-1)\nonumber\\
-  u_d(t) &=& \frac{T_d}{1 + \eta \cdot T_d} \cdot \Delta e(t) + \frac{\eta \cdot T_d }{1 + \eta \cdot T_d}\cdot u_d(t-1)
-  \label{eq:PID_practice5}\\
-  \ast \Delta e(t) &=& e(t) - e(t-1)\nonumber
-\end{eqnarray}
+% \section{補足}
+% \begin{eqnarray}
+%   u_d(t) &=& T_d (\frac{d}{dt}e(t) - \eta \cdot \frac{d}{dt}u_d(t))\nonumber\\
+%   u_d(t) &=& T_d \cdot (e(t) - e(t-1)) - \eta \cdot T_d \cdot (u_d(t) - u_d(t-1))\nonumber\\
+%   u_d(t) + \eta \cdot T_d \cdot u(t) &=& T_d \cdot \Delta e(t) + \eta \cdot T_d \cdot u_d(t-1)\nonumber\\
+%   u_d(t) &=& \frac{T_d}{1 + \eta \cdot T_d} \cdot \Delta e(t) + \frac{\eta \cdot T_d }{1 + \eta \cdot T_d}\cdot u_d(t-1)
+%   \label{eq:PID_practice5}\\
+%   \ast \Delta e(t) &=& e(t) - e(t-1)\nonumber
+% \end{eqnarray}
+
 \end{document}
+
+
+
+% 限界ゲイン$K_{pc}$=0.53
+
+% 限界周期$T_c$=7450
+% $K_p=0.6K_{pc}=0.318$
+% $K_i=K_p / 0.5T_c = 0.318 / 3725 = 0.0000854$
+% $K_d=K_p \cdot 0.125T_c = 296.14$
+%T_i =
+%T_d = 931.25
+%29402 36863 44317 51752   7461 7454  7435
+
+% $K_p=0.54K_{pc}=0.2862$
+% $K_i=K_p / 0.83T_c = 0.2862 / 6183.5 = 0.00004628$
