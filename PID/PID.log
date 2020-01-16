@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.14159265-p3.7.1-u1.22-161114-2.6 (utf8.uptex) (TeX Live 2017) (preloaded format=uplatex 2017.9.15)  19 DEC 2019 13:41
+This is e-upTeX, Version 3.14159265-p3.7.1-u1.22-161114-2.6 (utf8.uptex) (TeX Live 2017) (preloaded format=uplatex 2017.9.15)  15 JAN 2020 11:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -209,66 +209,122 @@ LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
 (Font)              scaled to size 7.69775pt on input line 20.
 LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
 (Font)              scaled to size 5.77332pt on input line 20.
+ Excluding 'comment' comment. Excluding 'comment' comment.
 LaTeX Font Info:    Font shape `JT2/mc/m/n' will be
-(Font)              scaled to size 13.85594pt on input line 53.
+(Font)              scaled to size 13.85594pt on input line 1438.
 LaTeX Font Info:    Font shape `JY2/mc/m/n' will be
-(Font)              scaled to size 13.85594pt on input line 53.
+(Font)              scaled to size 13.85594pt on input line 1438.
 LaTeX Font Info:    Font shape `JT2/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JT2/gt/m/n' tried instead on input line 53.
+(Font)              Font shape `JT2/gt/m/n' tried instead on input line 1438.
 LaTeX Font Info:    Font shape `JT2/gt/m/n' will be
-(Font)              scaled to size 13.85594pt on input line 53.
+(Font)              scaled to size 13.85594pt on input line 1438.
 LaTeX Font Info:    Font shape `JY2/mc/bx/n' in size <14.4> not available
-(Font)              Font shape `JY2/gt/m/n' tried instead on input line 53.
+(Font)              Font shape `JY2/gt/m/n' tried instead on input line 1438.
 LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 13.85594pt on input line 53.
+(Font)              scaled to size 13.85594pt on input line 1438.
+LaTeX Font Info:    Font shape `JT2/mc/bx/n' in size <12> not available
+(Font)              Font shape `JT2/gt/m/n' tried instead on input line 1439.
+LaTeX Font Info:    Font shape `JT2/gt/m/n' will be
+(Font)              scaled to size 11.54663pt on input line 1439.
+LaTeX Font Info:    Font shape `JY2/mc/bx/n' in size <12> not available
+(Font)              Font shape `JY2/gt/m/n' tried instead on input line 1439.
+LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
+(Font)              scaled to size 11.54663pt on input line 1439.
 LaTeX Font Info:    Font shape `JY2/mc/m/n' will be
-(Font)              scaled to size 6.73553pt on input line 66.
+(Font)              scaled to size 6.73553pt on input line 1465.
 LaTeX Font Info:    Font shape `JY2/mc/m/n' will be
-(Font)              scaled to size 4.8111pt on input line 66.
+(Font)              scaled to size 4.8111pt on input line 1465.
 LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 9.6222pt on input line 66.
+(Font)              scaled to size 9.6222pt on input line 1465.
 LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 6.73553pt on input line 66.
+(Font)              scaled to size 6.73553pt on input line 1465.
 LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 4.8111pt on input line 66.
-LaTeX Font Info:    Font shape `JT2/mc/m/n' will be
-(Font)              scaled to size 6.73553pt on input line 76.
-LaTeX Font Info:    Font shape `JT2/mc/m/n' will be
-(Font)              scaled to size 4.8111pt on input line 76.
- [1
+(Font)              scaled to size 4.8111pt on input line 1465.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 1473.
+
+LaTeX Font Info:    Font shape `JT2/mc/bx/n' in size <10> not available
+(Font)              Font shape `JT2/gt/m/n' tried instead on input line 1490.
+LaTeX Font Info:    Font shape `JT2/gt/m/n' will be
+(Font)              scaled to size 9.6222pt on input line 1490.
+LaTeX Font Info:    Font shape `JY2/mc/bx/n' in size <10> not available
+(Font)              Font shape `JY2/gt/m/n' tried instead on input line 1490.
+LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
+(Font)              scaled to size 9.6222pt on input line 1490.
+[1
 
 ]
-File: theory_1_all_30s_theory.pdf Graphic file (type pdf)
-<theory_1_all_30s_theory.pdf>
-File: theory_1_add_C_M.pdf Graphic file (type pdf)
-<theory_1_add_C_M.pdf>
+File: scenario_7_idleTimer_0_691200_1-5_0_0_0_shortFrequency_addIn100s_random.pdf Graphic file (type pdf)
+<scenario_7_idleTimer_0_691200_1-5_0_0_0_shortFrequency_addIn100s_random.pdf>
 LaTeX Font Info:    Font shape `JT2/mc/m/n' will be
-(Font)              scaled to size 8.65997pt on input line 123.
+(Font)              scaled to size 8.65997pt on input line 1519.
 LaTeX Font Info:    Font shape `JY2/mc/m/n' will be
-(Font)              scaled to size 8.65997pt on input line 123.
-LaTeX Font Info:    Font shape `JY2/gt/m/n' will be
-(Font)              scaled to size 8.65997pt on input line 123.
-File: theory_1_add_all.pdf Graphic file (type pdf)
-<theory_1_add_all.pdf>
- [2] Excluding 'comment' comment.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 967.
- (/usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
-File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 967.
- (./PID.bbl
+(Font)              scaled to size 8.65997pt on input line 1519.
+File: scenario_7_signaling_and_memoryload_vs_timeStep_0_691200_1-5_0_0_0_shortFrequency_addIn100s_random.pdf Graphic file (type pdf)
+<scenario_7_signaling_and_memoryload_vs_timeStep_0_691200_1-5_0_0_0_shortFrequency_addIn100s_random.pdf>
+File: scenario_7_stateBreakdown_0_691200_1-5_0_0_0_shortFrequency_addIn100s_random.pdf Graphic file (type pdf)
+<scenario_7_stateBreakdown_0_691200_1-5_0_0_0_shortFrequency_addIn100s_random.pdf>
+ [2] [3]
+File: scenario_7_idleTimer_0_691200_1-35_0-000203_0_0_shortFrequency_addIn100s_random.pdf Graphic file (type pdf)
+<scenario_7_idleTimer_0_691200_1-35_0-000203_0_0_shortFrequency_addIn100s_random.pdf>
+File: scenario_7_signaling_and_memoryload_vs_timeStep_0_691200_1-35_0-000203_0_0_shortFrequency_addIn100s_random.pdf Graphic file (type pdf)
+<scenario_7_signaling_and_memoryload_vs_timeStep_0_691200_1-35_0-000203_0_0_shortFrequency_addIn100s_random.pdf>
+File: scenario_7_stateBreakdown_0_691200_1-35_0-000203_0_0_shortFrequency_addIn100s_random.pdf Graphic file (type pdf)
+<scenario_7_stateBreakdown_0_691200_1-35_0-000203_0_0_shortFrequency_addIn100s_random.pdf>
+ [4
+
+]
+File: scenario_7_idleTimer_0_691200_1-8_0-00045_1800_0_shortFrequency_addIn100s_random.pdf Graphic file (type pdf)
+<scenario_7_idleTimer_0_691200_1-8_0-00045_1800_0_shortFrequency_addIn100s_random.pdf>
+File: scenario_7_signaling_and_memoryload_vs_timeStep_0_691200_1-8_0-00045_1800_0_shortFrequency_addIn100s_random.pdf Graphic file (type pdf)
+<scenario_7_signaling_and_memoryload_vs_timeStep_0_691200_1-8_0-00045_1800_0_shortFrequency_addIn100s_random.pdf>
+File: scenario_7_stateBreakdown_0_691200_1-8_0-00045_1800_0_shortFrequency_addIn100s_random.pdf Graphic file (type pdf)
+<scenario_7_stateBreakdown_0_691200_1-8_0-00045_1800_0_shortFrequency_addIn100s_random.pdf>
+ [5
+
+]
+File: scenario_7_idleTimer_0_691200_1-5_0_0_0_addIn6000s_random.pdf Graphic file (type pdf)
+<scenario_7_idleTimer_0_691200_1-5_0_0_0_addIn6000s_random.pdf>
+File: scenario_7_signaling_and_memoryload_vs_timeStep_0_691200_1-5_0_0_0_addIn6000s_random.pdf Graphic file (type pdf)
+<scenario_7_signaling_and_memoryload_vs_timeStep_0_691200_1-5_0_0_0_addIn6000s_random.pdf>
+File: scenario_7_stateBreakdown_0_691200_1-5_0_0_0_addIn6000s_random.pdf Graphic file (type pdf)
+<scenario_7_stateBreakdown_0_691200_1-5_0_0_0_addIn6000s_random.pdf>
+ [6
+
+]
+File: scenario_7_idleTimer_0_691200_1-35_0-000203_0_0_addIn6000s_random.pdf Graphic file (type pdf)
+<scenario_7_idleTimer_0_691200_1-35_0-000203_0_0_addIn6000s_random.pdf>
+File: scenario_7_signaling_and_memoryload_vs_timeStep_0_691200_1-35_0-000203_0_0_addIn6000s_random.pdf Graphic file (type pdf)
+<scenario_7_signaling_and_memoryload_vs_timeStep_0_691200_1-35_0-000203_0_0_addIn6000s_random.pdf>
+File: scenario_7_stateBreakdown_0_691200_1-35_0-000203_0_0_addIn6000s_random.pdf Graphic file (type pdf)
+<scenario_7_stateBreakdown_0_691200_1-35_0-000203_0_0_addIn6000s_random.pdf>
+ [7
+
+]
+File: scenario_7_idleTimer_0_691200_1-8_0-00045_1800_0_addIn6000s_random.pdf Graphic file (type pdf)
+<scenario_7_idleTimer_0_691200_1-8_0-00045_1800_0_addIn6000s_random.pdf>
+File: scenario_7_signaling_and_memoryload_vs_timeStep_0_691200_1-8_0-00045_1800_0_addIn6000s_random.pdf Graphic file (type pdf)
+<scenario_7_signaling_and_memoryload_vs_timeStep_0_691200_1-8_0-00045_1800_0_addIn6000s_random.pdf>
+File: scenario_7_stateBreakdown_0_691200_1-8_0-00045_1800_0_addIn6000s_random.pdf Graphic file (type pdf)
+<scenario_7_stateBreakdown_0_691200_1-8_0-00045_1800_0_addIn6000s_random.pdf>
+ [8
+
+] (./PID.bbl
 
 LaTeX Warning: Empty `thebibliography' environment on input line 24.
 
-) [3] (./PID.aux) ) 
-Here is how much of TeX's memory you used:
- 2907 strings out of 493644
- 42394 string characters out of 6149000
- 110985 words of memory out of 5000000
- 6470 multiletter control sequences out of 15000+600000
- 20357 words of font info for 87 fonts, out of 8000000 for 9000
- 929 hyphenation exceptions out of 8191
- 42i,9n,40p,892b,587s stack positions out of 5000i,500n,10000p,200000b,80000s
+) [9
 
-Output written on PID.dvi (3 pages, 13440 bytes).
+] (./PID.aux) ) 
+Here is how much of TeX's memory you used:
+ 2973 strings out of 493644
+ 51810 string characters out of 6149000
+ 109985 words of memory out of 5000000
+ 6515 multiletter control sequences out of 15000+600000
+ 18428 words of font info for 80 fonts, out of 8000000 for 9000
+ 929 hyphenation exceptions out of 8191
+ 42i,10n,40p,669b,540s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+Output written on PID.dvi (9 pages, 14824 bytes).
